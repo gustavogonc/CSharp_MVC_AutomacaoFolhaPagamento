@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Primeiro Acesso";
+}
+
+@model RegisterViewModel
+
+<div class="container-fluid">
+    <form asp-controller="Login" asp-action="Register" method="post">
+        <div class="mb-3 mt-3">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password">Senha</label>
+            <input asp-for="Password" type="password" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword">Confirmar Senha</label>
+            <input asp-for="ConfirmPassword" type="password" />
+        </div>
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+    </form>
+</div>
