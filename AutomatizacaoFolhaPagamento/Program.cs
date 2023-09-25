@@ -12,15 +12,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Login/Login";
     });
+builder.Services.AddMvc();
 
 builder.Services.AddDbContext<DbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = true;
-})
-    .AddEntityFrameworkStores<DbContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -41,7 +36,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -51,6 +46,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}");
 
 app.Run();

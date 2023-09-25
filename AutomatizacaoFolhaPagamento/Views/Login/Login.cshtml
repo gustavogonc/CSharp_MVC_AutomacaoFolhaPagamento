@@ -1,6 +1,11 @@
 ﻿@{
+    ViewData["ShowHeader"] = false;
     ViewData["Title"] = "Login";
+
 }
+
+
+
 
 @model LoginViewModel
 
@@ -9,17 +14,17 @@ border-radius: 8px; position: absolute; top: 50%; left: 50%; margin-right: -50%;
     <div class="d-block w-100">
         <img src="~/lib/paperclip.svg" class="d-flex d-xs-none d-sm-none d-md-flex d-lg-flex" style="height:100%; border-top-left-radius: 8px; border-bottom-left-radius: 8px" />
     </div>
-    <div class="w-100" style="background-color: #739e52; border-top-right-radius: 8px; border-bottom-right-radius: 8px">
-        <div clas="d-flex w-100" style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
-            <div class="mb-2">
+    <div class="w-100" style="background-color: #739e52; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
+        <div clas="d-flex w-100" style="display: flex; flex-direction: column; justify-content: center; height: 100%; margin: 0 auto">
+            <div class="mb-2" style="margin: 0 auto">
                 <h1 class="mr-1">Hol<span style="background-color: #376a26; padding: 4px 8px; border: 1px solid #264716; border-radius: 4px;">Free</span></h1>
             </div>
 
-            <div class="mb-5">
+            <div class="mb-5" style="margin: 0 auto">
                 <h6>Automatização de holerites</h6>
             </div>
 
-            <form asp-controller="Login" asp-action="Login" method="post" class="d-block col-8">
+            <form asp-controller="Login" asp-action="Login" method="post" class="d-block col-8" style="margin: 0 auto">
                 <div class="input-group mb-3 mt-3">
                     <i class="input-group-text fa-solid fa-user" style="line-height: 2; background-color: #7da980; padding:6px 16px"></i>
                     <input asp-for="Email" type="email" placeholder="usuario@dominio.com.br" class="form-control col-4" required />

@@ -1,21 +1,25 @@
 ﻿using AutomatizacaoFolhaPagamento.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text.Json;
+using AutomacaoFolhaPagamento.Models;
 
 namespace AutomatizacaoFolhaPagamento.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        
 
-        public LoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public LoginController()
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Register()
         {
             return View();
@@ -42,7 +46,7 @@ namespace AutomatizacaoFolhaPagamento.Controllers
             }
 
             return View(model);
-        }
+        }*/
 
         [HttpGet]
         public IActionResult Login()
@@ -53,24 +57,52 @@ namespace AutomatizacaoFolhaPagamento.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
 
-                if (result.Succeeded)
+            var client = new HttpClient();
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("https://localhost:7067/api/Autenticacao/login?="),
+                Headers =
+            {
+                { "User-Agent", "insomnia/2023.5.8" },
+            },
+                Content = new StringContent($"{{\n\t \"email\": \"{model.Email}\",\n  \"senha\": \"{model.Password}\"\n}}")
+
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    Headers =
+                {
+                    ContentType = new MediaTypeHeaderValue("application/json")
+                }
+                }
+            };
+            using (var response = await client.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+
+                var loginResponse = JsonSerializer.Deserialize<LoginResponse>(body);
+
+                // Criação de uma identidade e assinatura para o usuário.
+                var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, loginResponse.usuario.email),
+                        new Claim(ClaimTypes.Role, loginResponse.usuario.administrador == 1 ? "Admin" : "User")
+                    };
+
+                var claimsIdentity = new ClaimsIdentity(claims, "login");
+                ClaimsPrincipal principal = new ClaimsPrincipal(claimsIdentity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                if (User.Identity.IsAuthenticated)
+                {
                     return RedirectToAction("Index", "Home");
                 }
-
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Login inválido...");
-                }
+               return RedirectToAction("Login");
+                   
             }
 
-            return View(model);
         }
     }
 }

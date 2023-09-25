@@ -1,29 +1,79 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HolFree - Automatização de Holerites</a>
-            <button class="navbar-toggler btn-light" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
+
+<head>
+    <link rel="stylesheet" href="~/css/home.css" />
+</head>
+
+<div class="container">
+    <div class="d-flex justify-content-between mb-5"> 
+        <div>
+            <h3>Total de Funcionários: 15</h3>
+       </div>
+        <div>
+            <a type="button" class="btn btn-success" asp-action="Index" asp-controller="Funcionario">
+                <i class="fa fa-plus me-2" aria-hidden="true"></i>Novo
+            </a>
+        </div>
+    </div>
+    <!--<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header w-100">
+                    <h5 class="modal-title m-0" id="exampleModalLabel">Cadastrar Funcionário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body w-100">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Salvar</button>
+                </div>
             </div>
         </div>
-    </nav>
-</header>
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>-->
+    <div class="container-fluid">
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Nascimento</th>
+                        <th scope="col">Sexo</th>
+                        <th scope="col">Admissão</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr scope="row">
+                        <th>Teste Funcionário 02</th>
+                        <th>01/09/1972</th>
+                        <th>Masculino</th>
+                        <th>01/09/2023</th>
+                    </tr>
+                    <tr scope="row">
+                        <th>Teste Funcionário 02</th>
+                        <th>23/11/1908</th>
+                        <th>Feminino</th>
+                        <th>07/06/2021</th>
+                    </tr>
+                    <tr scope="row">
+                        <th>Teste Funcionário 03</th>
+                        <th>13/07/1998</th>
+                        <th>Feminino</th>
+                        <th>04/05/2020</th>
+                    </tr>
+                    <tr scope="row">
+                        <th>Teste Funcionário 04</th>
+                        <th>12/04/2000</th>
+                        <th>Masculino</th>
+                        <th>07/05/2019</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+       
+    </div>
+    
 </div>
