@@ -1,0 +1,70 @@
+﻿@using AutomacaoFolhaPagamento.Models;
+@{
+    ViewData["Title"] = "Relatorio Funcionario";
+}
+@model FuncionarioViewModel
+
+<div class="w-100 " style="background-color: #fafafa; border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px">
+    <div clas="d-flex w-100" >
+        <div style="">
+            <h4 class="mt-3 mb-3">Relatório de Funcionario Folha</h4>
+        </div>
+
+        <form asp-controller="Relatorio" asp-action="Funcionario" method="post" class="d-flex flex-wrap">
+            <div class="form-group col-md-8">
+                <label for="mes">Selecione o Funcionario</label>
+                <select id="mes" name="Funcionario" class="form-control">
+                     @foreach (var funcionario in Model.FuncionarioBasicoList)
+                    {
+
+                        <option value="@funcionario.CPF">@funcionario.CPF - @funcionario.NomeFuncionario</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-12 " style="text-align:right">
+            <button type="submit" class="btn btn-primary" >Gerar Relatório</button>
+          </div>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Cargo</th>
+                    <th>Departamento</th>
+                    <th>INSS</th>
+                    <th>FGTS</th>
+                    <th>IR</th>
+                    <th>VR</th>
+                    <th>VT</th>
+                    <th>Valor Líquido</th>
+                    <th>Salário</th>
+                    <th>Descontos</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.FuncionarioDeducoesList != null)
+                {
+                    @foreach (var item in Model.FuncionarioDeducoesList)
+                    {
+                        <tr>
+                            <td>@item.NomeFuncionario</td>
+                            <td>@item.CPF</td>
+                            <td>@item.Cargo</td>
+                            <td>@item.Departamento</td>
+                            <td>@item.INSS.ToString("C2")</td>
+                            <td>@item.FGTS.ToString("C2")</td>
+                            <td>@item.IR.ToString("C2")</td>
+                            <td>@item.VR.ToString("C2")</td>
+                            <td>@item.VT.ToString("C2")</td>
+                            <td>@item.ValorLiquido.ToString("C2")</td>
+                            <td>@item.Salario.ToString("C2")</td>
+                            <td>@item.Descontos.ToString("C2")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
