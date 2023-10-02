@@ -1,3 +1,5 @@
+using jsreport.AspNetCore;
+using jsreport.Local;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Logado", policy => policy.RequireAuthenticatedUser());
 });
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

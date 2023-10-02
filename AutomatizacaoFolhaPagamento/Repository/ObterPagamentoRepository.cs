@@ -59,5 +59,90 @@ namespace AutomacaoFolhaPagamento.Repository
             }
             return pagamentos;
         }
+
+
+
+
+
+
+
+        public List<DashboardModel> ObterPagamentoMensal()
+        {
+            string connectionString = @"Data Source=JESSICAOM-NB\MSSQLSERVER01;Initial Catalog=Folha_Pagamento;Integrated Security=True;Encrypt=False";
+
+
+            List<DashboardModel> pagamentos = new List<DashboardModel>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT 
+                                    DATENAME(MONTH, data_pagamento) + '/' + DATENAME(YEAR, data_pagamento) AS nome_mes,
+                                    SUM(total_liq) AS somatoria_total_liquido
+                                FROM [dbo].[tb_histpagment]
+                                GROUP BY YEAR(data_pagamento), MONTH(data_pagamento), DATENAME(MONTH, data_pagamento), DATENAME(YEAR, data_pagamento)
+                                ORDER BY YEAR(data_pagamento), MONTH(data_pagamento)
+                                ";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DashboardModel pagamento = new DashboardModel
+                            {
+                                texto = reader.GetString(0),
+                                TotalLiq = (float)reader.GetDouble(1)
+                            };
+                            pagamentos.Add(pagamento);
+                        }
+                    }
+                }
+            }
+            return pagamentos;
+        }
+
+
+
+
+
+        public List<DashboardModel> ObterPagamentosDepartamento()
+        {
+            string connectionString = @"Data Source=JESSICAOM-NB\MSSQLSERVER01;Initial Catalog=Folha_Pagamento;Integrated Security=True;Encrypt=False";
+
+
+            List<DashboardModel> pagamentos = new List<DashboardModel>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT f.departamento,
+                                   
+                                    SUM(total_liq) AS somatoria_total_liquido
+                                FROM [dbo].[tb_histpagment] h
+								inner join tb_funcionario f on h.id_funcionario = f.id_funcionario
+
+                                GROUP BY f.departamento
+                                ";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DashboardModel pagamentoDep = new DashboardModel
+                            {
+                                texto = reader.GetString(0),
+                                TotalLiq = (float)reader.GetDouble(1)
+                            };
+                            pagamentos.Add(pagamentoDep);
+                        }
+                    }
+                }
+            }
+            return pagamentos;
+        }
     }
 }

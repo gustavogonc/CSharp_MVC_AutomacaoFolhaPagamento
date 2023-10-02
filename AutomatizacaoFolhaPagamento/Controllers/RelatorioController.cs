@@ -1,6 +1,7 @@
 ﻿using AutomacaoFolhaPagamento.Repository;
 using Microsoft.AspNetCore.Mvc;
 using AutomacaoFolhaPagamento.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
@@ -52,6 +53,20 @@ namespace AutomacaoFolhaPagamento.Controllers
 
             return View("Funcionario", viewModel);
         }
+
+
+        public IActionResult Dashboard()
+        {
+            var data = _pagamentoRepository.ObterPagamentoMensal();
+            var  departamento = _pagamentoRepository.ObterPagamentosDepartamento();
+            var viewModel = new GraficosViewModel
+            {
+                PagamentoMensal = departamento,
+                PagamentoAnoMes = data
+            };
+            return View(viewModel);
+        }
+
 
 
     }
