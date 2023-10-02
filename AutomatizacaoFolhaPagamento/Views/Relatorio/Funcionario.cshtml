@@ -1,8 +1,10 @@
 ﻿@using AutomacaoFolhaPagamento.Models;
+
 @{
     ViewData["Title"] = "Relatorio Funcionario";
 }
 @model FuncionarioViewModel
+
 
 <div class="w-100 " style="background-color: #fafafa; border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px">
     <div clas="d-flex w-100" >
@@ -14,6 +16,7 @@
             <div class="form-group col-md-8">
                 <label for="mes">Selecione o Funcionario</label>
                 <select id="mes" name="Funcionario" class="form-control">
+                    <option value="" selected>Selecione um funcionário</option>
                      @foreach (var funcionario in Model.FuncionarioBasicoList)
                     {
 

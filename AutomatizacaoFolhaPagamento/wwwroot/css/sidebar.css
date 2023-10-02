@@ -54,13 +54,13 @@ a {
     position: fixed;
     top: 0;
     left: -30%;
-    width: var(--nav-width);
     height: 100vh;
     background-color: var(--first-color);
     padding: .5rem 1rem 0 0;
     transition: .5s;
     z-index: var(--z-fixed);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    width:170px
 }
 
 .nav {
@@ -136,12 +136,12 @@ a {
 @media screen and (min-width: 768px) {
     body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
-        padding-left: calc(var(--nav-width) + 2rem)
+        padding-left: calc(var(--nav-width) + 7rem)
     }
 
     .header {
         height: calc(var(--header-height) + 1rem);
-        padding: 0 2rem 0 calc(var(--nav-width) + 2rem)
+        padding: 0 2rem 0 calc(var(--nav-width) + 7rem)
     }
 
     .header_img {

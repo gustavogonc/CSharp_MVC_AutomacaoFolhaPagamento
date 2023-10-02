@@ -1,0 +1,95 @@
+﻿@using AutomacaoFolhaPagamento.Models;
+@{
+    ViewData["Title"] = "Gráfico do Total Líquido";
+}
+@model GraficosViewModel
+
+
+<!-- Biblioteca Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container mt-5">
+    <h2>Total de Pagamento Líquido Mensal</h2>
+    <canvas id="totalLiquidoChart" width="700" height="150"></canvas>
+</div>
+<div class="container mt-5">
+    <h2>Total de Pagamentos Anual por Departamento</h2>
+    <canvas id="totalLiquidoAnoMesChart" width="700" height="150"></canvas>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('totalLiquidoChart').getContext('2d');
+
+        // Dados do gráfico
+        var data = {
+            labels: @Html.Raw(Json.Serialize(Model.PagamentoAnoMes.Select(p => p.texto.ToString()))),
+            datasets: [{
+                label: 'Total Líquido',
+                data: @Html.Raw(Json.Serialize(Model.PagamentoAnoMes.Select(p => p.TotalLiq))),
+                backgroundColor: 'rgba(144, 238, 144, 0.2)',  // Verde claro para o fundo
+                borderColor: 'rgba(144, 238, 144, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        var options = {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function (value, index, values) {
+                            return 'R$ ' + value;
+                        }
+                    }
+                }
+            }
+        };
+
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    });
+
+
+    var ctx2 = document.getElementById('totalLiquidoAnoMesChart').getContext('2d');
+
+    // Dados do segundo gráfico
+    var data2 = {
+        labels: @Html.Raw(Json.Serialize(Model.PagamentoMensal.Select(p => p.texto))),
+        datasets: [{
+            label: 'Total Líquido por Departamento',
+            data: @Html.Raw(Json.Serialize(Model.PagamentoMensal.Select(p => p.TotalLiq))),
+            backgroundColor: 'rgba(144, 238, 144, 0.2)',  // Verde claro para o fundo
+            borderColor: 'rgba(144, 238, 144, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    var options2 = {
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function (value, index, values) {
+                        return 'R$ ' + value;
+                    }
+                }
+            }
+        }
+    };
+
+    var myBarChart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: data2,
+        options: options2
+    });
+
+
+</script>
+
+
+
