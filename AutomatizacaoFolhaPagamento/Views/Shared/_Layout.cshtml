@@ -26,7 +26,7 @@
                     <a asp-action="Index" asp-controller="Home" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">HolFree</span> </a>
                     <div class="nav_list">
                         <a asp-action="Index" asp-controller="Home" class="nav_link active"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Home</span> </a>
-                        <a asp-action="CadastroUsuario" asp-controller="Cadastro" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Cadastros</span> </a>
+                        <a asp-action="Cadastro" asp-controller="CadastroUsuario" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Cadastros</span> </a>
                         <a asp-action="Detalhado" asp-controller="Relatorio" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Mensal</span> </a>
                         <a asp-action="Funcionario" asp-controller="Relatorio" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Funcionário</span> </a>
                         <a asp-action="Index" asp-controller="Home" class="nav_link"> <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span> </a>
@@ -34,7 +34,13 @@
                         <a asp-action="Dashboard" asp-controller="Relatorio" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Dashboard</span> </a>
                    
                     </div>
-                </div> <a asp-action="Index" asp-controller="Home" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+                </div>
+                <form id="logoutForm" asp-action="Logout" asp-controller="Login" method="post" style="display: none;">
+                </form>
+                <span onclick="document.getElementById('logoutForm').submit();" class="nav_link" style="cursor:pointer;">
+                    <i class='bx bx-log-out nav_icon'></i>
+                    <span class="nav_name">Sair</span>
+                </span>
             </nav>
         </div>
 

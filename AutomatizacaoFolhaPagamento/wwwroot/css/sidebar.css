@@ -60,7 +60,6 @@ a {
     transition: .5s;
     z-index: var(--z-fixed);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    width:170px
 }
 
 .nav {

@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Primeiro Acesso";
+}
+
+
+@model CadastroViewModel
+
+
+
+<div class="w-100 d-flex justify-content-center" style="background-color: #fafafa; border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
+    <div clas="d-flex" style="display: flex; flex-direction: column; justify-content: center; align-content: center; height: 100%; width: 100%; flex-wrap: wrap">
+        <div style="">
+            <h4 class="mt-2 mb-2">Cadastro de usuários</h4>
+        </div>
+       
+        <form asp-controller="CadastroUsuario" asp-action="Cadastro" method="post" class="d-block col-5">
+            <hr class="border border-2 opacity-50" />
+            <div class="mb-3 mt-3">
+                <input asp-for="Nome" type="text" placeholder="Nome completo" class="form-control col-4" required />
+            </div>
+            <div class="mb-3 mt-3">
+                <input asp-for="Email" type="email" placeholder="E-mail" class="form-control col-4" required />
+            </div>
+            <div class="mb-3">
+                <input asp-for="Senha" type="password" placeholder="Senha" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <input asp-for="ConfirmaSenha" type="password" placeholder="Confirma Senha" class="form-control" required />
+            </div>
+            <div class="mb-3 d-flex">
+
+                <div class="form-check me-3">
+                    <input asp-for="Tipo" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="0">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Funcionário
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="Tipo" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="1" checked>
+                    <label class="form-check-label" for="flexRadioDefault2" >
+                        Administrador
+                    </label>
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
+
+
+            @if (ViewData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewData["ErrorMessage"]
+                </div>
+            }
+            @if (ViewData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @ViewData["SuccessMessage"]
+                </div>
+            }
+        </form>
+    </div>
+</div>
+

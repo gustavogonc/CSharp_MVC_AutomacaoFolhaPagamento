@@ -36,6 +36,12 @@ border-radius: 8px; position: absolute; top: 50%; left: 50%; margin-right: -50%;
                     <input asp-for="Password" type="password" placeholder="Senha" class="form-control" required />
                 </div>
                 <button type="submit" class="btn btn-success mb-3 w-100">Entrar</button>
+                    @if (ViewData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewData["ErrorMessage"]
+                        </div>
+                    }
             </form>
         </div>
     </div>

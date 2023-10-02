@@ -2,9 +2,10 @@
 {
     public class CadastroViewModel
     {
-        public string Usuario { get; set; }
+        public string Nome{ get; set; }
+        public string Email { get; set; }
         public string Senha { get; set; }
         public string ConfirmaSenha { get; set; }
-        public List<string> Tipo { get; set; }
+        public Int16 Tipo { get; set; }
     }
 }
