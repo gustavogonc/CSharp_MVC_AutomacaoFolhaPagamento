@@ -1,12 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Cadastrar Funcionários";
+    ViewData["Title"] = "Cadastrar Departamentos";
 }
 
 <div class="container-sm">
-    <h2>Cadastro de Funcionários</h2>
+    <h2>Cadastro de Departamentos</h2>
     <form method="post" action="@Url.Action("SuaAction", "SeuController")">
-        <!-- Adicione a URL correta aqui -->
-        <!-- Funcionarios -->
         <div class="input-group mb-3">
             <span class="input-group-text">Nome do Funcionário</span>
             <input type="text" class="form-control" placeholder="Nome completo" name="nome_funcionario">
@@ -57,3 +55,5 @@
         </div>
     </form>
 </div>
+
+<script src="~/js/CadastrarFuncionario.js" asp-append-version="true"></script>
