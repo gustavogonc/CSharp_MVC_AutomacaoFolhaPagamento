@@ -1,59 +1,48 @@
-﻿@{
+﻿@using AutomacaoFolhaPagamento.Models;
+@{
     ViewData["Title"] = "Cadastrar Departamentos";
 }
 
-<div class="container-sm">
-    <h2>Cadastro de Departamentos</h2>
-    <form method="post" action="@Url.Action("SuaAction", "SeuController")">
-        <div class="input-group mb-3">
-            <span class="input-group-text">Nome do Funcionário</span>
-            <input type="text" class="form-control" placeholder="Nome completo" name="nome_funcionario">
+@model DepartamentosViewModel
+
+
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cadastro de departamentos</li>
+    </ol>
+</nav>
+
+<div class="w-100 d-flex justify-content-center" style="background-color: #fafafa; border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
+    <div class="d-flex" style="display: flex; flex-direction: column; justify-content: center; align-content: center; height: 100%; width: 100%; flex-wrap: wrap">
+        <div style="">
+            <h4 class="mt-2 mb-2">Cadastro de departamentos</h4>
         </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">CPF</span>
-            <input type="text" class="form-control" placeholder="XXX.XXX.XXX-XX" name="cpf" id="cpf" maxlength="14">
-        </div>
+        <form asp-controller="Departamentos" asp-action="Cadastro" method="post" class="d-block col-5">
+            <hr class="border border-2 opacity-50" />
+            <div class="mb-3 mt-3">
+                <input asp-for="NomeDepartamento" type="text" placeholder="Nome do Departamento" class="form-control col-4" required />
+            </div>
+            <div class="mb-3 mt-3">
+                <textarea asp-for="DescricaoDepartamento" style ="resize: none;" rows="4" class="form-control col-4" required placeholder="Descrição do departamento"></textarea>
+            </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">Cargo</span>
-            <input type="text" class="form-control" name="cargo">
-        </div>
+            <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
+            @if (ViewData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewData["ErrorMessage"]
+                </div>
+            }
+            @if (ViewData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @ViewData["SuccessMessage"]
+                </div>
+            }
+        </form>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">Departamento</span>
-            <input type="text" class="form-control" name="departamento">
-        </div>
-
-        <div class="input-group mb-3">
-            <span class="input-group-text">Data Contratação</span>
-            <input type="date" class="form-control" name="data">
-        </div>
-
-        <!-- Adicione outros campos necessários -->
-        <!-- Endereco -->
-        <h3>Endereço</h3>
-        <div class="input-group mb-3">
-            <span class="input-group-text">Rua</span>
-            <input type="text" class="form-control" placeholder="Rua" name="rua">
-        </div>
-
-        <div class="input-group mb-3">
-            <span class="input-group-text">Número</span>
-            <input type="number" class="form-control" name="num_end">
-        </div>
-
-        <div class="input-group mb-3">
-            <span class="input-group-text">Bairro</span>
-            <input type="text" class="form-control" name="bairro">
-        </div>
-
-        <!-- Adicione outros campos de endereço conforme necessário -->
-
-        <div class="mb-3 d-flex float-end justify-content-between">
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-        </div>
-    </form>
+   
+    </div>
 </div>
-
-<script src="~/js/CadastrarFuncionario.js" asp-append-version="true"></script>

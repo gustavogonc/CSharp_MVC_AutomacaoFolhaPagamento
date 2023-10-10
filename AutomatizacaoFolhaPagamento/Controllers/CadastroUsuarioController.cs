@@ -51,13 +51,13 @@ namespace AutomacaoFolhaPagamento.Controllers
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {
-                    // Você pode adicionar uma mensagem mais específica para diferentes códigos de erro se necessário
+                    
                     ViewData["ErrorMessage"] = "Ocorreu um erro ao registrar o usuário. Por favor, tente novamente.";
                     ModelState.Clear();
                     return View("Cadastro", new CadastroViewModel());
                 }
 
-                throw new Exception("Erro no servidor."); // Se a resposta não foi bem-sucedida
+                throw new Exception("Erro no servidor.");
             }
             catch (Exception ex)
             {
