@@ -2,19 +2,49 @@
     ViewData["Title"] = "Cadastrar Cargos";
 }
 
-<div class="container-sm">
-    <h2>Cadastro de Cargos</h2>
-    <form method="post" action="@Url.Action("SuaAction", "SeuController")">
-        <div class="input-group mb-3">
-            <span class="input-group-text">Nome do Funcionário</span>
-            <input type="text" class="form-control" placeholder="Nome completo" name="nome_funcionario">
+<div class="w-100 d-flex justify-content-center" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
+    <div class="d-flex" style="display: flex; flex-direction: column; justify-content: center; align-content: center; height: 100%; width: 100%; flex-wrap: wrap">
+        <div style="">
+            <h4 class="mt-2 mb-2">Cadastro de Cargos</h4>
         </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">CPF</span>
-            <input type="text" class="form-control" placeholder="XXX.XXX.XXX-XX" name="cpf" id="cpf" maxlength="14">
-        </div>
+    <form class="d-block col-5">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Nome do Funcionário</span>
+                <input type="text" class="form-control" placeholder="Nome completo" name="nome_funcionario" />
+            </div>
+            <div class="mb-3 mt-3">
+                <textarea style="resize: none;" rows="4" class="form-control col-4" required placeholder="Descrição do cargo"></textarea>
+            </div>
 
-        
+            <div class="mb-3 mt-3">
+                <select class="form-control" name="departamentoId">
+                    @foreach (var item in ViewData["Departamentos"] as List<SelectListItem>)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Salário</span>
+                <input type="text" class="form-control" placeholder="R$00.000,00" name="salario" id="salario" />
+            </div>
+
+        <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
+        @if (ViewData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["ErrorMessage"]
+            </div>
+        }
+        @if (ViewData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewData["SuccessMessage"]
+            </div>
+        }
     </form>
+    </div>
 </div>
+

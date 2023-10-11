@@ -1,13 +1,36 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutomacaoFolhaPagamento.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
     public class CargosController : Controller
     {
-        // GET: CargosController
-        public ActionResult Index()
+        private readonly IHttpClientFactory _clientFactory;
+
+        public CargosController(IHttpClientFactory clientFactory)
         {
+            _clientFactory = clientFactory;
+        }
+        // GET: CargosController
+        public async Task<ActionResult> Index()
+        {
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync("https://localhost:7067/api/Departamentos/listarDepartamentos");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var departamentos = JsonSerializer.Deserialize<List<DepartamentoDTO>>(jsonString);
+
+                ViewData["Departamentos"] = departamentos.Select(d => new SelectListItem
+                {
+                    Value = d.id_departamento.ToString(),
+                    Text = $"{d.id_departamento} - {d.nome_departamento}"
+                }).ToList();
+            }
             return View();
         }
 
@@ -18,8 +41,10 @@ namespace AutomacaoFolhaPagamento.Controllers
         }
 
         // GET: CargosController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
+           
+
             return View();
         }
 
