@@ -62,7 +62,7 @@ namespace AutomacaoFolhaPagamento.Controllers
                 else if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {
                     
-                    ViewData["ErrorMessage"] = "Ocorreu um erro ao registrar o usuário. Por favor, tente novamente.";
+                    ViewData["ErrorMessage"] = "Ocorreu um erro ao cadastrar o departamento. Por favor, tente novamente.";
                     ModelState.Clear();
                     return View("Index", new DepartamentosViewModel());
                 }
