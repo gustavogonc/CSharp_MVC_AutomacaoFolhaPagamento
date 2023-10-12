@@ -31,20 +31,50 @@
                 </div>
         </div>
 
-       
+            <label for="flexRadioDefault" class="">Sexo</label>
+            <div class="mb-3 d-flex">
+                
+                <div class="form-check me-3">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="0">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Masculino
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="1" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Feminino
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="me-0 me-sm-1 me-md-5 mb-3">
+                <label for="estadoCivil" class="">Estado Civil</label>
+                <select class="form-control" name="estadoCivil">
+                    
+                        <option value="Solteiro">Solteiro</option>
+                        <option value="Casado(a)">Casado(a)</option>
+                        <option value="Divorciado(a)">Divorciado(a)</option>
+                        <option value="União estável">União estável</option>
+                  
+                </select>
+            </div>
+
+
 
         <div class="me-0 me-sm-1 me-md-5 mb-3">
-            <label for="rua" class="">Cargo</label>
+            <label for="departamentoId" class="">Cargo</label>
             <select class="form-control" name="departamentoId">
                 @foreach (var item in ViewData["Cargos"] as List<SelectListItem>)
                 {
                     <option value="@item.Value">@item.Text</option>
                 }
-            </select>
+             </select>
         </div>
 
         <div class="me-0 me-sm-1 me-md-5 mb-3">
-            <label for="rua" class="">Data Contratação</label>
+            <label for="data" class="">Data Contratação</label>
             <input type="date" class="form-control" name="data">
         </div>
 
@@ -56,8 +86,8 @@
             </div>
            
             <div class="ms-sm-1 me-md-5">
-                <label for="bairro" class="">Número</label>
-                <input type="text" class="form-control w-100" name="bairro">
+                <label for="numero" class="">Número</label>
+                <input type="text" class="form-control w-100" name="numero">
             </div>
 
             <div class="mb-3 w-25">

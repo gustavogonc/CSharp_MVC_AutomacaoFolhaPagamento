@@ -5,10 +5,10 @@ using System.Text.Json;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
-    public class FuncionarioController : Controller
+    public class FuncionariosController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
-        public FuncionarioController(IHttpClientFactory clientFactory)
+        public FuncionariosController(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
         }
