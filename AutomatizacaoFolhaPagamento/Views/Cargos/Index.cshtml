@@ -4,7 +4,7 @@
 }
 
 @model CargosViewModel;
-
+<link href="~/css/cadastrofuncionario.css" rel="stylesheet" />
 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
@@ -19,7 +19,7 @@
             <h4 class="mt-2 mb-2">Cadastro de Cargos</h4>
         </div>
 
-        <form class="d-block col-5" asp-controller="Cargos" asp-action="Create" method="post">
+        <form class="d-block col-5 pb-5" asp-controller="Cargos" asp-action="Create" method="post">
             <div class="mb-3 mt-3">
                 <input asp-for="nome_cargo" type="text" placeholder="Título do Cargo" class="form-control col-4" required />
             </div>
@@ -41,18 +41,7 @@
             </div>
 
         <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
-        @if (ViewData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                @ViewData["ErrorMessage"]
-            </div>
-        }
-        @if (ViewData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success" role="alert">
-                @ViewData["SuccessMessage"]
-            </div>
-        }
+       
     </form>
     </div>
 </div>

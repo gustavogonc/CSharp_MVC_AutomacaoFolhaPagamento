@@ -1,58 +1,73 @@
 ﻿@{
     ViewData["Title"] = "Cadastrar Funcionários";
 }
+<head>
+    <link href="~/css/cadastrofuncionario.css" rel="stylesheet" />
+</head>
 
-<div class="container-sm">
-    <h2>Cadastro de Funcionários</h2>
-    <form method="post" action="@Url.Action("SuaAction", "SeuController")">
-        <!-- Adicione a URL correta aqui -->
-        <!-- Funcionarios -->
-        <div class="input-group mb-3">
-            <span class="input-group-text">Nome do Funcionário</span>
-            <input type="text" class="form-control" placeholder="Nome completo" name="nome_funcionario">
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a asp-controller="Cargos" asp-action="Index"><span>Funcionarios</span></a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cadastro de funcionários</li>
+    </ol>
+</nav>
+
+
+<div class="w-100 d-flex justify-content-center" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
+    <div class="d-flex" style="display: flex; flex-direction: column; justify-content: center; align-content: center; height: 100%; width: 100%; flex-wrap: wrap">
+    <h4 class="mt-2 mb-2">Cadastro de Funcionários</h4>
+    <form method="post" class="pb-5">
+
+        <div class="d-flex flex-wrap">
+                <div class="mb-3 me-4" style="width: 70%">
+                    <label for="nome_funcionario" class="">Nome do funcionário</label>
+                    <input type="text" class="form-control" name="nome_funcionario">
+                </div>
+
+                <div class="mb-3 w-25">
+                    <label for="cpf" class="">CPF</label>
+                    <input type="text" class="form-control" placeholder="XXX.XXX.XXX-XX" name="cpf" id="cpf" maxlength="14">
+                </div>
         </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">CPF</span>
-            <input type="text" class="form-control" placeholder="XXX.XXX.XXX-XX" name="cpf" id="cpf" maxlength="14">
-        </div>
+       
 
-            <div class="mb-3 mt-3">
-                <select class="form-control" name="departamentoId">
+        <div class="me-0 me-sm-1 me-md-5 mb-3">
+            <label for="rua" class="">Cargo</label>
+            <select class="form-control" name="departamentoId">
                 @foreach (var item in ViewData["Cargos"] as List<SelectListItem>)
-                    {
-                        <option value="@item.Value">@item.Text</option>
-                    }
-                </select>
-            </div>
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">Data Contratação</span>
+        <div class="me-0 me-sm-1 me-md-5 mb-3">
+            <label for="rua" class="">Data Contratação</label>
             <input type="date" class="form-control" name="data">
         </div>
 
-        <!-- Adicione outros campos necessários -->
-        <!-- Endereco -->
         <h3>Endereço</h3>
-        <div class="input-group mb-3">
-            <span class="input-group-text">Rua</span>
-            <input type="text" class="form-control" placeholder="Rua" name="rua">
+        <div class="d-block d-md-flex flex-wrap">
+            <div class="me-0 me-sm-1 me-md-5 mb-3 w-50">
+                <label for="rua" class="">Rua</label>
+                <input type="text" class="form-control" name="rua">
+            </div>
+           
+            <div class="ms-sm-1 me-md-5">
+                <label for="bairro" class="">Número</label>
+                <input type="text" class="form-control w-100" name="bairro">
+            </div>
+
+            <div class="mb-3 w-25">
+                <label for="bairro" class="">Bairro</label>
+                <input type="text" class="form-control" name="bairro">
+            </div>
         </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">Número</span>
-            <input type="number" class="form-control" name="num_end">
-        </div>
-
-        <div class="input-group mb-3">
-            <span class="input-group-text">Bairro</span>
-            <input type="text" class="form-control" name="bairro">
-        </div>
-
-        <!-- Adicione outros campos de endereço conforme necessário -->
-
-        <div class="mb-3 d-flex float-end justify-content-between">
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-        </div>
+            <button type="submit" class="btn btn-success d-flex float-end justify-content-between">Cadastrar</button>
+        
     </form>
+    </div>
 </div>
