@@ -17,15 +17,14 @@
             <input type="text" class="form-control" placeholder="XXX.XXX.XXX-XX" name="cpf" id="cpf" maxlength="14">
         </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">Cargo</span>
-            <input type="text" class="form-control" name="cargo">
-        </div>
-
-        <div class="input-group mb-3">
-            <span class="input-group-text">Departamento</span>
-            <input type="text" class="form-control" name="departamento">
-        </div>
+            <div class="mb-3 mt-3">
+                <select class="form-control" name="departamentoId">
+                @foreach (var item in ViewData["Cargos"] as List<SelectListItem>)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">Data Contratação</span>
