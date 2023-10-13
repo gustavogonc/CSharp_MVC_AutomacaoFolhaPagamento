@@ -1,6 +1,10 @@
-﻿@{
+﻿@using AutomacaoFolhaPagamento.Models;
+@{
     ViewData["Title"] = "Cadastrar Funcionários";
 }
+
+@model NovoFuncionarioViewModel
+
 <head>
     <link href="~/css/cadastrofuncionario.css" rel="stylesheet" />
 </head>
@@ -17,17 +21,17 @@
 <div class="w-100 d-flex justify-content-center" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
     <div class="d-flex" style="display: flex; flex-direction: column; justify-content: center; align-content: center; height: 100%; width: 100%; flex-wrap: wrap">
     <h4 class="mt-2 mb-2">Cadastro de Funcionários</h4>
-    <form method="post" class="pb-5">
-
+    <form  asp-action="Cadastro" asp-controller="Funcionarios"  method="post" class="pb-5">
+        <h5>Dados pessoais</h5>
         <div class="d-flex flex-wrap">
                 <div class="mb-3 me-4" style="width: 70%">
-                    <label for="nome_funcionario" class="">Nome do funcionário</label>
-                    <input type="text" class="form-control" name="nome_funcionario">
+                    <label for="nome" class="">Nome do funcionário</label>
+                    <input asp-for="nome" type="text" class="form-control" required>
                 </div>
 
                 <div class="mb-3 w-25">
                     <label for="cpf" class="">CPF</label>
-                    <input type="text" class="form-control" placeholder="XXX.XXX.XXX-XX" name="cpf" id="cpf" maxlength="14">
+                    <input asp-for="cpf" type="text" class="form-control" placeholder="XXX.XXX.XXX-XX" id="cpf" maxlength="14" required>
                 </div>
         </div>
 
@@ -35,13 +39,13 @@
             <div class="mb-3 d-flex">
                 
                 <div class="form-check me-3">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="0">
+                    <input asp-for="sexo" class="form-check-input" type="radio" id="flexRadioDefault1" value="Masculino" required>
                     <label class="form-check-label" for="flexRadioDefault1">
                         Masculino
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="1" checked>
+                    <input asp-for="sexo" class="form-check-input" type="radio" id="flexRadioDefault2" value="Feminino" required>
                     <label class="form-check-label" for="flexRadioDefault2">
                         Feminino
                     </label>
@@ -50,8 +54,8 @@
             </div>
 
             <div class="me-0 me-sm-1 me-md-5 mb-3">
-                <label for="estadoCivil" class="">Estado Civil</label>
-                <select class="form-control" name="estadoCivil">
+                <label for="sexo" class="">Estado Civil</label>
+                <select asp-for="estado_civil" class="form-control" required>
                     
                         <option value="Solteiro">Solteiro</option>
                         <option value="Casado(a)">Casado(a)</option>
@@ -64,8 +68,8 @@
 
 
         <div class="me-0 me-sm-1 me-md-5 mb-3">
-            <label for="departamentoId" class="">Cargo</label>
-            <select class="form-control" name="departamentoId">
+                <label for="cargo_id" class="">Cargo</label>
+                <select asp-for="cargo_id" class="form-control" required>
                 @foreach (var item in ViewData["Cargos"] as List<SelectListItem>)
                 {
                     <option value="@item.Value">@item.Text</option>
@@ -74,30 +78,91 @@
         </div>
 
         <div class="me-0 me-sm-1 me-md-5 mb-3">
-            <label for="data" class="">Data Contratação</label>
-            <input type="date" class="form-control" name="data">
+                <label for="data_contratacao" class="">Data Contratação</label>
+                <input asp-for="data_contratacao" type="date" class="form-control" required>
         </div>
 
-        <h3>Endereço</h3>
+        <h5>Endereço</h5>
         <div class="d-block d-md-flex flex-wrap">
             <div class="me-0 me-sm-1 me-md-5 mb-3 w-50">
                 <label for="rua" class="">Rua</label>
-                <input type="text" class="form-control" name="rua">
+                    <input asp-for="rua" type="text" class="form-control" required>
             </div>
+
+                <div class="ms-sm-1 me-md-5">
+                    <label for="tipo_endereco" class="">Tipo endereço</label>
+                    <select asp-for="tipo_endereco" class="form-control" required>
+
+                        <option value="Residencial">Residencial</option>
+                        <option value="Comercial">Comercial</option>
+                        <option value="Apartamento">Apartamento</option>
+
+                    </select>
+                </div>
            
             <div class="ms-sm-1 me-md-5">
-                <label for="numero" class="">Número</label>
-                <input type="text" class="form-control w-100" name="numero">
+                    <label for="num_endereco" class="">Número</label>
+                    <input asp-for="num_endereco" type="text" class="form-control w-100" required>
             </div>
 
             <div class="mb-3 w-25">
                 <label for="bairro" class="">Bairro</label>
-                <input type="text" class="form-control" name="bairro">
+                    <input asp-for="bairro" type="text" class="form-control" required>
+            </div>
+                <div>
+                    <label for="cep" class="">CEP</label>
+                    <input asp-for="cep" type="text" class="form-control" required>
+                </div>
+
+            <div class="">
+                 <label for="cidade" class="">Cidade</label>
+                    <input asp-for="cidade" type="text" class="form-control" required>
+            </div>
+            <div>
+                    <label for="uf_estado" class="">UF</label>
+                    <input asp-for="uf_estado" type="text" class="form-control" required>
             </div>
         </div>
 
+            <h5>Contato</h5>
+
+            <div class="d-block d-md-flex flex-wrap">
+
+                <div class="ms-sm-1 me-md-5">
+                    <label for="tipo_telefone" class="">Tipo contato</label>
+                    <select asp-for="tipo_telefone" class="form-control" required>
+
+                        <option value="Telefone">Telefone</option>
+                        <option value="Celular">Celular</option>
+                        <option value="Comercial">Comercial</option>
+
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="numero_contato" class="">Numero contato</label>
+                    <input asp-for="numero_contato" type="text" class="form-control" required>
+                </div>
+            </div>
+
+            @if (ViewData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewData["ErrorMessage"]
+                </div>
+            }
+            @if (ViewData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @ViewData["SuccessMessage"]
+                </div>
+            }
+
             <button type="submit" class="btn btn-success d-flex float-end justify-content-between">Cadastrar</button>
-        
+
+            
     </form>
     </div>
 </div>
+
+<script src="~/js/cadastrarfuncionario.js"></script>
