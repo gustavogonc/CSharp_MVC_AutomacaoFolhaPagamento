@@ -16,6 +16,13 @@ namespace AutomacaoFolhaPagamento.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            var funcionarios = await ObterFuncionarios();
+            return View(funcionarios);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Cadastro()
+        {
             await LoadCargos();
             return View();
         }
@@ -37,6 +44,38 @@ namespace AutomacaoFolhaPagamento.Controllers
                 }).ToList();
             }
         }
+
+
+
+        private async Task<List<ListaFuncionarios>> ObterFuncionarios()
+        {
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync("https://localhost:7067/api/Funcionarios/dadosFuncionarioCompleto");
+
+            var funcionariosLista = new List<ListaFuncionarios>();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var dadosFuncionarios = JsonSerializer.Deserialize<List<FuncionarioDTO>>(jsonString);
+
+                foreach (var item in dadosFuncionarios)
+                {
+                    var funcionario = new ListaFuncionarios
+                    {
+                        funcionario_id = item.funcionario.id_funcionario,
+                        nome_completo = item.funcionario.nome_funcionario,
+                        deparamento = item.funcionario.departamento
+                    };
+
+                    funcionariosLista.Add(funcionario);
+                }
+            }
+
+            return funcionariosLista;
+        }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Cadastro(NovoFuncionarioViewModel fun)
@@ -72,14 +111,14 @@ namespace AutomacaoFolhaPagamento.Controllers
                     ViewData["SuccessMessage"] = "Cadastro realizado com sucesso!";
                     await LoadCargos();
                     ModelState.Clear();
-                    return View("Index", new NovoFuncionarioViewModel());
+                    return View("Cadastro", new NovoFuncionarioViewModel());
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
                     ViewData["ErrorMessage"] = "Funcionário já cadastrado.";
                     ModelState.Clear();
                     await LoadCargos();
-                    return View("Index", new NovoFuncionarioViewModel());
+                    return View("Cadastro", new NovoFuncionarioViewModel());
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {
@@ -87,7 +126,7 @@ namespace AutomacaoFolhaPagamento.Controllers
                     ViewData["ErrorMessage"] = "Ocorreu um erro ao cadastrar o funcionário. Por favor, tente novamente.";
                     ModelState.Clear();
                     await LoadCargos();
-                    return View("Index", new NovoFuncionarioViewModel());
+                    return View("Cadastro", new NovoFuncionarioViewModel());
                 }
 
                 throw new Exception("Erro no servidor.");
@@ -97,7 +136,7 @@ namespace AutomacaoFolhaPagamento.Controllers
                 ViewData["ErrorMessage"] = "Não foi possível completar o cadastro.";
                 ModelState.Clear();
                 await LoadCargos();
-                return View("Index", new NovoFuncionarioViewModel());
+                return View("Cadastro", new NovoFuncionarioViewModel());
             }
         }
 
