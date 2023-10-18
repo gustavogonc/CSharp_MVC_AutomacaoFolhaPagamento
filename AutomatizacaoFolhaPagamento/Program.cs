@@ -16,6 +16,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 builder.Services.AddMvc();
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddDbContext<DbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

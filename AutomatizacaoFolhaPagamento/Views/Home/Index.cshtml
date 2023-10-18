@@ -6,74 +6,143 @@
     <link rel="stylesheet" href="~/css/home.css" />
 </head>
 
-<div class="container">
-    <div class="d-flex justify-content-between mb-5"> 
-        <div>
-            <h3>Total de Funcionários: 15</h3>
-       </div>
-        <div>
-            <a type="button" class="btn btn-success" asp-action="Index" asp-controller="Funcionario">
-                <i class="fa fa-plus me-2" aria-hidden="true"></i>Novo
+<style>
+    .hover-class > a{
+        color: #264716 !important;
+    }
+    .hover-class:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+</style>
+
+<div class="container-fluid mb-3 mt-fill-header">
+    <div class="row mb-5 pb-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 hover-class" style="transition: transform 0.3s ease-in-out;">
+            <a asp-action="Index" asp-controller="Funcionarios">
+                <div class="card mb-4" style="box-shadow: 3px 3px 10px #bbb;">
+                    <div class="card-header" style="align-items: center; font-size: 60px; border: 0; padding: 0.75rem 1.25rem;
+    margin-bottom: 0; background-color: rgba(0,0,0,.03); height: 105px;">
+                        <span style="display: flex; align-items: center; justify-content: center; height: 90px;">
+                            <i class="bx bx-user" style="font-weight: 900;"></i>
+                        </span>
+                    </div>
+                    <div class="card-body text-center col-12" style="background-color: rgba(0,0,0,.03); height: 125px;">
+                        <div class="row">
+                            <div class="col-md">
+                                <h3 style="text-transform: none; font-weight: 600;">
+                                    <span style="font-size: 18px;">FUNCIONÁRIOS</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 hover-class" style="transition: transform 0.3s ease-in-out;">
+            <a asp-action="Dashboard" asp-controller="Relatorio">
+                <div class="card mb-4" style="box-shadow: 3px 3px 10px #bbb;">
+                    <div class="card-header" style="font-size: 60px; border: 0; padding: 0.75rem 1.25rem;
+                             margin-bottom: 0; background-color: rgba(0,0,0,.03); height: 105px;">
+                        <span style="display: flex; align-items: center; justify-content: center; height: 90px;">
+                            <i class="bx bx-bar-chart-alt-2" style="font-weight: 900;"></i>
+                        </span>
+                    </div>
+                    <div class="card-body text-center col-12" style="background-color: rgba(0,0,0,.03); height: 125px;">
+                        <div class="row">
+                            <div class="col-md">
+                                <h3 style="text-transform: none; font-weight: 600;">
+                                    <span style="font-size: 18px;">DASHBOARDS</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 hover-class" style="transition: transform 0.3s ease-in-out;">
+            <a>
+                <div class="card mb-4" style="box-shadow: 3px 3px 10px #bbb;">
+                    <div class="card-header" style="font-size: 60px; border: 0; padding: 0.75rem 1.25rem;
+                             margin-bottom: 0; background-color: rgba(0,0,0,.03); height: 105px;">
+                        <span style="display: flex; align-items: center; justify-content: center; height: 90px;">
+                            <i class="bx bx-file-find" style="font-weight: 900;"></i>
+                        </span>
+                    </div>
+                    <div class="card-body text-center col-12" style="background-color: rgba(0,0,0,.03); height: 125px;">
+                        <div class="row">
+                            <div class="col-md">
+                                <h3 style="text-transform: none; font-weight: 600;">
+                                    <span style="font-size: 18px;">RELATÓRIOS</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 hover-class" style="transition: transform 0.3s ease-in-out;">
+            <a>
+                <div class="card mb-4" style="box-shadow: 3px 3px 10px #bbb;">
+                    <div class="card-header" style="font-size: 60px; border: 0; padding: 0.75rem 1.25rem;
+                             margin-bottom: 0; background-color: rgba(0,0,0,.03); height: 105px;">
+                        <span style="display: flex; align-items: center; justify-content: center; height: 90px;">
+                            <i class="bx bx-money" style="font-weight: 900;"></i>
+                        </span>
+                    </div>
+                    <div class="card-body text-center col-12" style="background-color: rgba(0,0,0,.03); height: 125px;">
+                        <div class="row">
+                            <div class="col-md">
+                                <h3 style="text-transform: none; font-weight: 600;">
+                                    <span style="font-size: 18px;">CÁLCULO DE FOLHA</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 hover-class" style="transition: transform 0.3s ease-in-out;">
+            <a>
+                <div class="card mb-4" style="box-shadow: 3px 3px 10px #bbb;">
+                    <div class="card-header" style="font-size: 60px; border: 0; padding: 0.75rem 1.25rem;
+                             margin-bottom: 0; background-color: rgba(0,0,0,.03); height: 105px;">
+                        <span style="display: flex; align-items: center; justify-content: center; height: 90px;">
+                            <i class="bx bx-help-circle" style="font-weight: 900;"></i>
+                        </span>
+                    </div>
+                    <div class="card-body text-center col-12" style="background-color: rgba(0,0,0,.03); height: 125px;">
+                        <div class="row">
+                            <div class="col-md">
+                                <h3 style="text-transform: none; font-weight: 600;">
+                                    <span style="font-size: 18px;">DÚVIDAS FREQUENTES</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 hover-class" style="transition: transform 0.3s ease-in-out;">
+            <a>
+                <div class="card mb-4" style="box-shadow: 3px 3px 10px #bbb;">
+                    <div class="card-header" style="font-size: 60px; border: 0; padding: 0.75rem 1.25rem;
+                             margin-bottom: 0; background-color: rgba(0,0,0,.03); height: 105px;">
+                        <span style="display: flex; align-items: center; justify-content: center; height: 90px;">
+                            <i class="bx bx-help-circle" style="font-weight: 900;"></i>
+                        </span>
+                    </div>
+                    <div class="card-body text-center col-12" style="background-color: rgba(0,0,0,.03); height: 125px;">
+                        <div class="row">
+                            <div class="col-md">
+                                <h3 style="text-transform: none; font-weight: 600;">
+                                    <span style="font-size: 18px;">DÚVIDAS FREQUENTES</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </a>
         </div>
     </div>
-    <!--<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header w-100">
-                    <h5 class="modal-title m-0" id="exampleModalLabel">Cadastrar Funcionário</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body w-100">
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Salvar</button>
-                </div>
-            </div>
-        </div>
-    </div>-->
-    <div class="container-fluid">
-        <div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Nascimento</th>
-                        <th scope="col">Sexo</th>
-                        <th scope="col">Admissão</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr scope="row">
-                        <th>Teste Funcionário 02</th>
-                        <th>01/09/1972</th>
-                        <th>Masculino</th>
-                        <th>01/09/2023</th>
-                    </tr>
-                    <tr scope="row">
-                        <th>Teste Funcionário 02</th>
-                        <th>23/11/1908</th>
-                        <th>Feminino</th>
-                        <th>07/06/2021</th>
-                    </tr>
-                    <tr scope="row">
-                        <th>Teste Funcionário 03</th>
-                        <th>13/07/1998</th>
-                        <th>Feminino</th>
-                        <th>04/05/2020</th>
-                    </tr>
-                    <tr scope="row">
-                        <th>Teste Funcionário 04</th>
-                        <th>12/04/2000</th>
-                        <th>Masculino</th>
-                        <th>07/05/2019</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-       
-    </div>
-    
 </div>
