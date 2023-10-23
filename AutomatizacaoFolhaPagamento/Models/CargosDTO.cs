@@ -1,4 +1,4 @@
-﻿namespace AutomacaoFolhaPagamento.Controllers
+﻿namespace AutomacaoFolhaPagamento.Models
 {
     public class CargosDTO
     {

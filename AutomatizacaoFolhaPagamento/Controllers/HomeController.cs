@@ -5,7 +5,8 @@ using System.Diagnostics;
 
 namespace AutomatizacaoFolhaPagamento.Controllers
 {
-  //  [Authorize(Policy = "Logado")]
+  
+    [Authorize(Policy = "Logado")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

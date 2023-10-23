@@ -15,7 +15,7 @@ namespace AutomatizacaoFolhaPagamento.Controllers
     public class LoginController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
-
+                    HttpClientHandler clientHandler = new HttpClientHandler();
         public LoginController(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
@@ -27,13 +27,16 @@ namespace AutomatizacaoFolhaPagamento.Controllers
         {
             return View();
         }
+        
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+
+            
             try
             {
-                var client = _clientFactory.CreateClient();
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
 
                 var loginData = new
                 {
@@ -43,7 +46,7 @@ namespace AutomatizacaoFolhaPagamento.Controllers
 
                 var content = new StringContent(JsonSerializer.Serialize(loginData), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("https://localhost:7067/api/Autenticacao/login", content);
+                var response = await client.PostAsync("Autenticacao/login", content);
 
                 if (response.IsSuccessStatusCode)
                 {

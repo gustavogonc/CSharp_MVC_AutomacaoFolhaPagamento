@@ -20,31 +20,22 @@ namespace AutomacaoFolhaPagamento.Controllers
         // GET: CargosController
         public async Task<ActionResult> Index()
         {
+            var cargosLista = await ObterCargos();
+            return View(cargosLista);
+        }
+
+        public async Task<ActionResult> Cadastro()
+        {
             await LoadDepartamentos();
             return View();
         }
 
-        // GET: CargosController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: CargosController/Create
-        public async Task<IActionResult> Create()
-        {
-           
-
-            return View();
-        }
-
-        // POST: CargosController/Create
         [HttpPost]
         public async Task<IActionResult> Create(CargosViewModel model)
         {
             try
             {
-                var client = _clientFactory.CreateClient();
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
 
                 string salarioString = model.salario;
                 salarioString = salarioString.Replace("R$", "").Trim();
@@ -60,7 +51,7 @@ namespace AutomacaoFolhaPagamento.Controllers
                 {
                     ViewData["ErrorMessage"] = "Formato de moeda não suportado.";
                     await LoadDepartamentos();
-                    return View("Index", new CargosViewModel());
+                    return View("Cadastro", new CargosViewModel());
                 }
 
                 var userData = new
@@ -73,19 +64,19 @@ namespace AutomacaoFolhaPagamento.Controllers
 
                 var content = new StringContent(JsonSerializer.Serialize(userData), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("https://localhost:7067/api/Cargos/novoCargo", content);
+                var response = await client.PostAsync("Cargos/novoCargo", content);
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     ViewData["SuccessMessage"] = "Cadastro realizado com sucesso!";
                     await LoadDepartamentos();
-                    return View("Index", new CargosViewModel());
+                    return View("Cadastro", new CargosViewModel());
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
                     ViewData["ErrorMessage"] = "Cargo já cadastrado.";
                     ModelState.Clear();
                     await LoadDepartamentos();
-                    return View("Index", new CargosViewModel());
+                    return View("Cadastro", new CargosViewModel());
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {
@@ -93,7 +84,7 @@ namespace AutomacaoFolhaPagamento.Controllers
                     ViewData["ErrorMessage"] = "Ocorreu um erro ao inserir o cargo. Por favor, tente novamente.";
                     ModelState.Clear();
                     await LoadDepartamentos();
-                    return View("Index", new CargosViewModel());
+                    return View("Cadastro", new CargosViewModel());
                 }
 
                 throw new Exception("Erro no servidor.");
@@ -103,41 +94,45 @@ namespace AutomacaoFolhaPagamento.Controllers
                 ViewData["ErrorMessage"] = "Não foi possível completar o cadastro.";
                 ModelState.Clear();
                 await LoadDepartamentos();
-                return View("Index", new CargosViewModel());
+                return View("Cadastro", new CargosViewModel());
             }
+
         }
 
-        // GET: CargosController/Edit/5
-        public ActionResult Edit(int id)
+        private async Task<List<ListaCargos>> ObterCargos()
         {
-            return View();
-        }
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync("Cargos/retornaCargos");
 
-        // POST: CargosController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
+            var cargosLista = new List<ListaCargos>();
+
+            if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var dadosCargos = JsonSerializer.Deserialize<List<CargoDTO>>(jsonString);
 
-        // GET: CargosController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+                foreach (var item in dadosCargos)
+                {
+                    var cargo = new ListaCargos
+                    {
+                        cargo_id = item.id_cargo,
+                        nome_cargo = item.nome_cargo,
+                        descricao = item.descricao_cargo,
+                        salario = item.salario,
+                        departamentoId = item.departamentoId
+                    };
+
+                    cargosLista.Add(cargo);
+                }
+            }
+
+            return cargosLista;
         }
 
         private async Task LoadDepartamentos()
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7067/api/Departamentos/listarDepartamentos");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync("Departamentos/listarDepartamentos");
 
             if (response.IsSuccessStatusCode)
             {
@@ -149,20 +144,6 @@ namespace AutomacaoFolhaPagamento.Controllers
                     Value = d.id_departamento.ToString(),
                     Text = $"{d.id_departamento} - {d.nome_departamento}"
                 }).ToList();
-            }
-        }
-        // POST: CargosController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
             }
         }
     }

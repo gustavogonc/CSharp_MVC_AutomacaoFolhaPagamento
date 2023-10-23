@@ -31,6 +31,14 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Logado", policy => policy.RequireAuthenticatedUser());
 });
 
+builder.Services.AddHttpClient("CustomSSLValidation", client =>
+{
+    client.BaseAddress = new Uri("https://20.206.249.21/api/");
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+});
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

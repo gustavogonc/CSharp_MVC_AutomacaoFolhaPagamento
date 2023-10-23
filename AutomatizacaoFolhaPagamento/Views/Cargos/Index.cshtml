@@ -1,48 +1,54 @@
 ﻿@using AutomacaoFolhaPagamento.Models;
 @{
-    ViewData["Title"] = "Cadastrar Cargos";
+    ViewData["Title"] = "Cargos";
 }
 
-@model CargosViewModel;
-<link href="~/css/cadastrofuncionario.css" rel="stylesheet" />
+@model List<ListaCargos>
+
+<head>
+    <link href="~/css/cadastrofuncionario.css" rel="stylesheet" />
+</head>
+
 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
-        <li class="breadcrumb-item active" aria-current="page"><a asp-controller="Cargos" asp-action="Index"><span>Cargos</span></a></li>
-        <li class="breadcrumb-item active" aria-current="page">Cadastro de cargos</li>
+        <li class="breadcrumb-item active" aria-current="page">Cargos</li>
     </ol>
 </nav>
 
-<div class="w-100 d-flex justify-content-center" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
-    <div class="d-flex" style="display: flex; flex-direction: column; justify-content: center; align-content: center; height: 100%; width: 100%; flex-wrap: wrap">
-        <div style="">
-            <h4 class="mt-2 mb-2">Cadastro de Cargos</h4>
-        </div>
 
-        <form class="d-block col-5 pb-5" asp-controller="Cargos" asp-action="Create" method="post">
-            <div class="mb-3 mt-3">
-                <input asp-for="nome_cargo" type="text" placeholder="Título do Cargo" class="form-control col-4" required />
-            </div>
-            <div class="mb-3 mt-3">
-                <textarea asp-for="descricao_cargo" style="resize: none;" rows="4" class="form-control col-4" required placeholder="Descrição do cargo"></textarea>
-            </div>
+<div class="w-100 flex-wrap" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
+    <div class="d-flex justify-content-end">
+        <a asp-controller="Cargos" asp-action="Cadastro" class="btn btn-success mb-3">NOVO</a>
+    </div>
 
-            <div class="mb-3 mt-3">
-                <select asp-for ="departamentoId" class="form-control" name="departamentoId">
-                    @foreach (var item in ViewData["Departamentos"] as List<SelectListItem>)
-                    {
-                        <option  value="@item.Value">@item.Text</option>
-                    }
-                </select>
-            </div>
-
-            <div class="mb-3 mt-3">
-                <input asp-for="salario" type="text" placeholder="Salário: Ex: R$5.000,00" class="form-control col-4" required />
-            </div>
-
-        <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
-       
-    </form>
+    <div class="container-sm">
+        <table class="table table-striped table-hover table-bordered" style="border-color: #000; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+            <thead>
+                <tr>
+                    <th scope="col">#id</th>
+                    <th scope="col">Cargo</th>
+                    <th scope="col">Salário</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cargo in Model)
+                {
+                    <tr>
+                        <th scope="row">@cargo.cargo_id</th>
+                        <td>@cargo.nome_cargo</td>
+                        <td>@cargo.salario</td>
+                        <td>
+                            <div style="display: flex; justify-content: space-evenly">
+                                <a style="cursor: pointer;"><i class="fa-regular fa-eye" style="color: #069d33;"></i></a>
+                                <a style="cursor: pointer;"><i class="fa-regular fa-pen-to-square" style="color: #0852d4;"></i></a>
+                                <a style="cursor: pointer;"><i class="fa-regular fa-circle-xmark" style="color: #b50d0d;"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-

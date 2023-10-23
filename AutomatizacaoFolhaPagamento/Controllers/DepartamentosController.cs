@@ -14,22 +14,46 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
             _clientFactory = clientFactory;
         }
-        // GET: DepartamentosController
-        public ActionResult Index()
+
+        public async Task<ActionResult> Index()
+        {
+            var departamentosLista = await ObterDepartamentos();
+            return View(departamentosLista);
+        }
+
+
+        public ActionResult Cadastro()
         {
             return View();
         }
 
-        // GET: DepartamentosController/Details/5
-        public ActionResult Details(int id)
+        private async Task<List<ListaDepartamentos>> ObterDepartamentos()
         {
-            return View();
-        }
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync("Departamentos/listarDepartamentos");
 
-        // GET: DepartamentosController/Create
-        public ActionResult Create()
-        {
-            return View();
+            var departamentosLista = new List<ListaDepartamentos>();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var dadosDepartamento = JsonSerializer.Deserialize<List<DepartamentoDTO>>(jsonString);
+
+                foreach (var item in dadosDepartamento)
+                {
+                    var departamento = new ListaDepartamentos
+                    {
+                         id_departamento= item.id_departamento,
+                         nome_departamento = item.nome_departamento,
+                         descricao_departamento = item.descricao_departamento,
+                         data_cricacao = item.data_criacao
+                    };
+
+                    departamentosLista.Add(departamento);
+                }
+            }
+
+            return departamentosLista;
         }
 
         [HttpPost]
@@ -37,7 +61,7 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
             try
             {
-                var client = _clientFactory.CreateClient();
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
 
                 var data = new
                 {
@@ -47,7 +71,7 @@ namespace AutomacaoFolhaPagamento.Controllers
 
                 var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("https://localhost:7067/api/Departamentos/novoDepartamento", content);
+                var response = await client.PostAsync("Departamentos/novoDepartamento", content);
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     ViewData["SuccessMessage"] = "Cadastro realizado com sucesso!";

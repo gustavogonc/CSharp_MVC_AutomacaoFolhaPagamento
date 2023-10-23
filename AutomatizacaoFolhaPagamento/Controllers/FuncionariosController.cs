@@ -29,8 +29,8 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         private async Task LoadCargos()
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7067/api/Cargos/retornaCargos");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync("Cargos/retornaCargos");
 
             if (response.IsSuccessStatusCode)
             {
@@ -49,8 +49,8 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         private async Task<List<ListaFuncionarios>> ObterFuncionarios()
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7067/api/Funcionarios/dadosFuncionarioCompleto");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync("Funcionarios/dadosFuncionarioCompleto");
 
             var funcionariosLista = new List<ListaFuncionarios>();
 
@@ -82,7 +82,7 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
             try
             {
-                var client = _clientFactory.CreateClient();
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
 
                 var data = new
                 {
@@ -105,7 +105,7 @@ namespace AutomacaoFolhaPagamento.Controllers
 
                 var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("https://localhost:7067/api/Funcionarios/novoFuncionario", content);
+                var response = await client.PostAsync("Funcionarios/novoFuncionario", content);
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     ViewData["SuccessMessage"] = "Cadastro realizado com sucesso!";

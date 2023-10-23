@@ -25,7 +25,7 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
             try
             {
-                var client = _clientFactory.CreateClient();
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
 
                 var userData = new
                 {
@@ -37,7 +37,7 @@ namespace AutomacaoFolhaPagamento.Controllers
 
                 var content = new StringContent(JsonSerializer.Serialize(userData), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("https://localhost:7067/api/Autenticacao/registrar", content);
+                var response = await client.PostAsync("Autenticacao/registrar", content);
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     ViewData["SuccessMessage"] = "Cadastro realizado com sucesso!";

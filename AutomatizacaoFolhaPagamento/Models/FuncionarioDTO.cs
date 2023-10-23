@@ -11,19 +11,18 @@
             public int id_funcionario { get; set; }
             public string nome_funcionario { get; set; }
             public string departamento { get; set; }
-            // Adicione outras propriedades se necessário
         }
 
         public class Endereco
         {
             public string tipo_endereco { get; set; }
-            // Adicione outras propriedades conforme necessário
+
         }
 
         public class Contato
         {
             public string tipo_telefone { get; set; }
-            // Adicione outras propriedades conforme necessário
+
         }
     }
 }
