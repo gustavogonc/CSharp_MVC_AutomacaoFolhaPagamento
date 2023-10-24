@@ -1,0 +1,79 @@
+﻿@model AutomacaoFolhaPagamento.Models.FuncionarioDTO
+
+
+
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a asp-controller="Funcionarios" asp-action="Index"><span>Funcionários</span></a></li>
+        <li class="breadcrumb-item active" aria-current="page">Detalhes de funcionário</li>
+    </ol>
+</nav>
+
+<h2>Detalhes do Funcionário</h2>
+<hr />
+<section>
+    <h3>Informações Pessoais</h3>
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.funcionario.id_funcionario</dd>
+
+        <dt class="col-sm-2">Nome</dt>
+        <dd class="col-sm-10">@Model.funcionario.nome_funcionario</dd>
+
+        <dt class="col-sm-2">Sexo</dt>
+        <dd class="col-sm-10">@Model.funcionario.sexo</dd>
+
+        <dt class="col-sm-2">Estado Civil</dt>
+        <dd class="col-sm-10">@Model.funcionario.estado_civil</dd>
+
+        <dt class="col-sm-2">Cargo ID</dt>
+        <dd class="col-sm-10">@Model.funcionario.cargo_id</dd>
+
+        <dt class="col-sm-2">Departamento</dt>
+        <dd class="col-sm-10">@Model.funcionario.departamento</dd>
+
+        <dt class="col-sm-2">Cargo</dt>
+        <dd class="col-sm-10">@Model.funcionario.cargo</dd>
+
+        <dt class="col-sm-2">Data de Contratação</dt>
+        <dd class="col-sm-10">@Model.funcionario.data_contratacao.ToShortDateString()</dd>
+    </dl>
+</section>
+
+<section>
+    <h3>Endereços</h3>
+    @foreach (var endereco in Model.enderecos)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">Tipo de Endereço</dt>
+            <dd class="col-sm-10">@endereco.tipo_endereco</dd>
+
+            <dt class="col-sm-2">Rua</dt>
+            <dd class="col-sm-10">@endereco.rua</dd>
+
+            <dt class="col-sm-2">Bairro</dt>
+            <dd class="col-sm-10">@endereco.bairro</dd>
+
+            <dt class="col-sm-2">CEP</dt>
+            <dd class="col-sm-10">@endereco.cep</dd>
+
+            <dt class="col-sm-2">Cidade</dt>
+            <dd class="col-sm-10">@endereco.cidade</dd>
+        </dl>
+    }
+</section>
+
+<section>
+    <h3>Contatos</h3>
+    @foreach (var contato in Model.contatos)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">Tipo de Telefone</dt>
+            <dd class="col-sm-10">@contato.tipo_telefone</dd>
+
+            <dt class="col-sm-2">Número</dt>
+            <dd class="col-sm-10">@contato.numero_contato</dd>
+        </dl>
+    }
+</section>

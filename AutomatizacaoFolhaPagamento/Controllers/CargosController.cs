@@ -17,11 +17,21 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
             _clientFactory = clientFactory;
         }
-        // GET: CargosController
+
         public async Task<ActionResult> Index()
         {
             var cargosLista = await ObterCargos();
             return View(cargosLista);
+        }
+
+        public async Task<IActionResult> Detalhes(int id)
+        {
+            var cargo = await ObterCargoPorId(id);
+            if (cargo == null)
+            {
+                return NotFound();
+            }
+            return View(cargo);
         }
 
         public async Task<ActionResult> Cadastro()
@@ -97,6 +107,22 @@ namespace AutomacaoFolhaPagamento.Controllers
                 return View("Cadastro", new CargosViewModel());
             }
 
+        }
+
+        private async Task<CargoDetalhes> ObterCargoPorId(int id)
+        {
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync($"Cargos/retornaCargo/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var cargoDTOList = JsonSerializer.Deserialize<List<CargoDetalhes>>(jsonString);
+
+                return cargoDTOList.FirstOrDefault(); // usando System.Linq
+            }
+
+            return null;
         }
 
         private async Task<List<ListaCargos>> ObterCargos()

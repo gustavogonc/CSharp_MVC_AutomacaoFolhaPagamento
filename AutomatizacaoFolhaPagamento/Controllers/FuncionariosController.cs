@@ -27,6 +27,36 @@ namespace AutomacaoFolhaPagamento.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Detalhes(int id)
+        {
+            var funcionario = await ObterFuncionarioPorId(id);
+
+            if (funcionario == null)
+            {
+                
+                return View("Erro");
+            }
+
+            return View(funcionario);
+        }
+
+        private async Task<FuncionarioDTO> ObterFuncionarioPorId(int id)
+        {
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync($"Funcionarios/dadosFuncionarioCompleto/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var funcionarios = JsonSerializer.Deserialize<List<FuncionarioDTO>>(jsonString);
+                var funcionarioDTO = funcionarios.FirstOrDefault();
+
+                return funcionarioDTO;
+            }
+
+            return null;
+        }
+
         private async Task LoadCargos()
         {
             var client = _clientFactory.CreateClient("CustomSSLValidation");

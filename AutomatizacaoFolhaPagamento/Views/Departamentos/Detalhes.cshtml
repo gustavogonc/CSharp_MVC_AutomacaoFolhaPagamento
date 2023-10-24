@@ -1,0 +1,32 @@
+﻿@model AutomacaoFolhaPagamento.Models.ListaDepartamentos
+
+@{
+    ViewData["Title"] = "Detalhes do Departamento";
+}
+
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a asp-controller="Departamentos" asp-action="Index">Departamentos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Detalhes do departamento</li>
+    </ol>
+</nav>
+
+<h2>Detalhes do Departamento</h2>
+
+<div>
+    <h4>Departamento</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.id_departamento</dd>
+
+        <dt class="col-sm-2">Nome do departamento</dt>
+        <dd class="col-sm-10">@Model.nome_departamento</dd>
+
+        <dt class="col-sm-2">Descrição do departamento</dt>
+        <dd class="col-sm-10">@Model.descricao_departamento</dd>
+
+    </dl>
+    <a asp-controller="Departamentos" asp-action="Index" class="btn btn-primary">Voltar</a>
+</div>

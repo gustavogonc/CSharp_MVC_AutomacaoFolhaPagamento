@@ -41,7 +41,9 @@
                         <td>@funcionario.deparamento</td>
                         <td>
                             <div style="display: flex; justify-content: space-evenly">
-                                <a style="cursor: pointer;"><i class="fa-regular fa-eye" style="color: #069d33;"></i></a>
+                                <a asp-controller="Funcionarios" asp-action="Detalhes" asp-route-id="@funcionario.funcionario_id">
+                                    <i class="fa-regular fa-eye" style="color: #069d33;"></i>
+                                </a>
                                 <a style="cursor: pointer;"><i class="fa-regular fa-pen-to-square" style="color: #0852d4;"></i></a>
                                 <a style="cursor: pointer;"><i class="fa-regular fa-circle-xmark" style="color: #b50d0d;"></i></a>
                             </div>

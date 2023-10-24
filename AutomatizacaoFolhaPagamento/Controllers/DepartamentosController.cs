@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text;
 using AutomatizacaoFolhaPagamento.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
@@ -27,6 +28,38 @@ namespace AutomacaoFolhaPagamento.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Detalhes(int id)
+        {
+            var departamento = await ObterDepartamentoPorId(id);
+            if (departamento == null)
+            {
+                return NotFound();
+            }
+            return View(departamento);
+        }
+
+        private async Task<ListaDepartamentos> ObterDepartamentoPorId(int id)
+        {
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync($"Departamentos/departamentoId/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var departamentoDTO = JsonSerializer.Deserialize<DepartamentoDTO>(jsonString);
+
+                return new ListaDepartamentos
+                {
+                    id_departamento = departamentoDTO.id_departamento,
+                    nome_departamento = departamentoDTO.nome_departamento,
+                    descricao_departamento = departamentoDTO.descricao_departamento,
+                    data_criacao = departamentoDTO.data_criacao
+                };
+            }
+
+            return null; // ou você pode lançar uma exceção aqui dependendo da sua preferência
+        }
+
         private async Task<List<ListaDepartamentos>> ObterDepartamentos()
         {
             var client = _clientFactory.CreateClient("CustomSSLValidation");
@@ -46,7 +79,7 @@ namespace AutomacaoFolhaPagamento.Controllers
                          id_departamento= item.id_departamento,
                          nome_departamento = item.nome_departamento,
                          descricao_departamento = item.descricao_departamento,
-                         data_cricacao = item.data_criacao
+                         data_criacao = item.data_criacao
                     };
 
                     departamentosLista.Add(departamento);
@@ -98,48 +131,6 @@ namespace AutomacaoFolhaPagamento.Controllers
                 ViewData["ErrorMessage"] = "Não foi possível completar o cadastro.";
                 ModelState.Clear();
                 return View("Index", new DepartamentosViewModel());
-            }
-        }
-
-        // GET: DepartamentosController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: DepartamentosController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: DepartamentosController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: DepartamentosController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
             }
         }
     }
