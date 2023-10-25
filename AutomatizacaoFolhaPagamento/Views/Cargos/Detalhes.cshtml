@@ -3,7 +3,7 @@
 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
-        <li class="breadcrumb-item active" aria-current="page"><a asp-controller="Cargos" asp-action="Index"><span>Cargos</span></a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a asp-controller="Cargos" asp-action="Index">Cargos</a></li>
         <li class="breadcrumb-item active" aria-current="page">Detalhes do cargo</li>
     </ol>
 </nav>
@@ -11,24 +11,98 @@
 <h2>Detalhes do Cargo</h2>
 
 <div>
-    <h4>Cargo</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">ID</dt>
-        <dd class="col-sm-10">@Model.id_cargo</dd>
+    <form asp-action="SalvarEdicao" asp-controller="Cargos" method="post">
+        <h4>Cargo</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">ID</dt>
+            <dd class="col-sm-10">
+                <input asp-for="id_cargo" type="hidden" />
+                @Model.id_cargo
+            </dd>
 
-        <dt class="col-sm-2">Nome do Cargo</dt>
-        <dd class="col-sm-10">@Model.nome_cargo</dd>
+            <dt class="col-sm-2">Nome do Cargo</dt>
+            <dd class="col-sm-10">
+                <input asp-for="nome_cargo" type="text" disabled />
+            </dd>
 
-        <dt class="col-sm-2">Descrição</dt>
-        <dd class="col-sm-10">@Model.descricao_cargo</dd>
+            <dt class="col-sm-2">Descrição</dt>
+            <dd class="col-sm-10">
+                <textarea asp-for="descricao_cargo" disabled></textarea>
+            </dd>
 
-        <dt class="col-sm-2">Departamento</dt>
-        <dd class="col-sm-10">R$ @Model.salario</dd>
+            <dt class="col-sm-2">Salário</dt>
+            <dd class="col-sm-10">
+                <input id="salarioDisplay" type="text" value="R$ @Model.salario.ToString("N2")" disabled />
+                <input asp-for="salario" type="hidden" id="salarioActual" />
+            </dd>
 
-        <dt class="col-sm-2">Departamento</dt>
-        <dd class="col-sm-10">@Model.nome_departamento</dd>
-        
-    </dl>
-    <a asp-controller="Cargos" asp-action="Index" class="btn btn-primary">Voltar</a>
+            <dt class="col-sm-2">Departamento</dt>
+            <dd class="col-sm-10">
+                <select asp-for="id_departamento" disabled>
+                    @foreach (var dept in (List<SelectListItem>)ViewData["Departamentos"])
+                    {
+                        if (Model.id_departamento.ToString() == dept.Value)
+                        {
+                            <option value="@dept.Value" selected>@dept.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@dept.Value">@dept.Text</option>
+                        }
+                    }
+                </select>
+            </dd>
+        </dl>
+
+        @if (ViewData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["ErrorMessage"]
+            </div>
+        }
+        @if (ViewData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewData["SuccessMessage"]
+            </div>
+        }
+
+        <button type="button" id="btnEditar" class="btn btn-warning">Editar</button>
+        <button type="submit" id="btnSalvar" class="btn btn-success" style="display:none;">Salvar</button>
+        <a asp-controller="Cargos" asp-action="Index" class="btn btn-primary">Voltar</a>
+    </form>
 </div>
+
+<script>
+    document.getElementById("btnEditar").addEventListener("click", function () {
+
+        let inputs = document.querySelectorAll("input, textarea, select");
+        for (let input of inputs) {
+            input.removeAttribute("disabled");
+        }
+
+        document.getElementById("btnSalvar").style.display = "inline-block";
+        this.style.display = "none";
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let salarioDisplay = document.getElementById('salarioDisplay');
+        let salarioActual = document.getElementById('salarioActual');
+
+        salarioDisplay.addEventListener('focus', function () {
+            let value = salarioDisplay.value.trim();
+            if (value.startsWith('R$')) {
+                salarioDisplay.value = value.substring(2);
+            }
+        });
+
+        salarioDisplay.addEventListener('blur', function () {
+            let value = salarioDisplay.value.trim();
+            salarioActual.value = value; // Atualiza o valor real
+            if (!value.startsWith('R$')) {
+                salarioDisplay.value = 'R$ ' + value;
+            }
+        });
+    });
+</script>

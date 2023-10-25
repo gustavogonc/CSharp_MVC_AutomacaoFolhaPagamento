@@ -31,6 +31,8 @@ namespace AutomacaoFolhaPagamento.Controllers
             {
                 return NotFound();
             }
+
+            await LoadDepartamentos();
             return View(cargo);
         }
 
@@ -153,6 +155,39 @@ namespace AutomacaoFolhaPagamento.Controllers
             }
 
             return cargosLista;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SalvarEdicao(CargoDetalhes cargo)
+        {
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+
+            var cargoEnvio = new CargoDetalhes
+            {
+                id_cargo = cargo.id_cargo,
+                nome_cargo = cargo.nome_cargo,
+                descricao_cargo = cargo.descricao_cargo,
+                salario = cargo.salario,
+                DepartamentoId = cargo.id_departamento
+            };
+
+            var content = new StringContent(JsonSerializer.Serialize(cargoEnvio), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync("Departamentos/listarDepartamentos", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ViewData["SuccessMessage"] = "Cadastro atualizado com sucesso!";
+                await LoadDepartamentos();
+                var cargoAtualizado = await ObterCargoPorId(cargo.id_cargo);
+                return View("Detalhes", cargoAtualizado);
+            }
+            else
+            {
+                ViewData["ErrorMessage"] = "Ocorreu um erro ao editar o cargo. Por favor, tente novamente.";
+                await LoadDepartamentos();
+                var cargoAtual = await ObterCargoPorId(cargo.id_cargo);
+                return View("Detalhes", cargoAtual);
+            }
         }
 
         private async Task LoadDepartamentos()

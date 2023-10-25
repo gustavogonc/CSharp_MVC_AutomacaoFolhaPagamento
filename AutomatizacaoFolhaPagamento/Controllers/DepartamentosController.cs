@@ -133,5 +133,40 @@ namespace AutomacaoFolhaPagamento.Controllers
                 return View("Index", new DepartamentosViewModel());
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SalvarEdicao(ListaDepartamentos departamentoEditado)
+        {
+            try
+            {
+                var client = _clientFactory.CreateClient();
+
+                var data = new
+                {
+                    id_departamento = departamentoEditado.id_departamento,
+                    nome_departamento = departamentoEditado.nome_departamento,
+                    descricao_departamento = departamentoEditado.descricao_departamento
+                };
+
+                var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"https://localhost:7067/api/Departamentos/atualizaDepartamento", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Detalhes", new { id = departamentoEditado.id_departamento });
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "Ocorreu um erro ao atualizar o departamento.";
+                    return View("Detalhes", departamentoEditado);
+                }
+            }
+            catch
+            {
+                ViewData["ErrorMessage"] = "Não foi possível completar a atualização.";
+                return View("Detalhes", departamentoEditado);
+            }
+        }
     }
 }
