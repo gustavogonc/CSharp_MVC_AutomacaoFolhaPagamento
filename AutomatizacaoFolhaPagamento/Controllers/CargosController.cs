@@ -172,7 +172,7 @@ namespace AutomacaoFolhaPagamento.Controllers
             };
 
             var content = new StringContent(JsonSerializer.Serialize(cargoEnvio), Encoding.UTF8, "application/json");
-            var response = await client.PutAsync("Departamentos/listarDepartamentos", content);
+            var response = await client.PutAsync("Cargos/atualizaCargo", content);
 
             if (response.IsSuccessStatusCode)
             {
