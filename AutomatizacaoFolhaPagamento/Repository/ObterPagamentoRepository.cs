@@ -12,7 +12,7 @@ namespace AutomacaoFolhaPagamento.Repository
 
             if (mes != 13)  // Se não for "Todos"
             {
-                return todosPagamentos.Where(p => p.DataPagamento.Month == mes);
+                return todosPagamentos.Where(p => p.dataPagamento.Month == mes);
             }
 
             return todosPagamentos;
@@ -44,13 +44,13 @@ namespace AutomacaoFolhaPagamento.Repository
                         {
                             HistPagamentoModel pagamento = new HistPagamentoModel
                             {
-                                IdHist = reader.GetInt32(0),
-                                IdFuncionario = reader.GetInt32(1),
-                                DataPagamento = reader.GetDateTime(2),
-                                SalarioBase = reader.GetDecimal(3),
-                                HoraEx = reader.GetTimeSpan(4),
-                                Beneficios = (float)reader.GetDouble(5),
-                                TotalLiq = (float)reader.GetDouble(6)
+                                idHist = reader.GetInt32(0),
+                                idFuncionario = reader.GetInt32(1),
+                                dataPagamento = reader.GetDateTime(2),
+                                salarioBase = reader.GetDecimal(3),
+                                horaEx = reader.GetTimeSpan(4),
+                                beneficios = (float)reader.GetDouble(5),
+                                totalLiq = (float)reader.GetDouble(6)
                             };
                             pagamentos.Add(pagamento);
                         }
@@ -93,7 +93,7 @@ namespace AutomacaoFolhaPagamento.Repository
                             DashboardModel pagamento = new DashboardModel
                             {
                                 texto = reader.GetString(0),
-                                TotalLiq = (float)reader.GetDouble(1)
+                                totalLiq = (float)reader.GetDouble(1)
                             };
                             pagamentos.Add(pagamento);
                         }
@@ -135,7 +135,7 @@ namespace AutomacaoFolhaPagamento.Repository
                             DashboardModel pagamentoDep = new DashboardModel
                             {
                                 texto = reader.GetString(0),
-                                TotalLiq = (float)reader.GetDouble(1)
+                                totalLiq = (float)reader.GetDouble(1)
                             };
                             pagamentos.Add(pagamentoDep);
                         }

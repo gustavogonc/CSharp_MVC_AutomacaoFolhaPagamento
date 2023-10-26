@@ -2,13 +2,13 @@
 {
     public class HistPagamentoModel
     {
-        public int IdHist { get; set; }
-        public int IdFuncionario { get; set; }
-        public DateTime DataPagamento { get; set; }
-        public decimal SalarioBase { get; set; }
-        public TimeSpan HoraEx { get; set; }
-        public float Beneficios { get; set; }
-        public float TotalLiq { get; set; }
+        public int idHist { get; set; }
+        public int idFuncionario { get; set; }
+        public DateTime dataPagamento { get; set; }
+        public decimal salarioBase { get; set; }
+        public TimeSpan horaEx { get; set; }
+        public float beneficios { get; set; }
+        public float totalLiq { get; set; }
     }
 
 

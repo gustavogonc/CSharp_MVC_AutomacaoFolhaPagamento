@@ -1,18 +1,19 @@
-﻿using AutomacaoFolhaPagamento.Repository;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using AutomacaoFolhaPagamento.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
     public class RelatorioController : Controller
     {
-        private readonly ObterPagamentoRepository _pagamentoRepository;
-        private readonly FuncionarioDeducoesRepository _funcionarioDeducoesRepository;
-        public RelatorioController()
+ 
+        private readonly IHttpClientFactory _clientFactory;
+        public RelatorioController(IHttpClientFactory clientFactory)
         {
-            _pagamentoRepository = new ObterPagamentoRepository();
-            _funcionarioDeducoesRepository = new FuncionarioDeducoesRepository();   
+       
+            _clientFactory = clientFactory;
         }
 
         public IActionResult Detalhado()
@@ -21,50 +22,81 @@ namespace AutomacaoFolhaPagamento.Controllers
         }
 
         [HttpPost]
-        public IActionResult Relatorio(int MesSelecionado)
+        public async Task<IActionResult> Relatorio(int MesSelecionado)
         {
-           
-            var pagamentosFiltrados = _pagamentoRepository.ObterPagamentosFiltrados(MesSelecionado);  
-            return View("Detalhado", pagamentosFiltrados);  
-        }
-        public IActionResult Funcionario()
-        {
-         
-            var funcionarioBasicoList = _funcionarioDeducoesRepository.ObterFuncionariosBasicos();
-            var viewModel = new FuncionarioViewModel
-            {
-                FuncionarioBasicoList = funcionarioBasicoList
-            };
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/listaRelatorio/{MesSelecionado}");
 
-            return View("Funcionario", viewModel);
+            if (response.IsSuccessStatusCode)
+            {
+                var body = await response.Content.ReadAsStringAsync();
+                var objetoRetorno = JsonSerializer.Deserialize<List<HistPagamentoModel>>(body);
+                return View("Detalhado", objetoRetorno);
+            }
+            else
+            {
+                return RedirectToAction("Erro");
+            }
+
+
+        }
+        public async Task<IActionResult> Funcionario()
+        {
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/listaFuncionario");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var body = await response.Content.ReadAsStringAsync();
+                var objetoRetorno = JsonSerializer.Deserialize<List<Funcionario>>(body);
+               
+                var viewModel = new FuncionarioViewModel
+                {
+                    funcionarioBasicoList = objetoRetorno
+                };
+                 return View("Funcionario", viewModel);
+            }
+            else
+            {
+                return RedirectToAction("Erro");
+            }
         }
         [HttpPost]
-        public IActionResult Funcionario(string Funcionario)
+        public async Task<IActionResult> Funcionario(string Funcionario, string MesSelecionado)
         {
-            var funcionarioBasicoList = _funcionarioDeducoesRepository.ObterFuncionariosBasicos();
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/funcionarioDeducoes/{Funcionario}/{MesSelecionado}");
 
-            var funcionarioDeducoesList = _funcionarioDeducoesRepository.ObterFuncionarioDeducoes();
-            var funcionarioDeducoesFiltrados = funcionarioDeducoesList.Where(f => f.CPF == Funcionario).ToList();
-            var viewModel = new FuncionarioViewModel
+            if (response.IsSuccessStatusCode)
             {
-                FuncionarioDeducoesList = funcionarioDeducoesFiltrados,
-                FuncionarioBasicoList = funcionarioBasicoList
-            };
+                var body = await response.Content.ReadAsStringAsync();
+                var objetoRetorno = JsonSerializer.Deserialize<FuncionarioViewModel>(body);
+                return View("Funcionario", objetoRetorno);
+            }
+            else
+            {
+                return View("Funcionario", new FuncionarioViewModel());
+            }
 
-            return View("Funcionario", viewModel);
         }
 
 
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            var data = _pagamentoRepository.ObterPagamentoMensal();
-            var  departamento = _pagamentoRepository.ObterPagamentosDepartamento();
-            var viewModel = new GraficosViewModel
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/dashboard");
+
+            if (response.IsSuccessStatusCode)
             {
-                PagamentoMensal = departamento,
-                PagamentoAnoMes = data
-            };
-            return View(viewModel);
+                var body = await response.Content.ReadAsStringAsync();
+                var objetoRetorno = JsonSerializer.Deserialize<GraficosViewModel>(body);
+                return View(objetoRetorno);
+            }
+            else
+            {
+                return RedirectToAction("Erro");
+            }
+       
         }
 
 

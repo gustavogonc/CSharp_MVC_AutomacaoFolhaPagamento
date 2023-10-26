@@ -56,20 +56,21 @@
             </thead>
             <tbody>@if (Model != null)
                 {
-                    @foreach (var pagamento in Model)
+                    @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@pagamento.IdHist</td>
-                            <td>@pagamento.IdFuncionario</td>
-                            <td>@pagamento.DataPagamento.ToShortDateString()</td>
-                            <td>@pagamento.SalarioBase.ToString("C2")</td>
-                            <td>@pagamento.HoraEx</td>
-                            <td>@pagamento.Beneficios.ToString("C2")</td>
-                            <td>@pagamento.TotalLiq.ToString("C2")</td>
+                            <td>@item.idHist</td>
+                            <td>@item.idFuncionario</td>
+                            <td>@item.dataPagamento.ToString("dd/MM/yyyy")</td>
+                            <td>@item.salarioBase.ToString("C2")</td>
+                            <td>@item.horaEx.ToString(@"hh\:mm\:ss")</td>
+                            <td>@item.beneficios.ToString("C2")</td>
+                            <td>@item.totalLiq.ToString("C2")</td>
                         </tr>
                     }
                 }
             </tbody>
         </table>
+           
     </div>
 </div>

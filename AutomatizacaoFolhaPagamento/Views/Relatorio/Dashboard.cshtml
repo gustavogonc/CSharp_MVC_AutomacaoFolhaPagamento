@@ -24,10 +24,10 @@
 
         // Dados do gráfico
         var data = {
-            labels: @Html.Raw(Json.Serialize(Model.PagamentoAnoMes.Select(p => p.texto.ToString()))),
+            labels: @Html.Raw(Json.Serialize(Model.pagamentoAnoMes.Select(p => p.texto.ToString()))),
             datasets: [{
                 label: 'Total Líquido',
-                data: @Html.Raw(Json.Serialize(Model.PagamentoAnoMes.Select(p => p.TotalLiq))),
+                data: @Html.Raw(Json.Serialize(Model.pagamentoAnoMes.Select(p => p.totalLiq))),
                 backgroundColor: 'rgba(144, 238, 144, 0.2)',  // Verde claro para o fundo
                 borderColor: 'rgba(144, 238, 144, 1)',
                 borderWidth: 1
@@ -59,10 +59,10 @@
 
     // Dados do segundo gráfico
     var data2 = {
-        labels: @Html.Raw(Json.Serialize(Model.PagamentoMensal.Select(p => p.texto))),
+        labels: @Html.Raw(Json.Serialize(Model.pagamentoMensal.Select(p => p.texto))),
         datasets: [{
             label: 'Total Líquido por Departamento',
-            data: @Html.Raw(Json.Serialize(Model.PagamentoMensal.Select(p => p.TotalLiq))),
+            data: @Html.Raw(Json.Serialize(Model.pagamentoMensal.Select(p => p.totalLiq))),
             backgroundColor: 'rgba(144, 238, 144, 0.2)',  // Verde claro para o fundo
             borderColor: 'rgba(144, 238, 144, 1)',
             borderWidth: 1

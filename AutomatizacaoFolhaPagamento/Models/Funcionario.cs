@@ -2,7 +2,7 @@
 {
     public class Funcionario 
     {
-        public string NomeFuncionario { get; set; }
-        public string CPF { get; set; }
+        public string nomeFuncionario { get; set; }
+        public string cpf { get; set; }
     }
 }

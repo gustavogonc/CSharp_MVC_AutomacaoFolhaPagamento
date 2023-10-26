@@ -7,10 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\**" />
+    <Content Remove="Repository\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="Repository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\sidebar.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="jsreport.AspNetCore" Version="3.8.0" />
     <PackageReference Include="jsreport.Local" Version="3.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.21" />

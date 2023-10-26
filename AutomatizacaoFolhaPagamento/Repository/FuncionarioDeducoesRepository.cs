@@ -28,18 +28,18 @@ namespace AutomacaoFolhaPagamento.Repository
                         {
                             FuncionarioDeducoes data = new FuncionarioDeducoes
                             {
-                                NomeFuncionario = reader.GetString(0),
-                                CPF = reader.GetString(1),
-                                Cargo = reader.GetString(2),
-                                Departamento = reader.GetString(3),
-                                INSS = reader.GetDecimal(4),
-                                FGTS = reader.GetDecimal(5),
-                                IR = reader.GetDecimal(6),
-                                VR = reader.GetDecimal(7),
-                                VT = reader.GetDecimal(8),
-                                ValorLiquido = reader.GetDecimal(9),
-                                Salario = reader.GetDecimal(10),
-                                Descontos = reader.GetDecimal(11)
+                                nomeFuncionario = reader.GetString(0),
+                                cpf = reader.GetString(1),
+                                cargo = reader.GetString(2),
+                                departamento = reader.GetString(3),
+                                inss = reader.GetDecimal(4),
+                                fgts = reader.GetDecimal(5),
+                                ir = reader.GetDecimal(6),
+                                vr = reader.GetDecimal(7),
+                                vt = reader.GetDecimal(8),
+                                valorLiquido = reader.GetDecimal(9),
+                                salario = reader.GetDecimal(10),
+                                descontos = reader.GetDecimal(11)
                             };
                             funcionarioDeducoesList.Add(data);
                         }
@@ -70,8 +70,8 @@ namespace AutomacaoFolhaPagamento.Repository
                         {
                             Funcionario funcionario = new Funcionario
                             {
-                                NomeFuncionario = reader.GetString(0),
-                                CPF = reader.GetString(1)
+                                nomeFuncionario = reader.GetString(0),
+                                cpf = reader.GetString(1)
                             };
                             funcionarios.Add(funcionario);
                         }

@@ -2,7 +2,7 @@
 {
     public class FuncionarioViewModel
     {
-        public IEnumerable<FuncionarioDeducoes> FuncionarioDeducoesList { get; set; }
-        public IEnumerable<Funcionario> FuncionarioBasicoList { get; set; }
+        public IEnumerable<FuncionarioDeducoes> funcionarioDeducoesList { get; set; }
+        public IEnumerable<Funcionario> funcionarioBasicoList { get; set; }
     }
 }
