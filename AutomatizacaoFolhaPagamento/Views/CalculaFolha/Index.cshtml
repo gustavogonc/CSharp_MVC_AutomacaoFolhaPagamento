@@ -1,0 +1,207 @@
+﻿
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cálculo de folha</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <form class="row g-3 mb-3">
+        <div class="d-flex justify-content-between">
+            <div class="col-6">
+                <label for="staticEmail2" class="">Funcionário</label>
+                <input type="text" class="form-control" id="staticEmail2">
+            </div>
+            <div class="col-4">
+                <label for="inputPassword2" class="">Departamento</label>
+                <input type="text" class="form-control" id="inputPassword2" placeholder="">
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="col-3">
+                <label for="inputPassword2" class="">Cargo </label>
+                <input type="text" class="form-control" id="inputPassword2" placeholder="">
+            </div>
+            <div class="col-2">
+                <label for="inputPassword2" class="">Salário</label>
+                <input type="text" class="form-control" id="inputPassword2" placeholder="">
+            </div>
+
+            <div class="col-2 d-grid">
+                <label for="inputPassword2" class="">Mês</label>
+                <select class="form-select">
+                    <option>Escolha o mês</option>
+                    <option value="01">Janeiro</option>
+                    <option value="02">Fevereiro</option>
+                    <option value="03">Março</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Maio</option>
+                    <option value="06">Junho</option>
+                    <option value="07">Julho</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+            </div>
+            <div class="col-2 d-grid">
+                <label for="inputPassword2" class="">Ano</label>
+                <select class="form-select">
+                    <option>Escolha o ano</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                </select>
+            </div>
+        </div>
+
+
+    <div class="d-flex float-end justify-content-end mt-5">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Adicionar</button>
+    </div>
+
+        <div class="modal fade w-100" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Adicionar Desconto/Provento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="modalForm">
+                            <div class="mb-3">
+                                <label for="Nome" class="form-label">Nomenclatura do valor</label>
+                                <input type="text" class="form-control" id="nomeValor">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoValor" class="form-label">Tipo</label>
+                                <select class="form-select" id="tipoValor">
+                                    <option value="Provento">Provento</option>
+                                    <option value="Desconto">Desconto</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="valorDesconto" class="form-label">Valor (ou porcentagem)</label>
+                                <input type="text" class="form-control" id="valorDesconto">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" onclick="adicionarNaTabela()">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Provento</td>
+                        <td>Salário base</td>
+                        <td style="color: green; font-weight: 600;">R$1.800,73</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Desconto</td>
+                        <td>INSS</td>
+                        <td style="color: red; font-weight: 600;">R$180,73</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Desconto</td>
+                        <td>VR</td>
+                        <td style="color: red; font-weight: 600;">R$143,42</td>
+                    </tr>
+                </tbody>
+            </table>
+    
+        <div class="d-flex">
+            <h5>Valor Líquido: <span id ="valorLiquido" style="font-weight:600; font-size: 1.2rem;">R$1.500,71</span></h5>
+        </div>
+        <div class="d-flex float-end justify-content-end">
+            <button type="submit" class="btn btn-success mb-5">Enviar</button>
+        </div>
+
+    </form>
+</div>
+
+<script>
+
+    function calcularValorLiquido() {
+        const rows = document.querySelectorAll('tbody tr');
+        let totalProventos = 0;
+        let totalDescontos = 0;
+
+        rows.forEach(row => {
+            const tipo = row.cells[1].innerText;
+            const valor = parseFloat(row.cells[3].innerText.replace('R$', '').replace('.', '').replace(',', '.'));
+
+            if (tipo === 'Provento') {
+                totalProventos += valor;
+            } else if (tipo === 'Desconto') {
+                totalDescontos += valor;
+            }
+        });
+
+        const valorLiquido = totalProventos - totalDescontos;
+        const valorFormatado = valorLiquido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        document.getElementById('valorLiquido').innerText = valorFormatado;
+    }
+
+    document.getElementById('valorDesconto').addEventListener('input', formatarComoBRL);
+
+    function formatarComoBRL() {
+        let value = this.value.replace(/[^0-9]/g, "");
+        if (value.length === 0) return;
+
+        value = parseFloat(value) / 100;
+        value = value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        this.value = value;
+    }
+
+    function adicionarNaTabela() {
+        let valorFormatado = document.getElementById('valorDesconto').value;
+        let valor = parseFloat(valorFormatado.replace('R$', '').replace('.', '').replace(',', '.'));
+        const tipo = document.getElementById('tipoValor').value;
+        const nomeValor = document.getElementById('nomeValor').value;
+
+        const tabela = document.querySelector('tbody');
+        const newRow = tabela.insertRow();
+        newRow.insertCell(0).innerText = tabela.rows.length;
+        newRow.insertCell(1).innerText = tipo;
+        newRow.insertCell(2).innerText = nomeValor; 
+
+        const cellValor = newRow.insertCell(3);
+        cellValor.innerText = valorFormatado;
+        if (tipo === 'Provento') {
+            cellValor.style.color = 'green';
+            cellValor.style.fontWeight = '600';
+        } else if (tipo === 'Desconto') {
+            cellValor.style.color = 'red';
+            cellValor.style.fontWeight = '600';
+        }
+
+        calcularValorLiquido();
+        const modal = bootstrap.Modal.getInstance(document.getElementById('myModal'));
+        modal.hide();
+    }
+</script>
