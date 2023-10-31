@@ -16,7 +16,7 @@ namespace AutomacaoFolhaPagamento.Controllers
             _clientFactory = clientFactory;
         }
 
-        public IActionResult Detalhado()
+        public async Task<IActionResult> Detalhado()
         {
             return View();
         }
@@ -40,27 +40,36 @@ namespace AutomacaoFolhaPagamento.Controllers
 
 
         }
-        public async Task<IActionResult> Funcionario()
+
+        public async Task<FuncionarioViewModel> ReturnFuncionarios()
         {
             var client = _clientFactory.CreateClient();
             var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/listaFuncionario");
+
+            FuncionarioViewModel func = new FuncionarioViewModel();
 
             if (response.IsSuccessStatusCode)
             {
                 var body = await response.Content.ReadAsStringAsync();
                 var objetoRetorno = JsonSerializer.Deserialize<List<Funcionario>>(body);
-               
+
                 var viewModel = new FuncionarioViewModel
                 {
                     funcionarioBasicoList = objetoRetorno
                 };
-                 return View("Funcionario", viewModel);
+
+                func = viewModel;
             }
-            else
-            {
-                return RedirectToAction("Erro");
-            }
+            
+            return func;
         }
+
+        public async Task<IActionResult> Funcionario()
+        {
+            var dados = await ReturnFuncionarios();
+            return View("Funcionario", dados);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Funcionario(string Funcionario, string MesSelecionado)
         {

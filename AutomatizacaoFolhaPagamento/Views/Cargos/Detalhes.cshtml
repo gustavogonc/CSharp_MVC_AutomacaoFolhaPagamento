@@ -99,7 +99,7 @@
 
         salarioDisplay.addEventListener('blur', function () {
             let value = salarioDisplay.value.trim();
-            salarioActual.value = value; // Atualiza o valor real
+            salarioActual.value = value;
             if (!value.startsWith('R$')) {
                 salarioDisplay.value = 'R$ ' + value;
             }

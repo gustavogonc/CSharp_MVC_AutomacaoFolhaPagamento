@@ -1,9 +1,11 @@
 ﻿using AutomacaoFolhaPagamento.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Runtime.ConstrainedExecution;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Text.Json;
+using static AutomacaoFolhaPagamento.Models.FuncionarioDTO;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
@@ -40,6 +42,47 @@ namespace AutomacaoFolhaPagamento.Controllers
             return View(funcionario);
         }
 
+        
+
+
+        [HttpPost]
+        public async Task<IActionResult> AtualizarFuncionario(FuncionarioDTO model)
+        {
+                var apiDto = new FuncionarioApiDTO
+                {
+                    nome = model.funcionario.nome_funcionario,
+                    sexo = model.funcionario.sexo,
+                    estado_civil = model.funcionario.estado_civil,
+                    cargo_id = model.funcionario.cargo_id,
+                    data_contratacao = model.funcionario.data_contratacao,
+                    
+                    rua = model.enderecos.FirstOrDefault()?.rua,
+                    tipo_endereco = model.enderecos.FirstOrDefault()?.tipo_endereco,
+                    bairro = model.enderecos.FirstOrDefault()?.bairro,
+                    cep = model.enderecos.FirstOrDefault()?.cep,
+                    cidade = model.enderecos.FirstOrDefault()?.cidade,
+                    tipo_telefone = model.contatos.FirstOrDefault()?.tipo_telefone,
+                    numero_contato = model.contatos.FirstOrDefault()?.numero_contato
+                };
+
+                var client = _clientFactory.CreateClient();
+                var jsonString = JsonSerializer.Serialize(apiDto);
+                var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"https://localhost:7067/api/Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ViewData["SuccessMessage"] = "Sucesso ao atualizar o funcionário";
+                    return RedirectToAction("Detalhes", new { id = model.funcionario.id_funcionario });
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "Erro ao atualizar o funcionário";
+                    return RedirectToAction("Detalhes", new { id = model.funcionario.id_funcionario });
+            }
+        }
+
         private async Task<FuncionarioDTO> ObterFuncionarioPorId(int id)
         {
             var client = _clientFactory.CreateClient("CustomSSLValidation");
@@ -56,6 +99,7 @@ namespace AutomacaoFolhaPagamento.Controllers
 
             return null;
         }
+
 
         private async Task LoadCargos()
         {
