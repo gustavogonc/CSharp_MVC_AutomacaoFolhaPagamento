@@ -1,4 +1,7 @@
-﻿
+﻿@using AutomacaoFolhaPagamento.Models;
+
+@model AutomacaoFolhaPagamento.Models.CalculaFolhaViewModel
+
 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
@@ -11,21 +14,27 @@
         <div class="d-flex justify-content-between">
             <div class="col-6">
                 <label for="staticEmail2" class="">Funcionário</label>
-                <input type="text" class="form-control" id="staticEmail2">
+                <select class="form-select" id="funcionarioSelect">
+                    <option value="">Selecione um funcionário</option>
+                    @foreach (var funcionario in Model.Funcionarios)
+                    {
+                        <option value="@funcionario.id_funcionario">@funcionario.id_funcionario - @funcionario.nome_funcionario</option>
+                    }
+                </select>
             </div>
             <div class="col-4">
                 <label for="inputPassword2" class="">Departamento</label>
-                <input type="text" class="form-control" id="inputPassword2" placeholder="">
+                <input type="text" class="form-control" id="inputPassword2" disabled value="@Model.DetalhesFuncionario?[0].departamento">
             </div>
         </div>
         <div class="d-flex justify-content-between">
             <div class="col-3">
                 <label for="inputPassword2" class="">Cargo </label>
-                <input type="text" class="form-control" id="inputPassword2" placeholder="">
+                <input type="text" class="form-control" id="inputPassword2" disabled value="@Model.DetalhesFuncionario?[0].cargo">
             </div>
             <div class="col-2">
                 <label for="inputPassword2" class="">Salário</label>
-                <input type="text" class="form-control" id="inputPassword2" placeholder="">
+                <input type="text" class="form-control" id="inputPassword2" disabled value="R$ @Model.DetalhesFuncionario?[0].salario">
             </div>
 
             <div class="col-2 d-grid">
@@ -111,29 +120,45 @@
                     </tr>
                 </thead>
                 <tbody>
+                @if (!string.IsNullOrEmpty(Model.DetalhesFuncionario?[0].nomeFuncionario))
+                {
                     <tr>
                         <th scope="row">1</th>
                         <td>Provento</td>
                         <td>Salário base</td>
-                        <td style="color: green; font-weight: 600;">R$1.800,73</td>
+                    <td style="color: green; font-weight: 600;">@Model.DetalhesFuncionario?[0].salario</td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
                         <td>Desconto</td>
                         <td>INSS</td>
-                        <td style="color: red; font-weight: 600;">R$180,73</td>
+                    <td style="color: red; font-weight: 600;">@Model.DetalhesFuncionario?[0].descontoINSS</td>
                     </tr>
                     <tr>
                         <th scope="row">3</th>
                         <td>Desconto</td>
-                        <td>VR</td>
-                        <td style="color: red; font-weight: 600;">R$143,42</td>
+                        <td>IRRF</td>
+                    <td style="color: red; font-weight: 600;">@Model.DetalhesFuncionario?[0].descontoIRRF</td>
                     </tr>
+                    }
                 </tbody>
             </table>
-    
+
         <div class="d-flex">
-            <h5>Valor Líquido: <span id ="valorLiquido" style="font-weight:600; font-size: 1.2rem;">R$1.500,71</span></h5>
+            <h5>
+                Valor Líquido:
+                <span id="valorLiquido" style="font-weight:600; font-size: 1.2rem;">
+                    R$
+                    @{
+                        var salarioLiquido = 0.00;
+                        if (Model.DetalhesFuncionario != null && Model.DetalhesFuncionario.Any() && !string.IsNullOrEmpty(Model.DetalhesFuncionario[0].nomeFuncionario))
+                        {
+                            salarioLiquido = (double)Model.DetalhesFuncionario[0].salario - ((double)Model.DetalhesFuncionario[0].descontoINSS + (double)Model.DetalhesFuncionario[0].descontoIRRF);
+                        }
+                    }
+                    @string.Format("{0:N2}", salarioLiquido)
+                </span>
+            </h5>
         </div>
         <div class="d-flex float-end justify-content-end">
             <button type="submit" class="btn btn-success mb-5">Enviar</button>
@@ -143,6 +168,32 @@
 </div>
 
 <script>
+    function attachEvents() {
+        document.getElementById('valorDesconto').addEventListener('input', formatarComoBRL);
+
+        document.getElementById("funcionarioSelect").addEventListener('change', function () {
+            if (this.value) {
+                fetch('/CalculaFolha/AtualizarDetalhesFuncionario?_t=' + new Date().getTime(), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'funcionarioId=' + this.value
+                })
+                    .then(response => response.text())
+                    .then(data => {
+
+                        document.documentElement.innerHTML = data;
+                        attachEvents();
+                    })
+                    .catch(error => console.error('Erro:', error));
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        attachEvents();
+    });
 
     function calcularValorLiquido() {
         const rows = document.querySelectorAll('tbody tr');
@@ -165,8 +216,6 @@
 
         document.getElementById('valorLiquido').innerText = valorFormatado;
     }
-
-    document.getElementById('valorDesconto').addEventListener('input', formatarComoBRL);
 
     function formatarComoBRL() {
         let value = this.value.replace(/[^0-9]/g, "");
