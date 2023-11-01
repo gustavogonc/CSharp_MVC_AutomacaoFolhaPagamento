@@ -92,8 +92,8 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/dashboard");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync($"Relatorio/dashboard");
 
             if (response.IsSuccessStatusCode)
             {
