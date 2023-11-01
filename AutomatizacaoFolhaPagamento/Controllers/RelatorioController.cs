@@ -24,8 +24,8 @@ namespace AutomacaoFolhaPagamento.Controllers
         [HttpPost]
         public async Task<IActionResult> Relatorio(int MesSelecionado)
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/listaRelatorio/{MesSelecionado}");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync($"Relatorio/listaRelatorio/{MesSelecionado}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -43,8 +43,8 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         public async Task<FuncionarioViewModel> ReturnFuncionarios()
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/listaFuncionario");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync($"Relatorio/listaFuncionario");
 
             FuncionarioViewModel func = new FuncionarioViewModel();
 
@@ -73,8 +73,8 @@ namespace AutomacaoFolhaPagamento.Controllers
         [HttpPost]
         public async Task<IActionResult> Funcionario(string Funcionario, string MesSelecionado)
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync($"https://localhost:7067/api/Relatorio/funcionarioDeducoes/{Funcionario}/{MesSelecionado}");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync($"Relatorio/funcionarioDeducoes/{Funcionario}/{MesSelecionado}");
 
             if (response.IsSuccessStatusCode)
             {
