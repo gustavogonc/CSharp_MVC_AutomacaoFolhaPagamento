@@ -10,11 +10,11 @@
 </nav>
 
 <div class="container">
-    <form class="row g-3 mb-3">
+    <form class="row g-3 mb-3" id="calculo" method="post">
         <div class="d-flex justify-content-between">
             <div class="col-6">
                 <label for="staticEmail2" class="">Funcionário</label>
-                <select class="form-select" id="funcionarioSelect">
+                <select class="form-select" id="funcionarioSelect" name="FuncionarioId">
                     <option value="">Selecione um funcionário</option>
                     @foreach (var funcionario in Model.Funcionarios)
                     {
@@ -24,22 +24,22 @@
             </div>
             <div class="col-4">
                 <label for="inputPassword2" class="">Departamento</label>
-                <input type="text" class="form-control" id="inputPassword2" disabled value="@Model.DetalhesFuncionario?[0].departamento">
+                <input type="text" class="form-control" id="inputPassword2" readonly value="@Model.DetalhesFuncionario?[0].departamento">
             </div>
         </div>
         <div class="d-flex justify-content-between">
             <div class="col-3">
                 <label for="inputPassword2" class="">Cargo </label>
-                <input type="text" class="form-control" id="inputPassword2" disabled value="@Model.DetalhesFuncionario?[0].cargo">
+                <input type="text" class="form-control" id="inputPassword2" readonly value="@Model.DetalhesFuncionario?[0].cargo">
             </div>
             <div class="col-2">
                 <label for="inputPassword2" class="">Salário</label>
-                <input type="text" class="form-control" id="inputPassword2" disabled value="R$ @Model.DetalhesFuncionario?[0].salario">
+                <input type="text" class="form-control" id="inputPassword2" readonly value="R$ @Model.DetalhesFuncionario?[0].salario">
             </div>
 
             <div class="col-2 d-grid">
                 <label for="inputPassword2" class="">Mês</label>
-                <select class="form-select">
+                <select class="form-select" name="Mes">
                     <option>Escolha o mês</option>
                     <option value="01">Janeiro</option>
                     <option value="02">Fevereiro</option>
@@ -57,7 +57,7 @@
             </div>
             <div class="col-2 d-grid">
                 <label for="inputPassword2" class="">Ano</label>
-                <select class="form-select">
+                <select class="form-select" name="Ano">
                     <option>Escolha o ano</option>
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
@@ -126,7 +126,7 @@
                         <th scope="row">1</th>
                         <td>Provento</td>
                         <td>Salário base</td>
-                    <td style="color: green; font-weight: 600;">@Model.DetalhesFuncionario?[0].salario</td>
+                    <td style="color: green; font-weight: 600;" name="NomeValor">@Model.DetalhesFuncionario?[0].salario</td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
@@ -161,13 +161,17 @@
             </h5>
         </div>
         <div class="d-flex float-end justify-content-end">
-            <button type="submit" class="btn btn-success mb-5">Enviar</button>
+            <button type="submit" class="btn btn-success mb-5" onclick="submitForm()">Enviar</button>
         </div>
 
     </form>
 </div>
 
 <script>
+    function submitForm() {
+        submitFormulario();
+    }
+
     function attachEvents() {
         document.getElementById('valorDesconto').addEventListener('input', formatarComoBRL);
 
@@ -191,9 +195,11 @@
         });
     }
 
+
     document.addEventListener("DOMContentLoaded", function () {
         attachEvents();
     });
+
 
     function calcularValorLiquido() {
         const rows = document.querySelectorAll('tbody tr');
@@ -249,8 +255,81 @@
             cellValor.style.fontWeight = '600';
         }
 
+        const form = document.getElementById('calculo');
+        const nomeValorInput = document.createElement('input');
+        nomeValorInput.type = 'hidden';
+        nomeValorInput.name = 'Proventos[' + (tabela.rows.length - 1) + '].NomeValor';
+        nomeValorInput.value = nomeValor;
+        form.appendChild(nomeValorInput);
+
+        const tipoValorInput = document.createElement('input');
+        tipoValorInput.type = 'hidden';
+        tipoValorInput.name = 'Proventos[' + (tabela.rows.length - 1) + '].TipoValor';
+        tipoValorInput.value = tipo;
+        form.appendChild(tipoValorInput);
+
+        const valorInput = document.createElement('input');
+        valorInput.type = 'hidden';
+        valorInput.name = 'Proventos[' + (tabela.rows.length - 1) + '].Valor';
+        valorInput.value = valor;
+        form.appendChild(valorInput);
+
         calcularValorLiquido();
         const modal = bootstrap.Modal.getInstance(document.getElementById('myModal'));
         modal.hide();
     }
+
+
+    function submitFormulario() { 
+        var form = document.getElementById('calculo');
+        var formData = new FormData();
+
+        // Coleta dados dos elementos do formulário pelo ID
+        var funcionarioSelect = document.getElementById('funcionarioSelect').value;
+        var mesSelect = document.querySelector('[name="Mes"]').value;
+        var anoSelect = document.querySelector('[name="Ano"]').value;
+
+        // Adiciona dados coletados ao FormData
+        formData.append('FuncionarioId', funcionarioSelect);
+        formData.append('Mes', mesSelect);
+        formData.append('Ano', anoSelect);
+
+        // Coleta e adiciona dinamicamente os dados de Proventos ao FormData
+        var tabela = document.querySelector('tbody');
+        for (var i = 0; i < tabela.rows.length; i++) {
+            formData.append(`Proventos[${i}].NomeValor`, tabela.rows[i].cells[2].innerText);
+            formData.append(`Proventos[${i}].TipoValor`, tabela.rows[i].cells[1].innerText);
+
+            // O valor precisa ser limpo antes de ser adicionado
+            var valor = tabela.rows[i].cells[3].innerText.replace('R$', '').replace('.', '').replace(',', '.').trim();
+            formData.append(`Proventos[${i}].Valor`, parseFloat(valor));
+        }
+
+        // Imprime os dados do FormData para depuração
+        console.log('FormData entries:');
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        // Submete o formulário
+        fetch('/CalculaFolha/AdicionarValores', {
+            method: 'POST',
+            body: formData  // FormData é enviado como multipart/form-data
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Erro na resposta do servidor');
+                }
+            })
+            .then(data => {
+                console.log('Sucesso:', data);
+                window.location.href = '/caminho-para-redirecionamento';
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+    }
+    
 </script>

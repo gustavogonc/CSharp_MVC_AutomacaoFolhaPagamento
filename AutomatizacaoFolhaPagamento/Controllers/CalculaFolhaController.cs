@@ -57,6 +57,27 @@ namespace AutomacaoFolhaPagamento.Controllers
             return View("Index", model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AdicionarValores(ProventosViewModel model)
+        {
+            var proventos = new List<Provento>();
+
+            
+
+            var client = new HttpClient();
+            var response = await client.PostAsJsonAsync("https://api-url/api/Calculo/AdicionaValores", proventos);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Ocorreu um erro ao adicionar valores.");
+                return View(model);
+            }
+        }
+
 
         public async Task<List<FuncionarioDetalhes>> ObterDetalhesFuncionarioPorId(int id)
         {
