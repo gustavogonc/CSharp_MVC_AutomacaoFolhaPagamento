@@ -108,20 +108,23 @@ namespace AutomacaoFolhaPagamento.Controllers
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     ViewData["SuccessMessage"] = "Cadastro realizado com sucesso!";
-                    return View("Index", new DepartamentosViewModel());
+                    var info = await ObterDepartamentos();
+                    return View("Cadastro", new DepartamentosViewModel());
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
                     ViewData["ErrorMessage"] = "Departamento já cadastrado.";
                     ModelState.Clear();
-                    return View("Index", new DepartamentosViewModel());
+                    var info = await ObterDepartamentos();
+                    return View("Cadastro", new DepartamentosViewModel());
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {
                     
                     ViewData["ErrorMessage"] = "Ocorreu um erro ao cadastrar o departamento. Por favor, tente novamente.";
                     ModelState.Clear();
-                    return View("Index", new DepartamentosViewModel());
+                    var info = await ObterDepartamentos();
+                    return View("Cadastro", new DepartamentosViewModel());
                 }
 
                 throw new Exception("Erro no servidor."); 
@@ -130,7 +133,8 @@ namespace AutomacaoFolhaPagamento.Controllers
             {
                 ViewData["ErrorMessage"] = "Não foi possível completar o cadastro.";
                 ModelState.Clear();
-                return View("Index", new DepartamentosViewModel());
+                var info = await ObterDepartamentos();
+                return View("Cadastro", new DepartamentosViewModel());
             }
         }
 
@@ -139,7 +143,7 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
             try
             {
-                var client = _clientFactory.CreateClient();
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
 
                 var data = new
                 {
@@ -150,7 +154,8 @@ namespace AutomacaoFolhaPagamento.Controllers
 
                 var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
-                var response = await client.PutAsync($"https://localhost:7067/api/Departamentos/atualizaDepartamento", content);
+
+                var response = await client.PutAsync($"Departamentos/atualizaDepartamento", content);
 
                 if (response.IsSuccessStatusCode)
                 {
