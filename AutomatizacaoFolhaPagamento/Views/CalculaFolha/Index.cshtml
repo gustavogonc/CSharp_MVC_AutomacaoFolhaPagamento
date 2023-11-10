@@ -27,6 +27,7 @@
                 <input type="text" class="form-control" id="inputPassword2" readonly value="@Model.DetalhesFuncionario?[0].departamento">
             </div>
         </div>
+        <input type="text" class="form-control" id="idFuncionario" hidden readonly value="@Model.SelecionadoFuncionarioId">
         <div class="d-flex justify-content-between">
             <div class="col-3">
                 <label for="inputPassword2" class="">Cargo </label>
@@ -285,7 +286,7 @@
         var formData = new FormData();
 
         // Coleta dados dos elementos do formulário pelo ID
-        var funcionarioSelect = document.getElementById('funcionarioSelect').value;
+        var funcionarioSelect = document.getElementById('idFuncionario').value;
         var mesSelect = document.querySelector('[name="Mes"]').value;
         var anoSelect = document.querySelector('[name="Ano"]').value;
 
