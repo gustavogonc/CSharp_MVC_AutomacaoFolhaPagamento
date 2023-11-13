@@ -1,5 +1,6 @@
 ﻿using AutomacaoFolhaPagamento.Models;
 using AutomatizacaoFolhaPagamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using System.Text.Json;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
+    [Authorize(Policy = "Logado")]
     public class CargosController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
@@ -113,9 +115,13 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         private async Task<CargoDetalhes> ObterCargoPorId(int id)
         {
+
+            //var client = _clientFactory.CreateClient("");
+
+            //var response = await client.GetAsync($"https://localhost:7067/api/Cargos/retornaCargo/{id}");
+
             var client = _clientFactory.CreateClient("CustomSSLValidation");
             var response = await client.GetAsync($"Cargos/retornaCargo/{id}");
-
             if (response.IsSuccessStatusCode)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
@@ -159,7 +165,10 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         [HttpPost]
         public async Task<ActionResult> SalvarEdicao(CargoDetalhes cargo)
+
         {
+            //var client = _clientFactory.CreateClient("");
+            //var response = await client.PutAsync($"https://localhost:7067/api/Cargos/atualizaCargo", content);
             var client = _clientFactory.CreateClient("CustomSSLValidation");
 
             var cargoEnvio = new CargoDetalhes
@@ -172,7 +181,9 @@ namespace AutomacaoFolhaPagamento.Controllers
             };
 
             var content = new StringContent(JsonSerializer.Serialize(cargoEnvio), Encoding.UTF8, "application/json");
-            var response = await client.PutAsync("Cargos/atualizaCargo", content);
+
+            var response = await client.PostAsync("Cargos/atualizaCargo", content);
+
 
             if (response.IsSuccessStatusCode)
             {

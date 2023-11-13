@@ -5,9 +5,11 @@ using System.Text.Json;
 using System.Text;
 using AutomatizacaoFolhaPagamento.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
+    [Authorize(Policy = "Logado")]
     public class DepartamentosController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
@@ -155,10 +157,11 @@ namespace AutomacaoFolhaPagamento.Controllers
                 var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
 
-                var response = await client.PutAsync($"Departamentos/atualizaDepartamento", content);
+                var response = await client.PostAsync($"Departamentos/atualizaDepartamento", content);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    ViewData["SuccessMessage"] = "Cadastro atualizado com sucesso!";
                     return RedirectToAction("Detalhes", new { id = departamentoEditado.id_departamento });
                 }
                 else

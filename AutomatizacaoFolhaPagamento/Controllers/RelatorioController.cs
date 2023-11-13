@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using AutomacaoFolhaPagamento.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
+    [Authorize(Policy = "Logado")]
     public class RelatorioController : Controller
     {
  

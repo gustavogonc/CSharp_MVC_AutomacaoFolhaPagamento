@@ -1,4 +1,5 @@
 ﻿using AutomatizacaoFolhaPagamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Text.Json;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
+    [Authorize(Policy = "Logado")]
     public class CadastroUsuarioController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;

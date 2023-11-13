@@ -1,4 +1,5 @@
 ﻿using AutomacaoFolhaPagamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Runtime.ConstrainedExecution;
@@ -9,6 +10,7 @@ using static AutomacaoFolhaPagamento.Models.FuncionarioDTO;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
+    [Authorize(Policy = "Logado")]
     public class FuncionariosController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;

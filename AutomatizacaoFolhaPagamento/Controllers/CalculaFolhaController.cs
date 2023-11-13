@@ -1,10 +1,13 @@
 ﻿using AutomacaoFolhaPagamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Text.Json;
 using static AutomacaoFolhaPagamento.Models.FuncionarioDTO;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
+    [Authorize(Policy = "Logado")]
     public class CalculaFolhaController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
@@ -57,6 +60,25 @@ namespace AutomacaoFolhaPagamento.Controllers
             return View("Index", model);
         }
 
+        public decimal CorrigeValorDecimal(decimal valorOriginal)
+        {
+         
+            string valorString = valorOriginal.ToString();
+
+            
+            if (valorString.Length > 2)
+            {
+
+                valorString = valorString.Insert(valorString.Length - 2, ".");
+            }
+            else
+            {
+                valorString = valorString.PadLeft(3, '0').Insert(1, ".");
+            }
+
+            return Convert.ToDecimal(valorString, CultureInfo.InvariantCulture);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AdicionarValores(ProventosViewModel model)
         {
@@ -67,18 +89,20 @@ namespace AutomacaoFolhaPagamento.Controllers
                 item.id_funcionario = model.FuncionarioId;
                 item.mes = model.Mes;
                 item.ano = model.Ano;
-                item.valor = p.Valor;
+                if (p.Valor.HasValue)
+                {
+                    item.valor = CorrigeValorDecimal(p.Valor.Value);
+                }
                 item.nome_valor = p.NomeValor;
                 item.tipo_valor = p.TipoValor;
+                item.data = DateTime.Now;
                 proventos.Add(item);
             });
 
-
-
-            
-
-            var client = new HttpClient();
-            var response = await client.PostAsJsonAsync("https://localhost:7067/api/Calculo/AdicionaValores", proventos);
+            //var client = new HttpClient();
+            //var response = await client.PostAsJsonAsync("https://localhost:7067/api/Calculo/AdicionaValores", proventos);
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.PostAsJsonAsync("Calculo/AdicionaValores", proventos);
 
             if (response.IsSuccessStatusCode)
             {

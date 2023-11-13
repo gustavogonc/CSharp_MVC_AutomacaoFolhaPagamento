@@ -303,7 +303,7 @@
 
             // O valor precisa ser limpo antes de ser adicionado
             var valor = tabela.rows[i].cells[3].innerText.replace('R$', '').replace('.', '').replace(',', '.').trim();
-            formData.append(`Proventos[${i}].Valor`, parseFloat(valor));
+            formData.append(`Proventos[${i}].Valor`, parseFloat(valor).toFixed(2));
         }
 
         // Imprime os dados do FormData para depuração

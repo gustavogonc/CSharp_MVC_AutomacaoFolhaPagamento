@@ -35,18 +35,19 @@
                 <textarea name="descricao_departamento" disabled>@Model.descricao_departamento</textarea>
             </dd>
         </dl>
-        @if (ViewData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                @ViewData["ErrorMessage"]
-            </div>
-        }
         @if (ViewData["SuccessMessage"] != null)
         {
             <div class="alert alert-success" role="alert">
                 @ViewData["SuccessMessage"]
             </div>
         }
+        @if (ViewData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["ErrorMessage"]
+            </div>
+        }
+        
 
         <button type="button" id="btnEditar" class="btn btn-warning">Editar</button>
         <button type="submit" id="btnSalvar" class="btn btn-success" style="display:none;">Salvar</button>

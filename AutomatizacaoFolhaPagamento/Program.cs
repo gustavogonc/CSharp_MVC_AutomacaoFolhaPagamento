@@ -33,7 +33,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddHttpClient("CustomSSLValidation", client =>
 {
-    client.BaseAddress = new Uri("https://20.206.249.21/api/");
+    client.BaseAddress = new Uri("https://20.14.87.19/api/");
 }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
 {
     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
