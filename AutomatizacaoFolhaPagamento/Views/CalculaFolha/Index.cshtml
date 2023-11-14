@@ -40,7 +40,7 @@
 
             <div class="col-2 d-grid">
                 <label for="inputPassword2" class="">Mês</label>
-                <select class="form-select" name="Mes">
+                <select class="form-select" name="Mes" required>
                     <option>Escolha o mês</option>
                     <option value="01">Janeiro</option>
                     <option value="02">Fevereiro</option>
@@ -58,7 +58,7 @@
             </div>
             <div class="col-2 d-grid">
                 <label for="inputPassword2" class="">Ano</label>
-                <select class="form-select" name="Ano">
+                <select class="form-select" name="Ano" required>
                     <option>Escolha o ano</option>
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
@@ -72,10 +72,11 @@
             </div>
         </div>
 
-
     <div class="d-flex float-end justify-content-end mt-5">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Adicionar</button>
     </div>
+
+       
 
         <div class="modal fade w-100" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -111,6 +112,8 @@
             </div>
         </div>
 
+        <div id="alertMessage" class="alert" role="alert" style="display: none;">
+        </div>
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
@@ -285,51 +288,47 @@
         var form = document.getElementById('calculo');
         var formData = new FormData();
 
-        // Coleta dados dos elementos do formulário pelo ID
         var funcionarioSelect = document.getElementById('idFuncionario').value;
         var mesSelect = document.querySelector('[name="Mes"]').value;
         var anoSelect = document.querySelector('[name="Ano"]').value;
 
-        // Adiciona dados coletados ao FormData
+
         formData.append('FuncionarioId', funcionarioSelect);
         formData.append('Mes', mesSelect);
         formData.append('Ano', anoSelect);
 
-        // Coleta e adiciona dinamicamente os dados de Proventos ao FormData
+        
         var tabela = document.querySelector('tbody');
         for (var i = 0; i < tabela.rows.length; i++) {
             formData.append(`Proventos[${i}].NomeValor`, tabela.rows[i].cells[2].innerText);
             formData.append(`Proventos[${i}].TipoValor`, tabela.rows[i].cells[1].innerText);
 
-            // O valor precisa ser limpo antes de ser adicionado
             var valor = tabela.rows[i].cells[3].innerText.replace('R$', '').replace('.', '').replace(',', '.').trim();
             formData.append(`Proventos[${i}].Valor`, parseFloat(valor).toFixed(2));
         }
 
-        // Imprime os dados do FormData para depuração
-        console.log('FormData entries:');
-        for (var pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
 
-        // Submete o formulário
         fetch('/CalculaFolha/AdicionarValores', {
             method: 'POST',
-            body: formData  // FormData é enviado como multipart/form-data
+            body: formData  
         })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Erro na resposta do servidor');
+                if (response.status == 422) {
+                    throw new Error('Já existe cálculo para esse funcionário referente a ' + mesSelect + '/' + anoSelect + '.');
+                } else if (response.status == 200) {
+                    var alertMessage = document.getElementById('alertMessage');
+                    alertMessage.textContent = 'Cadastro realizado com sucesso!';
+                    alertMessage.className = 'alert alert-success';
+                    alertMessage.style.display = 'block';
+                } else if (!response.ok) {
+                    throw new Error('Ocorreu um erro inesperado');
                 }
             })
-            .then(data => {
-                console.log('Sucesso:', data);
-                window.location.href = '/caminho-para-redirecionamento';
-            })
             .catch(error => {
-                console.error('Erro:', error);
+                var alertMessage = document.getElementById('alertMessage');
+                alertMessage.textContent = error.message;
+                alertMessage.className = 'alert alert-danger';
+                alertMessage.style.display = 'block';
             });
     }
     

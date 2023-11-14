@@ -99,19 +99,26 @@ namespace AutomacaoFolhaPagamento.Controllers
                 proventos.Add(item);
             });
 
-            //var client = new HttpClient();
-            //var response = await client.PostAsJsonAsync("https://localhost:7067/api/Calculo/AdicionaValores", proventos);
-            var client = _clientFactory.CreateClient("CustomSSLValidation");
-            var response = await client.PostAsJsonAsync("Calculo/AdicionaValores", proventos);
+            var client = new HttpClient();
+            var response = await client.PostAsJsonAsync("https://localhost:7067/api/Calculo/AdicionaValores", proventos);
+            //var client = _clientFactory.CreateClient("CustomSSLValidation");
+            //var response = await client.PostAsJsonAsync("Calculo/AdicionaValores", proventos);
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index");
+                return Ok();
+            }
+            else if(response.StatusCode == System.Net.HttpStatusCode.UnprocessableEntity)
+            {
+                ViewData["ErrorMessage"] = $"Já existe cálculo para esse funcionário referente a {model.Mes}/{model.Ano}.";
+                ModelState.AddModelError("", "Ocorreu um erro ao adicionar valores.");
+                return UnprocessableEntity();
             }
             else
             {
+                ViewData["ErrorMessage"] = $"Erro inesperado.";
                 ModelState.AddModelError("", "Ocorreu um erro ao adicionar valores.");
-                return View(model);
+                return BadRequest();
             }
         }
 
