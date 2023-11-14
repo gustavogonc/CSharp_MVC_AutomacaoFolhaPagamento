@@ -99,10 +99,10 @@ namespace AutomacaoFolhaPagamento.Controllers
                 proventos.Add(item);
             });
 
-            var client = new HttpClient();
-            var response = await client.PostAsJsonAsync("https://localhost:7067/api/Calculo/AdicionaValores", proventos);
-            //var client = _clientFactory.CreateClient("CustomSSLValidation");
-            //var response = await client.PostAsJsonAsync("Calculo/AdicionaValores", proventos);
+            //var client = new HttpClient();
+            //var response = await client.PostAsJsonAsync("https://localhost:7067/api/Calculo/AdicionaValores", proventos);
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.PostAsJsonAsync("Calculo/AdicionaValores", proventos);
 
             if (response.IsSuccessStatusCode)
             {
