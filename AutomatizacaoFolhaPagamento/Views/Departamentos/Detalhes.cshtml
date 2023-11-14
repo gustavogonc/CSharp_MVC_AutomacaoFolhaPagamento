@@ -14,46 +14,50 @@
 
 <h2>Detalhes do Departamento</h2>
 
-<div class="container-fluid">
-    <form asp-action="SalvarEdicao" asp-controller="Departamentos" method="post">
-        <h4>Departamento</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">ID</dt>
-            <dd class="col-sm-10">
-                <input type="hidden" name="id_departamento" value="@Model.id_departamento" />
-                @Model.id_departamento
-            </dd>
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="SalvarEdicao" asp-controller="Departamentos" method="post">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title text-center">Edição de Departamento</h3>
+                        <hr />
 
-            <dt class="col-sm-2">Nome do departamento</dt>
-            <dd class="col-sm-10">
-                <input type="text" name="nome_departamento" value="@Model.nome_departamento" disabled />
-            </dd>
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="hidden" name="id_departamento" value="@Model.id_departamento" />
+                            <p>@Model.id_departamento</p>
+                        </div>
 
-            <dt class="col-sm-2">Descrição do departamento</dt>
-            <dd class="col-sm-10">
-                <textarea name="descricao_departamento" disabled>@Model.descricao_departamento</textarea>
-            </dd>
-        </dl>
-        @if (ViewData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success" role="alert">
-                @ViewData["SuccessMessage"]
-            </div>
-        }
-        @if (ViewData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                @ViewData["ErrorMessage"]
-            </div>
-        }
-        
 
-        <button type="button" id="btnEditar" class="btn btn-warning">Editar</button>
-        <button type="submit" id="btnSalvar" class="btn btn-success" style="display:none;">Salvar</button>
-        <a asp-controller="Departamentos" asp-action="Index" class="btn btn-primary">Voltar</a>
-    </form>
+                        <div class="form-group">
+                            <label>Nome do departamento</label>
+                            <input type="text" class="form-control" name="nome_departamento" value="@Model.nome_departamento" disabled />
+                        </div>
 
+                        <div class="form-group" style="margin-bottom:8px">
+                            <label>Descrição do departamento</label>
+                            <textarea class="form-control" name="descricao_departamento" disabled>@Model.descricao_departamento</textarea>
+                        </div>
+                        @if (ViewData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @ViewData["ErrorMessage"]
+                            </div>
+                        }
+                        @if (ViewData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                @ViewData["SuccessMessage"]
+                            </div>
+                        }
+
+                        <button type="button" id="btnEditar" class="btn btn-warning">Editar</button>
+                        <button type="submit" id="btnSalvar" class="btn btn-success" style="display:none;">Salvar</button>
+                        <a asp-controller="Departamentos" asp-action="Index" class="btn btn-primary">Voltar</a>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script>
