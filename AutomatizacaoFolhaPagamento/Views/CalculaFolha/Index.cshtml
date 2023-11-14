@@ -292,6 +292,14 @@
         var mesSelect = document.querySelector('[name="Mes"]').value;
         var anoSelect = document.querySelector('[name="Ano"]').value;
 
+        if (mesSelect === "Escolha o mês" || anoSelect === "Escolha o ano") {
+            var alertMessage = document.getElementById('alertMessage');
+            alertMessage.textContent = 'Por favor, selecione um mês e um ano válidos.';
+            alertMessage.className = 'alert alert-danger';
+            alertMessage.style.display = 'block';
+            return;
+        }
+
 
         formData.append('FuncionarioId', funcionarioSelect);
         formData.append('Mes', mesSelect);
