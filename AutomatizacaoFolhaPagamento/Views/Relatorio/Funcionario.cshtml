@@ -77,10 +77,10 @@
         </div>
 
 
-        <form asp-controller="Relatorio" asp-action="Funcionario" method="post" class="d-flex flex-wrap">
-
+        <form asp-controller="Relatorio" asp-action="Funcionario" method="post" >
+            <div>
             <!-- Selecione o Funcionário -->
-            <div class="form-group col-md-8">
+            <div class="form-group col-md-12">
                 <label for="funcionario">Selecione o Funcionário</label>
                 <select id="funcionario" name="Funcionario" class="form-control">
                     <option value="" selected>Selecione um funcionário</option>
@@ -92,7 +92,7 @@
             </div>
 
             <!-- Selecione o Mês -->
-            <div class="form-group col-md-8">
+            <div class="form-group col-md-12">
                 <label for="mes">Selecione o Mês</label>
                 <select id="mes" name="MesSelecionado" class="form-control">
                     <option value="1">Janeiro</option>
@@ -112,10 +112,10 @@
             </div>
 
             <!-- Botão de Submit -->
-            <div class="form-group col-md-12 " style="text-align:right">
+              <div class="form-group col-md-12 " style="text-align:right;margin-top:8px">
                 <button type="submit" class="btn btn-primary">Gerar Relatório</button>
             </div>
-
+            </div>
         </form>
 
     </div>

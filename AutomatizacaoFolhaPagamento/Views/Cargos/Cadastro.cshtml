@@ -13,49 +13,53 @@
     </ol>
 </nav>
 
-<div class="w-100 d-flex justify-content-center" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
-    <div class="d-flex" style="display: flex; flex-direction: column; justify-content: center; align-content: center; height: 100%; width: 100%; flex-wrap: wrap">
-        <div style="">
-            <h4 class="mt-2 mb-2">Cadastro de Cargos</h4>
-        </div>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Cadastro de Cargos</h4>
+                </div>
+                <div class="card-body">
+                    <form  asp-controller="Cargos" asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <input asp-for="nome_cargo" type="text" placeholder="Título do Cargo" class="form-control col-4" required />
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <textarea asp-for="descricao_cargo" style="resize: none;" rows="4" class="form-control col-4" required placeholder="Descrição do cargo"></textarea>
+                        </div>
 
-        <form class="d-block col-5 pb-5" asp-controller="Cargos" asp-action="Create" method="post">
-            <div class="mb-3 mt-3">
-                <input asp-for="nome_cargo" type="text" placeholder="Título do Cargo" class="form-control col-4" required />
-            </div>
-            <div class="mb-3 mt-3">
-                <textarea asp-for="descricao_cargo" style="resize: none;" rows="4" class="form-control col-4" required placeholder="Descrição do cargo"></textarea>
-            </div>
+                        <div class="mb-3">
+                            <select asp-for="departamentoId" class="form-control" name="departamentoId">
+                                @foreach (var item in ViewData["Departamentos"] as List<SelectListItem>)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <input asp-for="salario" type="text" placeholder="Salário: Ex: R$5.000,00" class="form-control col-4" required />
+                        </div>
 
-            <div class="mb-3 mt-3">
-                <select asp-for ="departamentoId" class="form-control" name="departamentoId">
-                    @foreach (var item in ViewData["Departamentos"] as List<SelectListItem>)
+                        <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
+
+                    </form>
+                    @if (ViewData["ErrorMessage"] != null)
                     {
-                        <option  value="@item.Value">@item.Text</option>
+                        <div class="alert alert-danger" role="alert">
+                            @ViewData["ErrorMessage"]
+                        </div>
                     }
-                </select>
-            </div>
+                    @if (ViewData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @ViewData["SuccessMessage"]
+                        </div>
+                    }
 
-            <div class="mb-3 mt-3">
-                <input asp-for="salario" type="text" placeholder="Salário: Ex: R$5.000,00" class="form-control col-4" required />
-            </div>
-
-        <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
-
-            @if (ViewData["ErrorMessage"] != null)
-            {
-                <div class="alert alert-danger" role="alert">
-                    @ViewData["ErrorMessage"]
                 </div>
-            }
-            @if (ViewData["SuccessMessage"] != null)
-            {
-                <div class="alert alert-success" role="alert">
-                    @ViewData["SuccessMessage"]
-                </div>
-            }
-       
-    </form>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -14,36 +14,40 @@
     </ol>
 </nav>
 
-<div class="w-100 d-flex justify-content-center" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
-    <div class="d-flex" style="display: flex; flex-direction: column; justify-content: center; align-content: center; height: 100%; width: 100%; flex-wrap: wrap">
-        <div style="">
-            <h4 class="mt-2 mb-2">Cadastro de departamentos</h4>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Cadastro de departamentos</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="Departamentos" asp-action="Cadastro" method="post">
+                        <div class="mb-3">
+                            <label for="NomeDepartamento" class="form-label">Nome do Departamento</label>
+                            <input asp-for="NomeDepartamento" type="text" class="form-control" id="NomeDepartamento" placeholder="Nome do Departamento" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="DescricaoDepartamento" class="form-label">Descrição</label>
+                            <textarea asp-for="DescricaoDepartamento" class="form-control" id="DescricaoDepartamento" rows="4" placeholder="Descrição do departamento" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Cadastrar</button>
+                    </form>
+                    @if (ViewData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger mt-2" role="alert">
+                            @ViewData["ErrorMessage"]
+                        </div>
+                    }
+                    @if (ViewData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success mt-2" role="alert">
+                            @ViewData["SuccessMessage"]
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-
-        <form asp-controller="Departamentos" asp-action="Cadastro" method="post" class="d-block col-5">
-            <hr class="border border-2 opacity-50" />
-            <div class="mb-3 mt-3">
-                <input asp-for="NomeDepartamento" type="text" placeholder="Nome do Departamento" class="form-control col-4" required />
-            </div>
-            <div class="mb-3 mt-3">
-                <textarea asp-for="DescricaoDepartamento" style ="resize: none;" rows="4" class="form-control col-4" required placeholder="Descrição do departamento"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
-            @if (ViewData["ErrorMessage"] != null)
-            {
-                <div class="alert alert-danger" role="alert">
-                    @ViewData["ErrorMessage"]
-                </div>
-            }
-            @if (ViewData["SuccessMessage"] != null)
-            {
-                <div class="alert alert-success" role="alert">
-                    @ViewData["SuccessMessage"]
-                </div>
-            }
-        </form>
-
-   
     </div>
 </div>
+

@@ -18,11 +18,12 @@
 
 
 <div class="w-100 flex-wrap" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-top: 32px;">
-    <div class="d-flex justify-content-end">
-        <a asp-controller="Funcionarios" asp-action="Cadastro" class="btn btn-success mb-3">NOVO</a>
-    </div>
+   
     
     <div class="container-sm">
+        <div class="d-flex justify-content-end">
+            <a asp-controller="Funcionarios" asp-action="Cadastro" class="btn btn-success mb-3">NOVO</a>
+        </div>
         <table class="table table-striped table-hover table-bordered" style="border-color: #000; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
             <thead>
                 <tr>
@@ -41,11 +42,14 @@
                         <td>@funcionario.deparamento</td>
                         <td>
                             <div style="display: flex; justify-content: space-evenly">
-                                <a asp-controller="Funcionarios" asp-action="Detalhes" asp-route-id="@funcionario.funcionario_id">
-                                    <i class="fa-regular fa-eye" style="color: #069d33;"></i>
-                                </a>
-                                <a style="cursor: pointer;"><i class="fa-regular fa-pen-to-square" style="color: #0852d4;"></i></a>
-                                <a style="cursor: pointer;"><i class="fa-regular fa-circle-xmark" style="color: #b50d0d;"></i></a>
+                                <div>
+                                    <a asp-controller="Funcionarios" asp-action="Detalhes" asp-route-id="@funcionario.funcionario_id">
+                                        <i class="fa-regular fa-eye" style="color: #069d33;"></i>
+                                    </a>
+                                </div>
+                                <div> <a style="cursor: pointer;"><i class="fa-regular fa-pen-to-square" style="color: #0852d4;"></i></a></div>
+                                <div> <a style="cursor: pointer;"><i class="fa-regular fa-circle-xmark" style="color: #b50d0d;"></i></a></div>
+                               
                             </div>
                         </td>
                     </tr>

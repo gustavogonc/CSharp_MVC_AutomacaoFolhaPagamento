@@ -10,11 +10,15 @@
 
 <div class="container mt-5">
     <h2>Total de Pagamento Líquido Mensal</h2>
-    <canvas id="totalLiquidoChart" width="700" height="150"></canvas>
+    <div style="position: relative; height:40vh; width:80vw">
+        <canvas id="totalLiquidoChart"></canvas>
+    </div>
 </div>
 <div class="container mt-5">
     <h2>Total de Pagamentos Anual por Departamento</h2>
-    <canvas id="totalLiquidoAnoMesChart" width="700" height="150"></canvas>
+    <div style="position: relative; height:40vh; width:80vw">
+        <canvas id="totalLiquidoAnoMesChart"></canvas>
+    </div>
 </div>
 
 
@@ -35,6 +39,8 @@
         };
 
         var options = {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true,
@@ -52,7 +58,7 @@
             data: data,
             options: options
         });
-    });
+
 
 
     var ctx2 = document.getElementById('totalLiquidoAnoMesChart').getContext('2d');
@@ -70,6 +76,8 @@
     };
 
     var options2 = {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
@@ -87,7 +95,7 @@
         data: data2,
         options: options2
     });
-
+    });
 
 </script>
 

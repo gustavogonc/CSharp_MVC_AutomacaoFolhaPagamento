@@ -9,128 +9,128 @@
 </nav>
 
 <h2>Detalhes do Funcionário</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Detalhes do Funcionário</h2>
+                    <form asp-action="AtualizarFuncionario" asp-controller="Funcionarios" method="post">
+                        <hr />
+                        <section>
+                            <h3>Informações Pessoais</h3>
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input type="hidden" asp-for="@Model.funcionario.id_funcionario" />
+                                <p class="form-control-static">@Model.funcionario.id_funcionario</p>
+                            </div>
 
-<form asp-action="AtualizarFuncionario" asp-controller="Funcionarios" method="post">
-    <hr />
-    <section>
-        <h3>Informações Pessoais</h3>
-        <dl class="row">
+                            <div class="form-group">
+                                <label>Nome</label>
+                                <input type="text" class="form-control" asp-for="@Model.funcionario.nome_funcionario" disabled />
+                            </div>
 
-            <dt class="col-sm-2">ID</dt>
-            <dd class="col-sm-10">
-                <input type="hidden" asp-for="@Model.funcionario.id_funcionario" />
-                @Model.funcionario.id_funcionario
-            </dd>
+                            <div class="form-group">
+                                <label>Sexo</label>
+                                <input type="text" class="form-control" asp-for="@Model.funcionario.sexo" disabled />
+                            </div>
 
-            <dt class="col-sm-2">Nome</dt>
-            <dd class="col-sm-10">
-                <input type="text" asp-for="@Model.funcionario.nome_funcionario" disabled />
-            </dd>
+                            <div class="form-group">
+                                <label>Estado Civil</label>
+                                <input type="text" class="form-control" asp-for="@Model.funcionario.estado_civil" disabled />
+                            </div>
 
-            <dt class="col-sm-2">Sexo</dt>
-            <dd class="col-sm-10">
-                <input type="text" asp-for="@Model.funcionario.sexo" disabled />
-            </dd>
+                            <div class="form-group">
+                                <label>Cargo ID</label>
+                                <input type="text" class="form-control" asp-for="@Model.funcionario.cargo_id" disabled />
+                            </div>
 
-            <dt class="col-sm-2">Estado Civil</dt>
-            <dd class="col-sm-10">
-                <input type="text" asp-for="@Model.funcionario.estado_civil" disabled />
-            </dd>
+                            <div class="form-group">
+                                <label>Departamento</label>
+                                <input type="text" class="form-control" asp-for="@Model.funcionario.departamento" disabled />
+                            </div>
 
-            <dt class="col-sm-2">Cargo ID</dt>
-            <dd class="col-sm-10">
-                <input type="text" asp-for="@Model.funcionario.cargo_id" disabled />
-            </dd>
+                            <div class="form-group">
+                                <label>Cargo</label>
+                                <input type="text" class="form-control" asp-for="@Model.funcionario.cargo" disabled />
+                            </div>
 
-            <dt class="col-sm-2">Departamento</dt>
-            <dd class="col-sm-10">
-                <input type="text" asp-for="@Model.funcionario.departamento"  disabled />
-            </dd>
+                            <div class="form-group">
+                                <label>Data de Contratação</label>
+                                <input type="date" class="form-control" asp-for="@Model.funcionario.data_contratacao" disabled />
+                            </div>
+                        </section>
 
-            <dt class="col-sm-2">Cargo</dt>
-            <dd class="col-sm-10">
-                <input type="text" asp-for="@Model.funcionario.cargo" disabled />
-            </dd>
+                        <section>
+                            <h3>Endereços</h3>
+                            @for (var i = 0; i < Model.enderecos.Count; i++)
+                            {
+                                <div class="form-group">
+                                    <label>Tipo de Endereço</label>
+                                    <input type="text" asp-for="@Model.enderecos[i].tipo_endereco" class="form-control" disabled />
+                                </div>
 
-            <dt class="col-sm-2">Data de Contratação</dt>
-            <dd class="col-sm-10">
-                <input type="date" asp-for="@Model.funcionario.data_contratacao" disabled />
-            </dd>
-        </dl>
-    </section>
+                                <div class="form-group">
+                                    <label>Rua</label>
+                                    <input type="text" asp-for="@Model.enderecos[i].rua" class="form-control" disabled />
+                                </div>
 
-    <section>
-        <h3>Endereços</h3>
-        @for (var i = 0; i < Model.enderecos.Count; i++)
-        {
-            <dl class="row">
+                                <div class="form-group">
+                                    <label>Bairro</label>
+                                    <input type="text" asp-for="@Model.enderecos[i].bairro" class="form-control" disabled />
+                                </div>
 
-                <dt class="col-sm-2">Tipo de Endereço</dt>
-                <dd class="col-sm-10">
-                    <input type="text" asp-for="@Model.enderecos[i].tipo_endereco" disabled />
-                </dd>
+                                <div class="form-group">
+                                    <label>CEP</label>
+                                    <input type="text" asp-for="@Model.enderecos[i].cep" class="form-control" disabled />
+                                </div>
 
-                <dt class="col-sm-2">Rua</dt>
-                <dd class="col-sm-10">
-                    <input type="text" asp-for="@Model.enderecos[i].rua" disabled />
-                </dd>
+                                <div class="form-group">
+                                    <label>Cidade</label>
+                                    <input type="text" asp-for="@Model.enderecos[i].cidade" class="form-control" disabled />
+                                </div>
+                            }
+                        </section>
 
-                <dt class="col-sm-2">Bairro</dt>
-                <dd class="col-sm-10">
-                    <input type="text" asp-for="@Model.enderecos[i].bairro" disabled />
-                </dd>
 
-                <dt class="col-sm-2">CEP</dt>
-                <dd class="col-sm-10">
-                    <input type="text" asp-for="@Model.enderecos[i].cep"disabled />
-                </dd>
+                        <section style="margin-bottom:16px">
+                            <h3>Contatos</h3>
+                            @for (var i = 0; i < Model.contatos.Count; i++)
+                            {
+                                <div class="form-group">
+                                    <label>Tipo de Telefone</label>
+                                    <input type="text" asp-for="@Model.contatos[i].tipo_telefone" class="form-control" disabled />
+                                </div>
 
-                <dt class="col-sm-2">Cidade</dt>
-                <dd class="col-sm-10">
-                    <input type="text" asp-for="@Model.enderecos[i].cidade" disabled />
-                </dd>
-              
-            </dl>
-        }
-    </section>
+                                <div class="form-group">
+                                    <label>Número</label>
+                                    <input type="text" asp-for="@Model.contatos[i].numero_contato" class="form-control" disabled />
+                                </div>
+                            }
+                        </section>
 
-    <section>
-        <h3>Contatos</h3>
-        @for (var i = 0; i < Model.contatos.Count; i++)
-        {
-            <dl class="row">
+                        @if (ViewData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @ViewData["ErrorMessage"]
+                            </div>
+                        }
+                        @if (ViewData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                @ViewData["SuccessMessage"]
+                            </div>
+                        }
 
-                <dt class="col-sm-2">Tipo de Telefone</dt>
-                <dd class="col-sm-10">
-                    <input type="text" asp-for="@Model.contatos[i].tipo_telefone" disabled />
-                </dd>
-
-                <dt class="col-sm-2">Numero</dt>
-                <dd class="col-sm-10">
-                    <input type="text" asp-for="@Model.contatos[i].numero_contato" disabled />
-                </dd>
-
-            </dl>
-        }
-    </section>
-
-    @if (ViewData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewData["ErrorMessage"]
+                        <button type="button" id="btnEditarFunc" class="btn btn-warning">Editar</button>
+                        <button type="submit" id="btnSalvarFunc" class="btn btn-success" style="display:none;">Salvar</button>
+                        <a asp-controller="Funcionarios" asp-action="Index" class="btn btn-primary">Voltar</a>
+                    </form>
+                </div>
+            </div>
         </div>
-    }
-    @if (ViewData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success" role="alert">
-            @ViewData["SuccessMessage"]
-        </div>
-    }
-
-    <button type="button" id="btnEditarFunc" class="btn btn-warning">Editar</button>
-    <button type="submit" id="btnSalvarFunc" class="btn btn-success" style="display:none;">Salvar</button>
-    <a asp-controller="Funcionarios" asp-action="Index" class="btn btn-primary">Voltar</a>
-</form>
+    </div>
+</div>
 
 <script>
     document.getElementById("btnEditarFunc").addEventListener("click", function () {

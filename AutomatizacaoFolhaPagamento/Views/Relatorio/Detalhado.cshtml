@@ -18,8 +18,9 @@
             <h4 class="mt-3 mb-3">Relatório de Pagamento Mensal</h4>
         </div>
 
-        <form asp-controller="Relatorio" asp-action="Relatorio" method="post" class="d-flex flex-wrap">
-            <div class="form-group col-md-8">
+        <form asp-controller="Relatorio" asp-action="Relatorio" method="post" >
+            <div>
+            <div class="form-group col-md-12 ">
                 <label for="mes">Selecione o Mês</label>
                 <select id="mes" name="MesSelecionado" class="form-control">
                     <option value="1">Janeiro</option>
@@ -37,11 +38,13 @@
                     <option value="13">Todos</option>
                 </select>
             </div>
-            <div class="form-group col-md-12 " style="text-align:right">
+            <div class="form-group col-md-12  " style="text-align:right; margin-top:8px";>
             <button type="submit" class="btn btn-primary" >Gerar Relatório</button>
           </div>
+            </div>
         </form>
 
+        <div style="overflow-x: auto;">
         <table class="table">
             <thead>
                 <tr>
@@ -71,6 +74,7 @@
                 }
             </tbody>
         </table>
+        </div>
            
     </div>
 </div>
