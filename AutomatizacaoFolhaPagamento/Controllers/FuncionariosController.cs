@@ -27,6 +27,7 @@ namespace AutomacaoFolhaPagamento.Controllers
         [HttpGet]
         public async Task<IActionResult> Cadastro()
         {
+            await LoadUsuarios();
             await LoadCargos();
             return View();
         }
@@ -106,7 +107,7 @@ namespace AutomacaoFolhaPagamento.Controllers
         private async Task LoadCargos()
         {
             var client = _clientFactory.CreateClient("CustomSSLValidation");
-            var response = await client.GetAsync("Cargos/retornaCargos");
+            var response = await client.GetAsync("Cargos/retornaCargos");  
 
             if (response.IsSuccessStatusCode)
             {
@@ -117,6 +118,29 @@ namespace AutomacaoFolhaPagamento.Controllers
                 {
                     Value = d.id_cargo.ToString(),
                     Text = $"{d.id_cargo} - {d.nome_cargo}"
+                }).ToList();
+            }
+        }
+
+        private async Task LoadUsuarios()
+        {
+
+            //var client = _clientFactory.CreateClient("CustomSSLValidation");
+            //var response = await client.GetAsync("Cargos/retornaCargos");
+
+            var client = _clientFactory.CreateClient();
+
+            var response = await client.GetAsync("https://localhost:7067/api/Autenticacao/listarUsuarios");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var usuarios = JsonSerializer.Deserialize<List<UsuarioDTO>>(jsonString);
+
+                ViewData["Usuarios"] = usuarios.Select(d => new SelectListItem
+                {
+                    Value = d.email.ToString(),
+                    Text = $"{d.usuario_id} - {d.email}"
                 }).ToList();
             }
         }
@@ -158,6 +182,7 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
             try
             {
+                //var client = _clientFactory.CreateClient();
                 var client = _clientFactory.CreateClient("CustomSSLValidation");
 
                 var data = new
@@ -176,16 +201,20 @@ namespace AutomacaoFolhaPagamento.Controllers
                     cidade = fun.cidade,
                     uf_estado = fun.uf_estado,
                     tipo_telefone = fun.tipo_telefone,
-                    numero_contato = fun.numero_contato
+                    numero_contato = fun.numero_contato,
+                    email_usuario = fun.email_usuario
                 };
 
                 var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync("Funcionarios/novoFuncionario", content);
+                //var response = await client.PostAsync("https://localhost:7067/api/Funcionarios/novoFuncionario", content);
+
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     ViewData["SuccessMessage"] = "Cadastro realizado com sucesso!";
                     await LoadCargos();
+                    await LoadUsuarios();
                     ModelState.Clear();
                     return View("Cadastro", new NovoFuncionarioViewModel());
                 }
@@ -193,6 +222,7 @@ namespace AutomacaoFolhaPagamento.Controllers
                 {
                     ViewData["ErrorMessage"] = "Funcionário já cadastrado.";
                     ModelState.Clear();
+                    await LoadUsuarios();
                     await LoadCargos();
                     return View("Cadastro", new NovoFuncionarioViewModel());
                 }
@@ -201,6 +231,7 @@ namespace AutomacaoFolhaPagamento.Controllers
 
                     ViewData["ErrorMessage"] = "Ocorreu um erro ao cadastrar o funcionário. Por favor, tente novamente.";
                     ModelState.Clear();
+                    await LoadUsuarios();
                     await LoadCargos();
                     return View("Cadastro", new NovoFuncionarioViewModel());
                 }
@@ -211,6 +242,7 @@ namespace AutomacaoFolhaPagamento.Controllers
             {
                 ViewData["ErrorMessage"] = "Não foi possível completar o cadastro.";
                 ModelState.Clear();
+                await LoadUsuarios();
                 await LoadCargos();
                 return View("Cadastro", new NovoFuncionarioViewModel());
             }

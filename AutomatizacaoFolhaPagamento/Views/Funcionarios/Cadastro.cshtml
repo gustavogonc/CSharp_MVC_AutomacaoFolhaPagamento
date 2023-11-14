@@ -84,6 +84,16 @@
                             </div>
 
                             <div class="col-12 col-sm-12 mb-12">
+                                <label for="email_usuario" class="">Email</label>
+                                <select asp-for="email_usuario" class="form-control" required>
+                                    @foreach (var item in ViewData["Usuarios"] as List<SelectListItem>)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-sm-12 mb-12">
                                 <label for="data_contratacao" class="">Data Contratação</label>
                                 <input asp-for="data_contratacao" type="date" class="form-control" required>
                             </div>
