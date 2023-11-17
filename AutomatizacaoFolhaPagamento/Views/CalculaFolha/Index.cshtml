@@ -2,6 +2,33 @@
 
 @model AutomacaoFolhaPagamento.Models.CalculaFolhaViewModel
 
+<style>
+    .folha-pagamento {
+        border: 1px solid #333;
+        padding: 30px;
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #gerarPDF {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        #gerarPDF:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a></li>
@@ -11,11 +38,21 @@
 
 <div class="container">
     <form class="row g-3 mb-3" id="calculo" method="post">
+        <div class="container" id="tabelaDados">
         <div class="d-flex justify-content-between">
             <div class="col-6">
                 <label for="staticEmail2" class="">Funcionário</label>
                 <select class="form-select" id="funcionarioSelect" name="FuncionarioId">
-                    <option value="">Selecione um funcionário</option>
+                        @if (@Model.DetalhesFuncionario != null)
+                        {
+                            <option value="">@Model.DetalhesFuncionario?[0].nomeFuncionario</option>
+                        }
+                        else
+                        {
+                        <option value="">Selecione um funcionário</option>
+                        
+                        }
+                       
                     @foreach (var funcionario in Model.Funcionarios)
                     {
                         <option value="@funcionario.id_funcionario">@funcionario.id_funcionario - @funcionario.nome_funcionario</option>
@@ -78,7 +115,7 @@
 
        
 
-        <div class="modal fade w-100" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade w-100" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-bottom:16px">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -114,6 +151,8 @@
 
         <div id="alertMessage" class="alert" role="alert" style="display: none;">
         </div>
+        
+           
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
@@ -143,10 +182,17 @@
                         <td>Desconto</td>
                         <td>IRRF</td>
                     <td style="color: red; font-weight: 600;">@Model.DetalhesFuncionario?[0].descontoIRRF</td>
+                    </tr>  
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Desconto</td>
+                        <td>FGTS</td>
+                    <td style="color: red; font-weight: 600;">@Model.DetalhesFuncionario?[0].descontoFGTS</td>
                     </tr>
                     }
                 </tbody>
             </table>
+      
 
         <div class="d-flex">
             <h5>
@@ -157,18 +203,23 @@
                         var salarioLiquido = 0.00;
                         if (Model.DetalhesFuncionario != null && Model.DetalhesFuncionario.Any() && !string.IsNullOrEmpty(Model.DetalhesFuncionario[0].nomeFuncionario))
                         {
-                            salarioLiquido = (double)Model.DetalhesFuncionario[0].salario - ((double)Model.DetalhesFuncionario[0].descontoINSS + (double)Model.DetalhesFuncionario[0].descontoIRRF);
+                            salarioLiquido = (double)Model.DetalhesFuncionario[0].salario - ((double)Model.DetalhesFuncionario[0].descontoINSS + (double)Model.DetalhesFuncionario[0].descontoIRRF );
                         }
                     }
                     @string.Format("{0:N2}", salarioLiquido)
                 </span>
             </h5>
         </div>
+        </div>
+
         <div class="d-flex float-end justify-content-end">
             <button type="submit" class="btn btn-success mb-5" onclick="submitForm()">Enviar</button>
         </div>
 
+       
+
     </form>
+    <button id="gerarPDF">Gerar PDF</button>
 </div>
 
 <script>
@@ -193,6 +244,7 @@
 
                         document.documentElement.innerHTML = data;
                         attachEvents();
+                        attachGeneratePDFEvent();
                     })
                     .catch(error => console.error('Erro:', error));
             }
@@ -202,6 +254,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         attachEvents();
+        attachGeneratePDFEvent();
     });
 
 
@@ -339,5 +392,27 @@
                 alertMessage.style.display = 'block';
             });
     }
-    
+
+    function attachGeneratePDFEvent() {
+        document.getElementById('gerarPDF').addEventListener('click', function (event) {
+            var folhaPagamento = document.getElementById('tabelaDados');
+
+            html2canvas(folhaPagamento).then(canvas => {
+                var imgData = canvas.toDataURL('image/png');
+                var doc = new jsPDF('p', 'mm');
+                var imgHeight = canvas.height * 210 / canvas.width;
+                doc.addImage(imgData, 'PNG', 0, 0, 210, imgHeight);
+                doc.save('relatorio.pdf');
+            });
+        });
+    }
+
+ 
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.9/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+
+
+

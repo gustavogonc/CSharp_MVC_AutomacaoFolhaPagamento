@@ -51,10 +51,8 @@
                     <th>ID Histórico</th>
                     <th>ID Funcionário</th>
                     <th>Data de Pagamento</th>
-                    <th>Salário Base</th>
-                    <th>Horas Extras</th>
-                    <th>Benefícios</th>
-                    <th>Total Líquido</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
                 </tr>
             </thead>
             <tbody>@if (Model != null)
@@ -65,10 +63,8 @@
                             <td>@item.idHist</td>
                             <td>@item.idFuncionario</td>
                             <td>@item.dataPagamento.ToString("dd/MM/yyyy")</td>
-                            <td>@item.salarioBase.ToString("C2")</td>
-                            <td>@item.horaEx.ToString(@"hh\:mm\:ss")</td>
-                            <td>@item.beneficios.ToString("C2")</td>
-                            <td>@item.totalLiq.ToString("C2")</td>
+                            <td>@item.texto </td>
+                            <td>@item.valor.ToString("C2")</td>
                         </tr>
                     }
                 }
