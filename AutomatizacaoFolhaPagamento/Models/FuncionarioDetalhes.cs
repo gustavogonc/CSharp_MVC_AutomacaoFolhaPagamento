@@ -10,7 +10,5 @@
         public decimal descontoINSS { get; set; }
         public decimal descontoIRRF { get; set; }
         public decimal descontoFGTS { get; set; }
-
-
     }
 }

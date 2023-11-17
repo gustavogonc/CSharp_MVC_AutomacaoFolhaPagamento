@@ -184,7 +184,7 @@
                     <td style="color: red; font-weight: 600;">@Model.DetalhesFuncionario?[0].descontoIRRF</td>
                     </tr>  
                     <tr>
-                        <th scope="row">3</th>
+                        <th scope="row">4</th>
                         <td>Desconto</td>
                         <td>FGTS</td>
                     <td style="color: red; font-weight: 600;">@Model.DetalhesFuncionario?[0].descontoFGTS</td>
@@ -203,7 +203,7 @@
                         var salarioLiquido = 0.00;
                         if (Model.DetalhesFuncionario != null && Model.DetalhesFuncionario.Any() && !string.IsNullOrEmpty(Model.DetalhesFuncionario[0].nomeFuncionario))
                         {
-                            salarioLiquido = (double)Model.DetalhesFuncionario[0].salario - ((double)Model.DetalhesFuncionario[0].descontoINSS + (double)Model.DetalhesFuncionario[0].descontoIRRF );
+                                salarioLiquido = (double)Model.DetalhesFuncionario[0].salario - ((double)Model.DetalhesFuncionario[0].descontoINSS + (double)Model.DetalhesFuncionario[0].descontoIRRF + (double)Model.DetalhesFuncionario[0].descontoFGTS);
                         }
                     }
                     @string.Format("{0:N2}", salarioLiquido)
