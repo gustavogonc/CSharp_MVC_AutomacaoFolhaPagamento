@@ -218,5 +218,38 @@ namespace AutomacaoFolhaPagamento.Controllers
                 }).ToList();
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletaCargo(int id)
+        {
+            try
+            {
+                //var client = _clientFactory.CreateClient();
+                //var response = await client.DeleteAsync($"https://localhost:7067/api/Cargos/excluir/{id}");
+
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
+                var response = await client.DeleteAsync($"Cargos/excluir/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ViewData["SuccessMessage"] = "Cadastro removido com sucesso!";
+                    var cargosLista = await ObterCargos();
+                    return View("Index", cargosLista);
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "Cadastro não encontrado!";
+                    var cargosLista = await ObterCargos();
+                    return View("Index", cargosLista);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ViewData["ErrorMessage"] = "Ocorreu um erro inesperado!";
+                var cargosLista = await ObterCargos();
+                return View("Index", cargosLista);
+            }
+        }
     }
 }

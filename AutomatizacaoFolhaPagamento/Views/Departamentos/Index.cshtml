@@ -58,7 +58,7 @@
                                 <a asp-controller="Departamentos" asp-action="Detalhes" asp-route-id="@departamento.id_departamento">
                                     <i class="fa-regular fa-eye" style="color: #069d33;"></i>
                                 </a>
-                                <form asp-controller="Departamentos" asp-action="DeletaDepartamento" asp-route-id="@departamento.id_departamento" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este departamento?');" class="p-0 m-0 bg-transparent" style="border: none; padding: none; background-color: none; box-shadow: none; border-radius: 0px; line-height: -1px">
+                                <form asp-controller="Departamentos" asp-action="DeletaDepartamento" asp-route-id="@departamento.id_departamento" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este departamento?');" class="p-0 m-0 bg-transparent" style="border: 0px; padding: none; background-color: none; box-shadow: none; border-radius: 0px; line-height: -1px">
                                     <button type="submit" class="btn btn-link p-0 m-0 d-inline-flex" style="text-decoration: none;">
                                         <i class="fa-regular fa-circle-xmark" style="color: #b50d0d;"></i>
                                     </button>
@@ -71,29 +71,3 @@
         </table>
     </div>
 </div>
-
-
-<script>
-
-    
-        document.querySelectorAll('.delete-icon').forEach(item => {
-            item.addEventListener('click', function () {
-                var departamentoId = this.getAttribute('data-id');
-                if (confirm('Tem certeza que deseja excluir este departamento?')) {
-                    fetch('/Departamentos/DeletaDepartamento/' + departamentoId, {
-                        method: 'DELETE'
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                alert('Departamento excluído com sucesso!');
-                                window.location.reload(); // Atualiza a página para refletir as mudanças
-                            } else {
-                                alert('Erro ao excluir departamento!');
-                            }
-                        })
-                        .catch(error => console.error('Erro:', error));
-                }
-            });
-        });
-    
-</script>
