@@ -248,5 +248,37 @@ namespace AutomacaoFolhaPagamento.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeletaFuncionario(int id)
+        {
+            try
+            {
+                //var client = _clientFactory.CreateClient();
+                //var response = await client.DeleteAsync($"https://localhost:7067/api/Cargos/excluir/{id}");
+
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
+                var response = await client.DeleteAsync($"Funcionarios/excluir/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ViewData["SuccessMessage"] = "Cadastro removido com sucesso!";
+                    var funcionariosLista = await ObterFuncionarios();
+                    return View("Index", funcionariosLista);
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "Cadastro não encontrado!";
+                    var funcionariosLista = await ObterFuncionarios();
+                    return View("Index", funcionariosLista);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ViewData["ErrorMessage"] = "Ocorreu um erro inesperado!";
+                var funcionariosLista = await ObterFuncionarios();
+                return View("Index", funcionariosLista);
+            }
+        }
     }
 }

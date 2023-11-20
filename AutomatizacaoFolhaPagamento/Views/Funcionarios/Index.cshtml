@@ -24,6 +24,18 @@
         <div class="d-flex justify-content-end">
             <a asp-controller="Funcionarios" asp-action="Cadastro" class="btn btn-success mb-3">NOVO</a>
         </div>
+        @if (ViewData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["ErrorMessage"]
+            </div>
+        }
+        @if (ViewData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewData["SuccessMessage"]
+            </div>
+        }
         <table class="table table-striped table-hover table-bordered" style="border-color: #000; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
             <thead>
                 <tr>
@@ -47,7 +59,11 @@
                                         <i class="fa-regular fa-eye" style="color: #069d33;"></i>
                                     </a>
                                 </div>
-                                <div> <a style="cursor: pointer;"><i class="fa-regular fa-circle-xmark" style="color: #b50d0d;"></i></a></div>
+                                <form asp-controller="Funcionarios" asp-action="DeletaFuncionario" asp-route-id="@funcionario.funcionario_id" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este funcionário?');" class="p-0 m-0 bg-transparent" style="border: none; padding: 0px; background-color: none; box-shadow: none; border-radius: 0px; line-height: -1px">
+                                    <button type="submit" class="btn btn-link p-0 m-0 d-inline-flex" style="text-decoration: none;">
+                                        <i class="fa-regular fa-circle-xmark" style="color: #b50d0d;"></i>
+                                    </button>
+                                </form>
                                
                             </div>
                         </td>
