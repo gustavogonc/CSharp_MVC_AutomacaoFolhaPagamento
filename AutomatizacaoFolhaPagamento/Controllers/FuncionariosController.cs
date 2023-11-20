@@ -125,12 +125,12 @@ namespace AutomacaoFolhaPagamento.Controllers
         private async Task LoadUsuarios()
         {
 
-            //var client = _clientFactory.CreateClient("CustomSSLValidation");
-            //var response = await client.GetAsync("Cargos/retornaCargos");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync("Autenticacao/listarUsuarios");
 
-            var client = _clientFactory.CreateClient();
+            //var client = _clientFactory.CreateClient();
 
-            var response = await client.GetAsync("https://localhost:7067/api/Autenticacao/listarUsuarios");
+            //var response = await client.GetAsync("https://localhost:7067/api/Autenticacao/listarUsuarios");
 
             if (response.IsSuccessStatusCode)
             {

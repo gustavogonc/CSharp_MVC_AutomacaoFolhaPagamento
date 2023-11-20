@@ -6,6 +6,7 @@ using System.Text;
 using AutomatizacaoFolhaPagamento.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 namespace AutomacaoFolhaPagamento.Controllers
 {
@@ -174,6 +175,39 @@ namespace AutomacaoFolhaPagamento.Controllers
             {
                 ViewData["ErrorMessage"] = "Não foi possível completar a atualização.";
                 return View("Detalhes", departamentoEditado);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletaDepartamento(int id)
+        {
+            try
+            {
+                //var client = _clientFactory.CreateClient();
+                //var response = await client.DeleteAsync($"https://localhost:7067/api/Departamentos/excluir/{id}");
+
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
+                var response = await client.DeleteAsync($"Departamentos/excluir/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ViewData["SuccessMessage"] = "Cadastro removido com sucesso!";
+                    var departamentosLista = await ObterDepartamentos();
+                    return View("Index", departamentosLista);
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "Cadastro não encontrado!";
+                    var departamentosLista = await ObterDepartamentos();
+                    return View("Index", departamentosLista);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ViewData["ErrorMessage"] = "Ocorreu um erro inesperado!";
+                var departamentosLista = await ObterDepartamentos();
+                return View("Index", departamentosLista);
             }
         }
     }
