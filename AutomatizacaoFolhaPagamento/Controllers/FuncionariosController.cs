@@ -53,19 +53,19 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
                 var apiDto = new FuncionarioApiDTO
                 {
-                    nome = model.funcionario.nome_funcionario,
-                    sexo = model.funcionario.sexo,
-                    estado_civil = model.funcionario.estado_civil,
-                    cargo_id = model.funcionario.cargo_id,
-                    data_contratacao = model.funcionario.data_contratacao,
-                    
-                    rua = model.enderecos.FirstOrDefault()?.rua,
-                    tipo_endereco = model.enderecos.FirstOrDefault()?.tipo_endereco,
-                    bairro = model.enderecos.FirstOrDefault()?.bairro,
-                    cep = model.enderecos.FirstOrDefault()?.cep,
-                    cidade = model.enderecos.FirstOrDefault()?.cidade,
-                    tipo_telefone = model.contatos.FirstOrDefault()?.tipo_telefone,
-                    numero_contato = model.contatos.FirstOrDefault()?.numero_contato
+                    nome = model?.funcionario.nome_funcionario,
+                    sexo = model?.funcionario.sexo,
+                    estado_civil = model?.funcionario.estado_civil,
+                    cargo_id = model?.funcionario.cargo_id,
+                    data_contratacao = model?.funcionario.data_contratacao,
+                    cpf = model?.funcionario.cpf,
+                    rua = model?.enderecos?.FirstOrDefault()?.rua,
+                    tipo_endereco = model?.enderecos?.FirstOrDefault()?.tipo_endereco,
+                    bairro = model?.enderecos?.FirstOrDefault()?.bairro,
+                    cep = model?.enderecos?.FirstOrDefault()?.cep,
+                    cidade = model?.enderecos?.FirstOrDefault()?.cidade,
+                    tipo_telefone = model?.contatos?.FirstOrDefault()?.tipo_telefone,
+                    numero_contato = model?.contatos?.FirstOrDefault()?.numero_contato
                 };
 
                 var client = _clientFactory.CreateClient();
@@ -88,8 +88,10 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         private async Task<FuncionarioDTO> ObterFuncionarioPorId(int id)
         {
-            var client = _clientFactory.CreateClient("CustomSSLValidation");
-            var response = await client.GetAsync($"Funcionarios/dadosFuncionarioCompleto/{id}");
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:7067/api/Funcionarios/dadosFuncionarioCompleto/{id}");
+            //var client = _clientFactory.CreateClient("CustomSSLValidation");
+            //var response = await client.GetAsync($"Funcionarios/dadosFuncionarioCompleto/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -149,8 +151,11 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         private async Task<List<ListaFuncionarios>> ObterFuncionarios()
         {
-            var client = _clientFactory.CreateClient("CustomSSLValidation");
-            var response = await client.GetAsync("Funcionarios/dadosFuncionarioCompleto");
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync("https://localhost:7067/api/Funcionarios/dadosFuncionarioCompleto");
+
+            //var client = _clientFactory.CreateClient("CustomSSLValidation");
+            //var response = await client.GetAsync("Funcionarios/dadosFuncionarioCompleto");
 
             var funcionariosLista = new List<ListaFuncionarios>();
 

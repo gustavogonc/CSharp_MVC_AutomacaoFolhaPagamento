@@ -16,6 +16,7 @@
             public string? departamento { get; set; }
             public string? cargo { get; set; }
             public DateTime data_contratacao { get; set; }
+            public string? cpf { get; set; }
         }
 
         public class Endereco
