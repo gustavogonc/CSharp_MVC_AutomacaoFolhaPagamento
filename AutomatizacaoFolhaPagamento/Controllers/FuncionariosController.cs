@@ -95,13 +95,13 @@ namespace AutomacaoFolhaPagamento.Controllers
                telefones = listaTelefone
             };
 
-            var client = _clientFactory.CreateClient();
-            var response = await client.PutAsync($"https://localhost:7067/api/Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
+            //var client = _clientFactory.CreateClient();
+            //var response = await client.PutAsync($"https://localhost:7067/api/Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
 
-            //var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
             var jsonString = JsonSerializer.Serialize(apiDto);
             var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            //var response = await client.PutAsync($"Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
+            var response = await client.PutAsync($"Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
 
             if (response.IsSuccessStatusCode)
             {
