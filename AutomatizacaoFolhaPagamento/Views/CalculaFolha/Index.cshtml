@@ -109,7 +109,10 @@
             </div>
         </div>
 
-    <div class="d-flex float-end justify-content-end mt-5">
+            <div id="alertMessage" class="alert" role="alert" style="display: none;">
+            </div>
+
+    <div class="d-flex float-end justify-content-end mt-3 mb-3">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Adicionar</button>
     </div>
 
@@ -148,11 +151,7 @@
                 </div>
             </div>
         </div>
-
-        <div id="alertMessage" class="alert" role="alert" style="display: none;">
-        </div>
         
-           
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
@@ -350,6 +349,8 @@
             alertMessage.textContent = 'Por favor, selecione um mês e um ano válidos.';
             alertMessage.className = 'alert alert-danger';
             alertMessage.style.display = 'block';
+            alertMessage.style.marginBottom = '12px';
+            alertMessage.style.marginTop = '6px';
             return;
         }
 
@@ -381,6 +382,8 @@
                     alertMessage.textContent = 'Cadastro realizado com sucesso!';
                     alertMessage.className = 'alert alert-success';
                     alertMessage.style.display = 'block';
+                    alertMessage.style.marginBottom = '12px';
+                    alertMessage.style.marginTop = '6px';
                 } else if (!response.ok) {
                     throw new Error('Ocorreu um erro inesperado');
                 }
@@ -390,6 +393,8 @@
                 alertMessage.textContent = error.message;
                 alertMessage.className = 'alert alert-danger';
                 alertMessage.style.display = 'block';
+                alertMessage.style.marginBottom = '12px';
+                alertMessage.style.marginTop = '6px';
             });
     }
 
