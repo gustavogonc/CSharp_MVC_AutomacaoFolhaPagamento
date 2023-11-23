@@ -51,47 +51,76 @@ namespace AutomacaoFolhaPagamento.Controllers
         [HttpPost]
         public async Task<IActionResult> AtualizarFuncionario(FuncionarioDTO model)
         {
-                var apiDto = new FuncionarioApiDTO
-                {
-                    nome = model?.funcionario.nome_funcionario,
-                    sexo = model?.funcionario.sexo,
-                    estado_civil = model?.funcionario.estado_civil,
-                    cargo_id = model?.funcionario.cargo_id,
-                    data_contratacao = model?.funcionario.data_contratacao,
-                    cpf = model?.funcionario.cpf,
-                    rua = model?.enderecos?.FirstOrDefault()?.rua,
-                    tipo_endereco = model?.enderecos?.FirstOrDefault()?.tipo_endereco,
-                    bairro = model?.enderecos?.FirstOrDefault()?.bairro,
-                    cep = model?.enderecos?.FirstOrDefault()?.cep,
-                    cidade = model?.enderecos?.FirstOrDefault()?.cidade,
-                    tipo_telefone = model?.contatos?.FirstOrDefault()?.tipo_telefone,
-                    numero_contato = model?.contatos?.FirstOrDefault()?.numero_contato
-                };
+            List<EnderecoApiDTO> listaEndereco = new List<EnderecoApiDTO>();
+            List<TelefoneApiDTO> listaTelefone = new List<TelefoneApiDTO>();
 
-                var client = _clientFactory.CreateClient();
-                var jsonString = JsonSerializer.Serialize(apiDto);
-                var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-                var response = await client.PutAsync($"https://localhost:7067/api/Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
-
-                if (response.IsSuccessStatusCode)
+            if(model.enderecos != null)
+            {
+                model.enderecos.ForEach(end =>
                 {
-                    ViewData["SuccessMessage"] = "Sucesso ao atualizar o funcionário";
-                    return RedirectToAction("Detalhes", new { id = model.funcionario.id_funcionario });
-                }
-                else
+                    EnderecoApiDTO item = new EnderecoApiDTO();
+                    item.id = end.id;
+                    item.tipo_endereco = end.tipo_endereco;
+                    item.rua = end.rua;
+                    item.bairro = end.bairro;
+                    item.num_endereco = end.num_endereco;
+                    item.cep = end.cep;
+                    item.cidade = end.cidade;
+                    item.uf_estado = end.uf_estado;
+                    listaEndereco.Add(item);
+                });
+            }
+
+            if(model.contatos != null)
+            {
+                model.contatos.ForEach(cto =>
                 {
-                    ViewData["ErrorMessage"] = "Erro ao atualizar o funcionário";
-                    return RedirectToAction("Detalhes", new { id = model.funcionario.id_funcionario });
+                    TelefoneApiDTO item = new TelefoneApiDTO();
+                    item.id = cto.id;
+                    item.tipo_telefone = cto.tipo_telefone;
+                    item.numero_contato = cto.numero_contato;
+                    listaTelefone.Add(item);
+                });
+            }
+
+            var apiDto = new FuncionarioApiDTO
+            {
+               nome = model?.funcionario.nome_funcionario,
+               sexo = model?.funcionario.sexo,
+               estado_civil = model?.funcionario.estado_civil,
+               cargo_id = model?.funcionario.cargo_id,
+               data_contratacao = model?.funcionario.data_contratacao,
+               cpf = model?.funcionario.cpf,
+               enderecos = listaEndereco,
+               telefones = listaTelefone
+            };
+
+            //var client = _clientFactory.CreateClient();
+            //var response = await client.PutAsync($"https://localhost:7067/api/Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
+
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var jsonString = JsonSerializer.Serialize(apiDto);
+            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync($"Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ViewData["SuccessMessage"] = "Sucesso ao atualizar o funcionário";
+                return RedirectToAction("Detalhes", new { id = model.funcionario.id_funcionario });
+            }
+            else
+            {
+                ViewData["ErrorMessage"] = "Erro ao atualizar o funcionário";
+                return RedirectToAction("Detalhes", new { id = model.funcionario.id_funcionario });
             }
         }
 
         private async Task<FuncionarioDTO> ObterFuncionarioPorId(int id)
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync($"https://localhost:7067/api/Funcionarios/dadosFuncionarioCompleto/{id}");
-            //var client = _clientFactory.CreateClient("CustomSSLValidation");
-            //var response = await client.GetAsync($"Funcionarios/dadosFuncionarioCompleto/{id}");
+            //var client = _clientFactory.CreateClient();
+            //var response = await client.GetAsync($"https://localhost:7067/api/Funcionarios/dadosFuncionarioCompleto/{id}");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync($"Funcionarios/dadosFuncionarioCompleto/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -151,11 +180,11 @@ namespace AutomacaoFolhaPagamento.Controllers
 
         private async Task<List<ListaFuncionarios>> ObterFuncionarios()
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7067/api/Funcionarios/dadosFuncionarioCompleto");
+            //var client = _clientFactory.CreateClient();
+            //var response = await client.GetAsync("https://localhost:7067/api/Funcionarios/dadosFuncionarioCompleto");
 
-            //var client = _clientFactory.CreateClient("CustomSSLValidation");
-            //var response = await client.GetAsync("Funcionarios/dadosFuncionarioCompleto");
+            var client = _clientFactory.CreateClient("CustomSSLValidation");
+            var response = await client.GetAsync("Funcionarios/dadosFuncionarioCompleto");
 
             var funcionariosLista = new List<ListaFuncionarios>();
 
@@ -187,9 +216,7 @@ namespace AutomacaoFolhaPagamento.Controllers
         {
             try
             {
-                //var client = _clientFactory.CreateClient();
-                var client = _clientFactory.CreateClient("CustomSSLValidation");
-
+                
                 var data = new
                 {
                     nome = fun.nome,
@@ -210,10 +237,15 @@ namespace AutomacaoFolhaPagamento.Controllers
                     email_usuario = fun.email_usuario
                 };
 
+
+                //var client = _clientFactory.CreateClient();
+                //var response = await client.PostAsync("https://localhost:7067/api/Funcionarios/novoFuncionario", content);
+
+                var client = _clientFactory.CreateClient("CustomSSLValidation");
                 var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync("Funcionarios/novoFuncionario", content);
-                //var response = await client.PostAsync("https://localhost:7067/api/Funcionarios/novoFuncionario", content);
+
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {

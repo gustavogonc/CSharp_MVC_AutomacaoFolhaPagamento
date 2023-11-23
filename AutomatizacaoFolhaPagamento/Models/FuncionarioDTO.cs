@@ -21,15 +21,20 @@
 
         public class Endereco
         {
+            public int id { get; set; }
             public string? tipo_endereco { get; set; }
             public string? rua { get; set; }
             public string? bairro { get; set; }
+            public string? num_endereco { get; set; }
             public string? cep { get; set; }
             public string? cidade { get; set; }
+            public string? uf_estado { get; set; }
+
         }
 
         public class Contato
         {
+            public int id { get; set; }
             public string? tipo_telefone { get; set; }
             public string? numero_contato { get; set; }
         }
