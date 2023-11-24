@@ -1,4 +1,5 @@
 ﻿using AutomacaoFolhaPagamento.Models;
+using AutomacaoFolhaPagamento.Models.ApiDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

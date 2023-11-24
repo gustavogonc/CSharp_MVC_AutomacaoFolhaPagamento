@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutomacaoFolhaPagamento.Models
+namespace AutomacaoFolhaPagamento.Models.ApiDTOs
 {
     public class FuncionarioApiDTO
     {
