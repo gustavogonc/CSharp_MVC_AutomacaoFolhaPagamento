@@ -83,6 +83,18 @@ namespace AutomacaoFolhaPagamento.Controllers
         public async Task<IActionResult> AdicionarValores(ProventosViewModel model)
         {
             List<ProventosListModel> proventos = new List<ProventosListModel>();
+            var dataContratacao = DateTime.Parse(model.DataContratacao.ToString()).ToString("MM/yyyy");
+
+            string juntaAnomes = $"{model.Mes}/{model.Ano}";
+            var mesAnoCalculo = DateTime.Parse(juntaAnomes.ToString()).ToString("MM/yyyy");
+
+            var dataContratacaoFormatada = DateTime.Parse(dataContratacao);
+            var mesAno = DateTime.Parse(mesAnoCalculo);
+
+            if(mesAno <= dataContratacaoFormatada)
+            {
+                return StatusCode(StatusCodes.Status417ExpectationFailed);
+            }
 
             model.Proventos.ForEach(p => {
                 var item = new ProventosListModel();

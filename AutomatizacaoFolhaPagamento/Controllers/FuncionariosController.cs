@@ -42,6 +42,9 @@ namespace AutomacaoFolhaPagamento.Controllers
                 return View("Erro");
             }
 
+            await LoadUsuarios();
+            await LoadCargos();
+
             return View(funcionario);
         }
 
@@ -83,6 +86,13 @@ namespace AutomacaoFolhaPagamento.Controllers
                 });
             }
 
+            string usuario = "";
+
+            if (model.funcionario.email_usuario != "SelecionarUsuario")
+            {
+                usuario = model.funcionario.email_usuario.ToString();
+            }
+
             var apiDto = new FuncionarioApiDTO
             {
                nome = model?.funcionario.nome_funcionario,
@@ -91,17 +101,19 @@ namespace AutomacaoFolhaPagamento.Controllers
                cargo_id = model?.funcionario.cargo_id,
                data_contratacao = model?.funcionario.data_contratacao,
                cpf = model?.funcionario.cpf,
+               email_usuario = usuario,
                enderecos = listaEndereco,
                telefones = listaTelefone
             };
 
             //var client = _clientFactory.CreateClient();
-            //var response = await client.PutAsync($"https://localhost:7067/api/Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
+            
 
             var client = _clientFactory.CreateClient("CustomSSLValidation");
             var jsonString = JsonSerializer.Serialize(apiDto);
             var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var response = await client.PutAsync($"Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
+            //var response = await client.PutAsync($"https://localhost:7067/api/Funcionarios/atualizaFuncionario/{model.funcionario.id_funcionario}", httpContent);
 
             if (response.IsSuccessStatusCode)
             {

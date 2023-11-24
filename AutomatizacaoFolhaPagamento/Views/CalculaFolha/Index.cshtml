@@ -74,6 +74,10 @@
                 <label for="inputPassword2" class="">Salário</label>
                 <input type="text" class="form-control" id="inputPassword2" readonly value="R$ @Model.DetalhesFuncionario?[0].salario">
             </div>
+                <div class="col-2" style="display: none;">
+                    <label for="inputPassword2" class="">DataContratacao</label>
+                    <input type="text" class="form-control" id="dataContratacao" readonly value="@Model.DetalhesFuncionario?[0].dataContratacao">
+                </div>
 
             <div class="col-2 d-grid">
                 <label for="inputPassword2" class="">Mês</label>
@@ -343,6 +347,7 @@
         var funcionarioSelect = document.getElementById('idFuncionario').value;
         var mesSelect = document.querySelector('[name="Mes"]').value;
         var anoSelect = document.querySelector('[name="Ano"]').value;
+        var dataContratacao = document.getElementById('dataContratacao').value;
 
         if (mesSelect === "Escolha o mês" || anoSelect === "Escolha o ano") {
             var alertMessage = document.getElementById('alertMessage');
@@ -358,6 +363,7 @@
         formData.append('FuncionarioId', funcionarioSelect);
         formData.append('Mes', mesSelect);
         formData.append('Ano', anoSelect);
+        formData.append('DataContratacao', dataContratacao);
 
         
         var tabela = document.querySelector('tbody');
@@ -377,7 +383,11 @@
             .then(response => {
                 if (response.status == 422) {
                     throw new Error('Já existe cálculo para esse funcionário referente a ' + mesSelect + '/' + anoSelect + '.');
-                } else if (response.status == 200) {
+                } else if (response.status == 417) 
+                { 
+                    throw new Error('Inclusão de valores anterior a data de entrada do funcionário não permitido');
+                }
+                else if (response.status == 200) {
                     var alertMessage = document.getElementById('alertMessage');
                     alertMessage.textContent = 'Cadastro realizado com sucesso!';
                     alertMessage.className = 'alert alert-success';

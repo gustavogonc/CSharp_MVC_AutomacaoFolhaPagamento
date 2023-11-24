@@ -62,8 +62,20 @@
                             </div>
 
                             <div class="form-group mb-2">
-                                <label>Cargo ID</label>
-                                <input type="text" class="form-control" asp-for="@Model.funcionario.cargo_id" disabled />
+                                <label>Cargo</label>
+                                <select class="form-control" asp-for="@Model.funcionario.cargo_id" disabled>
+                                    @foreach (var cargo in (List<SelectListItem>)ViewData["Cargos"])
+                                    {
+                                        if (Model.funcionario.cargo_id.ToString() == cargo.Value)
+                                        {
+                                            <option value="@cargo.Value" selected>@cargo.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@cargo.Value">@cargo.Text</option>
+                                        }
+                                    }
+                                </select>
                             </div>
 
                             <div class="form-group mb-2">
@@ -72,13 +84,38 @@
                             </div>
 
                             <div class="form-group mb-2">
-                                <label>Cargo</label>
-                                <input type="text" class="form-control" asp-for="@Model.funcionario.cargo" disabled />
+                                <label>Data de Contratação</label>
+                                <input type="date" class="form-control" asp-for="@Model.funcionario.data_contratacao" disabled />
                             </div>
 
                             <div class="form-group mb-2">
-                                <label>Data de Contratação</label>
-                                <input type="date" class="form-control" asp-for="@Model.funcionario.data_contratacao" disabled />
+                                <label>E-mail de usuário</label>
+                                <select class="form-control" asp-for="@Model.funcionario.email_usuario" disabled>
+                                    @if(Model.funcionario.email_usuario == null)
+                                    {
+                                        <option value="SelecionarUsuario">Selecione um usuário</option>
+                                    }
+                                    @foreach (var usuario in (List<SelectListItem>)ViewData["Usuarios"])
+                                    {
+
+                                        if (Model.funcionario.email_usuario != null)
+                                        {
+                                            if (Model.funcionario.email_usuario.ToString() == usuario.Value)
+                                            {
+                                                <option value="@usuario.Value" selected>@usuario.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@usuario.Value">@usuario.Text</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="@usuario.Value">@usuario.Text</option>
+                                        }
+                                        
+                                    }
+                                </select>
                             </div>
                         </section>
 

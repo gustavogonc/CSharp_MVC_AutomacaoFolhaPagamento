@@ -16,6 +16,7 @@ namespace AutomacaoFolhaPagamento.Models
         public int? cargo_id { get; set; }
         public DateTime? data_contratacao { get; set; }
         public string? estado_civil { get; set; }
+        public string? email_usuario { get; set; }
         public List<EnderecoApiDTO>? enderecos { get; set; }
         public List<TelefoneApiDTO>? telefones { get; set; }
     }

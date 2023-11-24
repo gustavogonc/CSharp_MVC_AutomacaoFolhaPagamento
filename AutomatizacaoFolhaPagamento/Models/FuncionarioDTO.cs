@@ -17,6 +17,7 @@
             public string? cargo { get; set; }
             public DateTime data_contratacao { get; set; }
             public string? cpf { get; set; }
+            public string? email_usuario { get; set; }
         }
 
         public class Endereco
