@@ -1,4 +1,4 @@
-﻿namespace AutomacaoFolhaPagamento.Models
+﻿namespace AutomacaoFolhaPagamento.Models.ApiDTOs
 {
     public class TelefoneApiDTO
     {
