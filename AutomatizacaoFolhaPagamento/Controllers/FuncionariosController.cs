@@ -271,7 +271,6 @@ namespace AutomacaoFolhaPagamento.Controllers
                 else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
                     ViewData["ErrorMessage"] = "Funcionário já cadastrado.";
-                    ModelState.Clear();
                     await LoadUsuarios();
                     await LoadCargos();
                     return View("Cadastro", new NovoFuncionarioViewModel());
@@ -280,7 +279,14 @@ namespace AutomacaoFolhaPagamento.Controllers
                 {
 
                     ViewData["ErrorMessage"] = "Ocorreu um erro ao cadastrar o funcionário. Por favor, tente novamente.";
-                    ModelState.Clear();
+                    await LoadUsuarios();
+                    await LoadCargos();
+                    return View("Cadastro", new NovoFuncionarioViewModel());
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+
+                    ViewData["ErrorMessage"] = "Cargo não localizado.";
                     await LoadUsuarios();
                     await LoadCargos();
                     return View("Cadastro", new NovoFuncionarioViewModel());
