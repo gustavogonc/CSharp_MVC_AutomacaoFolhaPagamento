@@ -1,12 +1,8 @@
-﻿form {
-    background-color: #fff;
-    border-radius: 8px;
-    border: 1px solid rgba(0,0,0,0.25);
-    padding: 1rem;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    outline: 0;
+﻿#divAround {
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
 }
 
-    input {
-        
-    }
+h4{ 
+    margin-bottom: 0px;
+}

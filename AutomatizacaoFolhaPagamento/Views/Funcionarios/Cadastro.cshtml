@@ -21,12 +21,24 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
+            <div class="card" id="divAround">
+                <div class="card-header d-flex justify-content-center align-items-center">
                     <h4>Cadastro de Funcionários</h4>
                 </div>
                 <div class="card-body">
                     <form asp-action="Cadastro" asp-controller="Funcionarios" method="post" class="pb-5">
+                        @if (ViewData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @ViewData["ErrorMessage"]
+                            </div>
+                        }
+                        @if (ViewData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                @ViewData["SuccessMessage"]
+                            </div>
+                        }
                         <h5 style="margin-top:16px">Dados pessoais</h5>
                         <div class="row">
                             <div class="col-12 col-sm-8 mb-3">
@@ -59,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12  mb-3">
                                 <label for="sexo" class="">Estado Civil</label>
                                 <select asp-for="estado_civil" class="form-control" required>
 
@@ -73,7 +85,7 @@
 
 
 
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12  mb-3">
                                 <label for="cargo_id" class="">Cargo</label>
                                 <select asp-for="cargo_id" class="form-control" required>
                                     @foreach (var item in ViewData["Cargos"] as List<SelectListItem>)
@@ -83,7 +95,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12  mb-3">
                                 <label for="email_usuario" class="">Email</label>
                                 <select asp-for="email_usuario" class="form-control" required>
                                     @foreach (var item in ViewData["Usuarios"] as List<SelectListItem>)
@@ -93,18 +105,18 @@
                                 </select>
                             </div>
 
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12  mb-3">
                                 <label for="data_contratacao" class="">Data Contratação</label>
                                 <input asp-for="data_contratacao" type="date" class="form-control" required>
                             </div>
                         </div>
                         <h5 style="margin-top:16px">Endereço</h5>
                         <div class="row">
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12  mb-3">
                                 <label for="rua" class="">Rua</label>
                                 <input asp-for="rua" type="text" class="form-control" required>
                             </div>
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12  mb-3">
                                 <label for="tipo_endereco" class="">Tipo endereço</label>
                                 <select asp-for="tipo_endereco" class="form-control" required>
 
@@ -115,7 +127,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12 mb-3">
                                 <label for="num_endereco" class="">Número</label>
                                 <input asp-for="num_endereco" type="text" class="form-control w-100" required>
                             </div>
@@ -128,20 +140,20 @@
                                 <input asp-for="cep" type="text" class="form-control" required>
                             </div>
 
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12 mb-3">
                                 <label for="cidade" class="">Cidade</label>
                                 <input asp-for="cidade" type="text" class="form-control" required>
                             </div>
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12 mb-3">
                                 <label for="uf_estado" class="">UF</label>
-                                <input asp-for="uf_estado" type="text" class="form-control" required>
+                                <input asp-for="uf_estado" type="text" class="form-control" required maxlength="2">
                             </div>
                         </div>
 
                         <h5 style="margin-top:16px">Contato</h5>
                         <div class="row">
 
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12 mb-3">
                                 <label for="tipo_telefone" class="">Tipo contato</label>
                                 <select asp-for="tipo_telefone" class="form-control" required>
 
@@ -152,24 +164,11 @@
                                 </select>
                             </div>
 
-                            <div class="col-12 col-sm-12 mb-12">
+                            <div class="col-12 col-sm-12 mb-3">
                                 <label for="numero_contato" class="">Numero contato</label>
                                 <input asp-for="numero_contato" type="text" class="form-control" required>
                             </div>
                         </div>
-
-                        @if (ViewData["ErrorMessage"] != null)
-                        {
-                            <div class="alert alert-danger" role="alert">
-                                @ViewData["ErrorMessage"]
-                            </div>
-                        }
-                        @if (ViewData["SuccessMessage"] != null)
-                        {
-                            <div class="alert alert-success" role="alert">
-                                @ViewData["SuccessMessage"]
-                            </div>
-                        }
 
                         <button type="submit" class="btn btn-success d-flex float-end justify-content-between" style="margin-top:8px">Cadastrar</button>
 
