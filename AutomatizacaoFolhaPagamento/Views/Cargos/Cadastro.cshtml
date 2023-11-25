@@ -23,10 +23,10 @@
                 <div class="card-body">
                     <form  asp-controller="Cargos" asp-action="Create" method="post">
                         <div class="mb-3">
-                            <input asp-for="nome_cargo" type="text" placeholder="Título do Cargo" class="form-control col-4" required />
+                            <input asp-for="nome_cargo" type="text" placeholder="Título do Cargo" class="form-control col-4" required min="5" maxlength="100"/>
                         </div>
                         <div class="mb-3 mt-3">
-                            <textarea asp-for="descricao_cargo" style="resize: none;" rows="4" class="form-control col-4" required placeholder="Descrição do cargo"></textarea>
+                            <textarea asp-for="descricao_cargo" style="resize: none;" rows="4" class="form-control col-4" required placeholder="Descrição do cargo" min="5" maxlength="100"></textarea>
                         </div>
 
                         <div class="mb-3">

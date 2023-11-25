@@ -7,3 +7,7 @@ border: 1px solid #c4c4c4;
 h4{ 
     margin-bottom: 0px;
 }
+
+textarea{ 
+    resize: none;
+}

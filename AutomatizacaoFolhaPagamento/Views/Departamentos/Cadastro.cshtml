@@ -29,11 +29,11 @@
                     <form asp-controller="Departamentos" asp-action="Cadastro" method="post">
                         <div class="mb-3">
                             <label for="NomeDepartamento" class="form-label">Nome do Departamento</label>
-                            <input asp-for="NomeDepartamento" type="text" class="form-control" id="NomeDepartamento" placeholder="Nome do Departamento" required />
+                            <input asp-for="NomeDepartamento" type="text" class="form-control" id="NomeDepartamento" placeholder="Nome do Departamento" required min="5" maxlength="100" />
                         </div>
                         <div class="mb-3">
                             <label for="DescricaoDepartamento" class="form-label">Descrição</label>
-                            <textarea asp-for="DescricaoDepartamento" class="form-control" id="DescricaoDepartamento" rows="4" placeholder="Descrição do departamento" required></textarea>
+                            <textarea asp-for="DescricaoDepartamento" class="form-control" id="DescricaoDepartamento" rows="4" placeholder="Descrição do departamento" required min="5" maxlength="100"></textarea>
                         </div>
                         <button type="submit" class="btn btn-success">Cadastrar</button>
                     </form>
