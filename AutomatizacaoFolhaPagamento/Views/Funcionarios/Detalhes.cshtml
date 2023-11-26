@@ -35,7 +35,7 @@
                         <hr />
                         <section class="mb-4">
                             <h3>Informações Pessoais</h3>
-                            <div class="form-group mb-2" style="display: none;">
+                            <div class="form-group mb-2 d-none">
                                 <label>ID</label>
                                 <input type="hidden" asp-for="@Model.funcionario.id_funcionario" />
                                 <p class="form-control-static">@Model.funcionario.id_funcionario</p>
@@ -192,10 +192,12 @@
                                 </div>
                             }
                         </section>
-
-                        <button type="button" id="btnEditarFunc" class="btn btn-warning">Editar</button>
-                        <button type="submit" id="btnSalvarFunc" class="btn btn-success" style="display:none;">Salvar</button>
-                        <a asp-controller="Funcionarios" asp-action="Index" class="btn btn-primary">Voltar</a>
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="Funcionarios" asp-action="Index" class="btn btn-primary">Voltar</a>
+                            <button type="button" id="btnEditarFunc" class="btn btn-warning">Editar</button>
+                            <button type="submit" id="btnSalvarFunc" class="btn btn-success" style="display:none;">Salvar</button>
+                        </div>
+                        
                     </form>
                 </div>
             </div>

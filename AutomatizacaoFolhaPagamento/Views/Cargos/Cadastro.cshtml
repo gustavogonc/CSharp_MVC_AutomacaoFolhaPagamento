@@ -41,7 +41,10 @@
                             <input asp-for="salario" type="text" placeholder="Salário: Ex: R$5.000,00" class="form-control col-4" required />
                         </div>
 
-                        <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success mb-3 w-100">Cadastrar</button>
+                        </div>
+                        
 
                     </form>
                     @if (ViewData["ErrorMessage"] != null)
